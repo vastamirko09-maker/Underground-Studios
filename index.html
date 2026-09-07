@@ -145,6 +145,7 @@
             text-decoration: none;
         }
 
+        /* Pulsante Login Discord nella Nav */
         .nav-login-btn {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             border-color: rgba(88, 101, 242, 0.5) !important;
@@ -160,7 +161,7 @@
         .admin-nav-btn {
             border-color: rgba(255, 77, 77, 0.4);
             color: #ff4d4d;
-            display: none; 
+            display: none; /* Mostrato via JS se l'utente è Admin Supremo */
         }
 
         .admin-nav-btn:hover {
@@ -230,7 +231,7 @@
             display: block;
         }
 
-        /* Modali (Carrello, Checkout, Storico Privato, Admin Dashboard) */
+        /* Modali */
         .cart-modal, .checkout-modal, .history-modal, .admin-modal {
             display: none;
             position: fixed;
@@ -338,7 +339,7 @@
 
         .btn-close-cart:hover { background-color: #2e3b55; }
 
-        /* Storico Ordini Privato / Admin Box */
+        /* Stile Storico Ordini */
         .history-box {
             background: #080d17;
             border: 1px dashed rgba(0, 210, 255, 0.3);
@@ -360,15 +361,6 @@
             font-size: 13px;
             color: #c0d0e8;
             margin-bottom: 6px;
-        }
-
-        .history-footer {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 6px;
-            color: #88a0c0;
         }
 
         /* Form Checkout */
@@ -400,7 +392,7 @@
             outline: none;
         }
 
-        /* Sezione Home (Hero) */
+        /* Hero / Home */
         .hero {
             height: 100vh;
             display: flex;
@@ -412,34 +404,6 @@
             position: relative;
             background: radial-gradient(circle at center, #0a162c 0%, #030508 80%);
             overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(0,140,255,0.25) 0%, transparent 75%);
-            opacity: 0;
-            z-index: 1;
-            animation: stormFlash 3s infinite ease-in-out;
-        }
-
-        @keyframes stormFlash {
-            0%, 100% { opacity: 0; }
-            10% { opacity: 0.9; }
-            13% { opacity: 0.3; }
-            15% { opacity: 1; }
-            20% { opacity: 0.1; }
-            25% { opacity: 0.6; }
-            30% { opacity: 0; }
-            65% { opacity: 0; }
-            70% { opacity: 0.8; }
-            73% { opacity: 0.2; }
-            75% { opacity: 1; }
-            80% { opacity: 0; }
         }
 
         .lightning-container {
@@ -456,26 +420,18 @@
             position: absolute;
             background: linear-gradient(to bottom, transparent, #00d2ff, #ffffff);
             opacity: 0;
-            filter: drop-shadow(0 0 15px #008cff) drop-shadow(0 0 30px #00d2ff);
+            filter: drop-shadow(0 0 15px #008cff);
         }
 
         .bolt-1 { left: 8%; top: -25%; width: 3px; height: 200px; animation: strike 2.5s infinite; animation-delay: 0.2s; transform: rotate(15deg); }
         .bolt-2 { left: 25%; top: -25%; width: 2px; height: 260px; animation: strike 3.1s infinite; animation-delay: 1.0s; transform: rotate(-10deg); }
         .bolt-3 { left: 42%; top: -25%; width: 4px; height: 230px; animation: strike 2.1s infinite; animation-delay: 0.4s; transform: rotate(8deg); }
-        .bolt-4 { left: 60%; top: -25%; width: 3px; height: 290px; animation: strike 3.8s infinite; animation-delay: 1.8s; transform: rotate(-12deg); }
-        .bolt-5 { left: 78%; top: -25%; width: 2px; height: 240px; animation: strike 2.4s infinite; animation-delay: 0.7s; transform: rotate(20deg); }
-        .bolt-6 { left: 90%; top: -25%; width: 4px; height: 270px; animation: strike 2.9s infinite; animation-delay: 1.4s; transform: rotate(-18deg); }
 
         @keyframes strike {
             0%, 75%, 100% { opacity: 0; transform: translateY(-80px) scaleY(0.1); }
             78% { opacity: 1; transform: translateY(280px) scaleY(1.2); }
-            81% { opacity: 0.3; transform: translateY(450px) scaleY(0.7); }
             84% { opacity: 1; transform: translateY(600px) scaleY(1.6); }
             88% { opacity: 0; transform: translateY(800px) scaleY(2); }
-        }
-
-        .hero-logo-container, .hero h1, .hero h3 {
-            z-index: 2;
         }
 
         .hero-logo-container {
@@ -486,6 +442,7 @@
             align-items: center;
             width: 160px;
             height: 160px;
+            z-index: 2;
         }
 
         .hero-logo-container::before {
@@ -498,27 +455,11 @@
             border-top-color: #00d2ff;
             border-right-color: #008cff;
             animation: spinRing 3s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
-        }
-
-        .hero-logo-container::after {
-            content: '';
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 2px dashed rgba(0, 210, 255, 0.6);
-            animation: spinRingReverse 6s linear infinite;
         }
 
         @keyframes spinRing {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        @keyframes spinRingReverse {
-            0% { transform: rotate(360deg); }
-            100% { transform: rotate(0deg); }
         }
 
         .hero-logo {
@@ -538,9 +479,7 @@
             text-transform: uppercase;
             text-shadow: 0 0 35px rgba(0, 140, 255, 0.5);
             margin: 10px 0;
-            letter-spacing: -1px;
-            text-align: center;
-            line-height: 1.1;
+            z-index: 2;
         }
 
         .hero h3 {
@@ -548,21 +487,20 @@
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 10px;
-            text-align: center;
+            z-index: 2;
             text-transform: uppercase;
         }
 
-        /* Linea Separatrice */
         .section-divider {
             width: 100%;
             height: 4px;
             background: linear-gradient(90deg, transparent, #008cff, #00d2ff, #008cff, transparent);
-            box-shadow: 0 0 15px rgba(0, 140, 255, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
+            box-shadow: 0 0 15px rgba(0, 140, 255, 0.8);
             position: relative;
             z-index: 10;
         }
 
-        /* Sezione Shop */
+        /* Shop Section */
         .shop-section {
             min-height: 100vh;
             padding: 100px 15px 60px 15px;
@@ -572,8 +510,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
         .shop-section h2 {
@@ -582,7 +518,6 @@
             color: #008cff;
             text-transform: uppercase;
             margin-bottom: 10px;
-            text-shadow: 0 0 25px rgba(0, 140, 255, 0.6);
         }
 
         .shop-section p {
@@ -603,47 +538,19 @@
         .shop-card {
             position: relative;
             background: rgba(10, 15, 28, 0.9);
-            backdrop-filter: blur(12px);
             padding: 30px 20px;
             border-radius: 18px;
             width: 100%;
             max-width: 290px;
             text-align: center;
-            overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-            z-index: 1;
-        }
-
-        .shop-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg at 50% 50%, #00d2ff 0deg, transparent 60deg, transparent 300deg, #008cff 360deg);
-            animation: rotateBorder 4s linear infinite;
-            z-index: -2;
-        }
-
-        .shop-card::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: linear-gradient(145deg, #0d1424 0%, #060a12 100%);
-            border-radius: 16px;
-            z-index: -1;
-        }
-
-        @keyframes rotateBorder {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            border: 1px solid rgba(0, 140, 255, 0.2);
+            transition: transform 0.3s ease;
         }
 
         .shop-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(0, 140, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.2);
+            transform: translateY(-8px);
+            border-color: #00d2ff;
         }
 
         .shop-card h4 {
@@ -651,7 +558,6 @@
             color: #fff;
             margin-bottom: 10px;
             font-weight: 800;
-            letter-spacing: 0.5px;
         }
 
         .shop-card span {
@@ -660,13 +566,6 @@
             font-size: 20px;
             font-weight: 900;
             margin-bottom: 20px;
-            text-shadow: 0 0 15px rgba(0, 210, 255, 0.7);
-            animation: pricePulse 2s infinite ease-in-out;
-        }
-
-        @keyframes pricePulse {
-            0%, 100% { transform: scale(1); text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
-            50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(0, 210, 255, 0.9); }
         }
 
         .shop-card button {
@@ -674,55 +573,20 @@
             color: #fff;
             padding: 12px 18px;
             border-radius: 10px;
-            text-decoration: none;
             font-weight: 700;
             border: none;
             cursor: pointer;
             width: 100%;
-            box-shadow: 0 4px 15px rgba(0, 140, 255, 0.4);
             font-size: 13px;
-            transition: all 0.3s ease;
+            transition: background 0.3s;
         }
 
         .shop-card button:hover {
             background: linear-gradient(135deg, #00a2ff, #0060d1);
-            box-shadow: 0 6px 20px rgba(0, 162, 255, 0.7);
         }
 
         .btn-discord-login {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
-            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4) !important;
-        }
-
-        .btn-discord-login:hover {
-            background: linear-gradient(135deg, #6c78ff, #5865F2) !important;
-            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.7) !important;
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 10px 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
-            }
-            .logo-area { display: none; }
-            nav {
-                width: 100%;
-                order: 2;
-                display: flex;
-                justify-content: center;
-                border-top: 1px solid rgba(255,255,255,0.05);
-                padding-top: 6px;
-            }
-            nav ul { gap: 20px; }
-            nav ul li a { font-size: 12px; }
-            .nav-right {
-                order: 1;
-                width: 100%;
-                justify-content: space-between;
-            }
-            .shop-section { padding-top: 130px; }
         }
     </style>
 </head>
@@ -746,15 +610,15 @@
         </nav>
 
         <div class="nav-right">
-            <!-- Pulsante Login / Profilo Discord -->
+            <!-- Pulsante Login Discord / Profilo -->
             <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
                 <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
             </button>
-            <!-- Pulsante Admin Dashboard (Visibile solo se Admin) -->
+            <!-- Pulsante Pannello Admin Supremo (Visibile solo se Admin) -->
             <button class="admin-nav-btn" id="nav-admin" onclick="openAdminDashboard()">
                 <i class="fa-solid fa-user-shield"></i> <span id="admin-label">ADMIN</span>
             </button>
-            <button class="history-btn" onclick="openHistoryModal()" title="I tuoi ordini privati">
+            <button class="history-btn" onclick="openHistoryModal()" title="I tuoi ordini">
                 <i class="fa-solid fa-clock-rotate-left"></i> <span id="history-label">Storico</span>
             </button>
             <button class="cart-btn" onclick="openCartModal()">
@@ -792,43 +656,41 @@
         </div>
     </div>
 
-    <!-- Modale Storico Ordini Cloud Privato -->
+    <!-- Modale Storico Ordini Utente -->
     <div class="history-modal" id="historyModal">
         <div class="content-wrapper cart-content" style="max-width: 520px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 id="history-modal-title" style="margin: 0;"><i class="fa-solid fa-shield-halved"></i> Categoria Privata: Storico</h3>
+                <h3 id="history-modal-title" style="margin: 0;"><i class="fa-solid fa-shield-halved"></i> I tuoi Ordini Cloud</h3>
                 <span id="user-discord-badge" style="font-size: 11px; color: #00d2ff; background: rgba(0,210,255,0.1); padding: 4px 8px; border-radius: 6px;">Non loggato</span>
             </div>
             <div id="historyListContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Accedi con Discord per visualizzare il tuo storico acquisti cloud.</p>
+                <p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Accedi con Discord per visualizzare il tuo storico acquisti.</p>
             </div>
             <div class="cart-actions">
-                <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi Categoria</button>
+                <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi</button>
             </div>
         </div>
     </div>
 
-    <!-- Modale Dashboard Amministratore Avanzata -->
+    <!-- Modale Pannello Admin Supremo -->
     <div class="admin-modal" id="adminModal">
         <div class="content-wrapper cart-content" style="max-width: 650px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: #ff4d4d; margin: 0;"><i class="fa-solid fa-user-shield"></i> Pannello Amministratore</h3>
+                <h3 style="color: #ff4d4d; margin: 0;"><i class="fa-solid fa-user-shield"></i> Pannello Ruolo Supremo (Admin)</h3>
                 <span style="font-size: 11px; color: #ff4d4d; background: rgba(255,77,77,0.1); padding: 4px 8px; border-radius: 6px; font-weight: bold;">Area Protetta</span>
             </div>
 
-            <!-- Badge Admin Attivi -->
-            <div id="adminsListBadge" style="font-size: 12px; color: #aaa; margin-bottom: 15px;">Caricamento admin attivi...</div>
-
-            <!-- Sezione Gestione Ruoli Admin -->
+            <!-- Sezione Assegnazione Admin -->
             <div style="background: rgba(255,77,77,0.05); border: 1px solid rgba(255,77,77,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-                <label style="font-size: 12px; color: #ff4d4d; font-weight: 700; display: block; margin-bottom: 6px;">Gestione Ruoli Admin (Tramite Discord ID)</label>
+                <label style="font-size: 12px; color: #ff4d4d; font-weight: 700; display: block; margin-bottom: 6px;">Gestione Ruolo Supremo (Tramite ID Discord)</label>
                 <div style="display: flex; gap: 8px;">
                     <input type="text" id="newAdminId" placeholder="Inserisci ID Discord utente" style="background: #080b12; border: 1px solid rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; color: white; font-size: 12px; flex: 1; outline: none;">
-                    <button onclick="toggleAdminRole()" style="background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px;">Aggiorna Ruolo</button>
+                    <button onclick="toggleAdminRole()" style="background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px;">Aggiungi / Rimuovi</button>
                 </div>
+                <div id="adminsListBadge" style="font-size: 11px; color: #aaa; margin-top: 8px;">Admin attivi: Caricamento...</div>
             </div>
 
-            <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #ddd;">Storico Ordini e Utenti nel Cloud:</div>
+            <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #ddd;">Storico Ordini di Tutti gli Utenti Cloud:</div>
             <div id="adminUsersList" style="max-height: 260px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
                 <p style="text-align: center; color: #888; font-size: 13px;">Caricamento dati dal cloud...</p>
             </div>
@@ -838,7 +700,7 @@
         </div>
     </div>
 
-    <!-- Modale Checkout Dati Cliente -->
+    <!-- Modale Checkout -->
     <div class="checkout-modal" id="checkoutModal">
         <div class="content-wrapper cart-content">
             <h3 id="checkout-title">Dati Ordine</h3>
@@ -855,7 +717,7 @@
                 <label>Data di Nascita</label>
                 <input type="date" id="custDob" required>
 
-                <label>ID Discord Verificato</label>
+                <label>Nome Discord Verificato</label>
                 <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login con Discord">
 
                 <div class="cart-actions" style="margin-top: 12px;">
@@ -872,9 +734,6 @@
             <div class="bolt bolt-1"></div>
             <div class="bolt bolt-2"></div>
             <div class="bolt bolt-3"></div>
-            <div class="bolt bolt-4"></div>
-            <div class="bolt bolt-5"></div>
-            <div class="bolt bolt-6"></div>
         </div>
         <div class="hero-logo-container">
             <img src="logo.png" alt="Logo Centrale" class="hero-logo">
@@ -883,7 +742,6 @@
         <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
     </section>
 
-    <!-- LINEA SEPARATRICE -->
     <div class="section-divider"></div>
 
     <!-- Sezione Shop -->
@@ -895,28 +753,28 @@
                 <h4 id="prod-1-title">Script 1</h4>
                 <span>€ 14.99</span>
                 <div id="shop-btn-1">
-                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                    <button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
                 </div>
             </div>
             <div class="shop-card">
                 <h4 id="prod-2-title">Script 2</h4>
                 <span>€ 19.99</span>
                 <div id="shop-btn-2">
-                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                    <button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
                 </div>
             </div>
             <div class="shop-card">
                 <h4 id="prod-3-title">Script 3</h4>
                 <span>€ 24.99</span>
                 <div id="shop-btn-3">
-                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                    <button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        // EFFETTO SCIA LUMINOSA DEL CURSORE
+        // Scia del cursore
         let lastTime = 0;
         document.addEventListener('mousemove', (e) => {
             const currentTime = Date.now();
@@ -931,47 +789,8 @@
             }
         });
 
-        // EFFETTO AUDIO RILASSANTE
-        let audioCtx = null;
-        function playRelaxingSound() {
-            try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(329.63, now); 
-                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.4); 
-
-                const osc2 = audioCtx.createOscillator();
-                osc2.type = 'triangle';
-                osc2.frequency.setValueAtTime(164.81, now); 
-
-                const gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.001, now);
-                gainNode.gain.linearRampToValueAtTime(0.15, now + 0.1); 
-                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.9); 
-
-                osc.connect(gainNode);
-                osc2.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-
-                osc.start(now);
-                osc2.start(now);
-                osc.stop(now + 0.9);
-                osc2.stop(now + 0.9);
-            } catch (e) {}
-        }
-
-        document.addEventListener('click', () => { playRelaxingSound(); });
-
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
-        const SUPREME_OWNER_ID = "1521921208193650861";
 
         let cartItems = [];
         let discordUserData = null;
@@ -998,7 +817,6 @@
                     }
                 } catch (e) {
                     console.error("Errore di connessione", e);
-                    alert("Si è verificato un errore durante la verifica Discord.");
                 }
             } else {
                 let cached = localStorage.getItem('discord_user_cache');
@@ -1025,12 +843,12 @@
 
         function applyUserDataToUI() {
             if (!discordUserData) return;
+            
             updateShopButtons();
             
             const discordInput = document.getElementById('custDiscord');
             if(discordInput) {
                 discordInput.value = `${discordUserData.global_name || discordUserData.username} (@${discordUserData.username}) - ID: ${discordUserData.id}`;
-                discordInput.style.borderColor = "#00d2ff";
             }
 
             let badge = document.getElementById('user-discord-badge');
@@ -1056,8 +874,7 @@
 
             const clientId = "1534237159823769610";
             const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
-            const discordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
-            window.location.href = discordOAuthUrl;
+            window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
         }
 
         function checkAdminAccess() {
@@ -1068,10 +885,6 @@
         }
 
         function updateShopButtons() {
-            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
-            let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
-            let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
-
             for (let i = 1; i <= 3; i++) {
                 let container = document.getElementById(`shop-btn-${i}`);
                 if(!container) continue;
@@ -1079,9 +892,9 @@
                 let name = `Script ${i}`;
 
                 if (discordUserData) {
-                    container.innerHTML = `<button onclick="addToCart('${name}', ${price})" class="buy-text">${buyText}</button>`;
+                    container.innerHTML = `<button onclick="addToCart('${name}', ${price})">Acquista</button>`;
                 } else {
-                    container.innerHTML = `<button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
+                    container.innerHTML = `<button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>`;
                 }
             }
         }
@@ -1091,12 +904,10 @@
                 alert("Devi prima accedere con Discord per poter acquistare!");
                 return;
             }
-
-            let confirmAdd = confirm(`Sei sicuro di voler aggiungere "${name}" al carrello? (€ ${price.toFixed(2)})`);
-            if (!confirmAdd) return;
-
-            cartItems.push({ name: name, price: price });
-            updateCartUI();
+            if (confirm(`Aggiungere "${name}" al carrello? (€ ${price.toFixed(2)})`)) {
+                cartItems.push({ name: name, price: price });
+                updateCartUI();
+            }
         }
 
         function removeFromCart(index) {
@@ -1110,9 +921,7 @@
             list.innerHTML = "";
 
             if (cartItems.length === 0) {
-                let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
-                let emptyMsg = translations[currentLang] ? translations[currentLang].emptyCart : "Il carrello è vuoto";
-                list.innerHTML = `<li style="text-align: center; color: #888;" id="empty-cart-text">${emptyMsg}</li>`;
+                list.innerHTML = `<li style="text-align: center; color: #888;">Il carrello è vuoto</li>`;
                 document.getElementById('cartTotalPrice').innerText = "€ 0.00";
                 return;
             }
@@ -1132,10 +941,9 @@
         function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
         function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
 
-        // Storico Privato Cloud
         function openHistoryModal() {
             if (!discordUserData) {
-                alert("Devi effettuare l'accesso con Discord per visualizzare la categoria privata dello storico!");
+                alert("Devi effettuare l'accesso con Discord per vedere i tuoi ordini!");
                 return;
             }
             renderUserHistory();
@@ -1145,12 +953,11 @@
 
         function renderUserHistory() {
             let container = document.getElementById('historyListContainer');
-            container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;">Caricamento ordini dal cloud...</p>`;
-
+            container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;">Caricamento...</p>`;
             let userOrders = discordUserData.orders || [];
 
             if (userOrders.length === 0) {
-                container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Nessun ordine trovato nel tuo storico cloud.</p>`;
+                container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;">Nessun ordine trovato.</p>`;
                 return;
             }
 
@@ -1169,16 +976,14 @@
             });
         }
 
-        // GESTIONE ADMIN PANEL AVANZATA
+        // Funzioni Admin (Ruolo Supremo & Rimozione Utenti)
         function openAdminDashboard() {
             if (!discordUserData || !discordUserData.isAdmin) return;
             document.getElementById('adminModal').classList.add('show');
             loadAdminData();
         }
 
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('show');
-        }
+        function closeAdminModal() { document.getElementById('adminModal').classList.remove('show'); }
 
         async function loadAdminData() {
             let container = document.getElementById('adminUsersList');
@@ -1194,43 +999,37 @@
 
                 if (data.success) {
                     currentAdminsArray = data.admins || [];
-                    if(document.getElementById('adminsListBadge')) {
-                        document.getElementById('adminsListBadge').innerText = `Admin attivi IDs: ${currentAdminsArray.join(", ")}`;
-                    }
+                    document.getElementById('adminsListBadge').innerText = `Admin attivi IDs: ${currentAdminsArray.join(", ")}`;
 
                     container.innerHTML = "";
                     if (data.users.length === 0) {
-                        container.innerHTML = `<p style="text-align: center; color: #888;">Nessun utente con storico nel cloud.</p>`;
+                        container.innerHTML = `<p style="text-align: center; color: #888;">Nessun utente registrato.</p>`;
                         return;
                     }
 
                     data.users.forEach(userObj => {
                         let userDiv = document.createElement('div');
                         userDiv.className = 'history-box';
-                        userDiv.style.cssText = "border: 1px solid rgba(255, 77, 77, 0.4); margin-bottom: 10px; padding: 10px; border-radius: 8px; background: #1e1e1e;";
+                        userDiv.style.borderColor = "rgba(255, 77, 77, 0.4)";
                         
-                        let ordersHtml = userObj.orders && userObj.orders.length > 0 ? userObj.orders.map((ord, i) => 
-                            `<div style="font-size: 12px; color: #aaa; margin-top: 4px;">• Ordine #${i+1}: <b>${ord.item}</b> (€ ${ord.total}) - <span style="color:#888;">${ord.date}</span></div>`
-                        ).join("") : `<div style="font-size: 12px; color: #666; margin-top: 4px;">Nessun ordine registrato.</div>`;
+                        let ordersHtml = userObj.orders.map((ord, i) => 
+                            `<div style="font-size: 12px; color: #aaa; margin-top: 4px;">• #${i+1}: <b>${ord.item}</b> (€ ${ord.total}) - ${ord.date}</div>`
+                        ).join("");
 
                         let isAdminUser = currentAdminsArray.includes(userObj.discordId);
-                        let isOwner = (userObj.discordId === SUPREME_OWNER_ID);
-                        let displayName = userObj.username ? `${userObj.global_name || userObj.username} (@${userObj.username})` : `ID: ${userObj.discordId}`;
 
                         userDiv.innerHTML = `
-                            <div class="history-header" style="color: #ff4d4d; display: flex; justify-content: space-between; align-items: center;">
-                                <span>👤 <b>${displayName}</b> ${isOwner ? '<b style="color: #ffD700;">[OWNER SUPREMO]</b>' : (isAdminUser ? '<b style="color: #00d2ff;">[ADMIN]</b>' : '')}</span>
-                                <div>
-                                    ${!isOwner ? `<button onclick="deleteUserHistory('${userObj.discordId}')" style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;"><i class="fa-solid fa-user-xmark"></i> Rimuovi</button>` : '<span style="font-size:11px; color:#ffD700; font-weight:bold;">Protetto</span>'}
-                                </div>
+                            <div class="history-header" style="color: #ff4d4d;">
+                                <span>Discord ID: ${userObj.discordId} ${isAdminUser ? '<b style="color: #00d2ff;">[ADMIN]</b>' : ''}</span>
+                                <button onclick="deleteUserHistory('${userObj.discordId}')" style="background: #ff4d4d; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: bold;"><i class="fa-solid fa-trash"></i> Elimina Utente</button>
                             </div>
-                            <div style="margin-bottom: 5px; font-size: 12px; color: #ccc;">Discord ID: ${userObj.discordId} | Totale ordini: ${userObj.orders ? userObj.orders.length : 0}</div>
+                            <div class="history-items" style="margin-bottom: 5px;">Ordini totali: ${userObj.orders.length}</div>
                             ${ordersHtml}
                         `;
                         container.appendChild(userDiv);
                     });
                 } else {
-                    container.innerHTML = `<p style="text-align: center; color: #ff4d4d;">Accesso negato o errore server.</p>`;
+                    container.innerHTML = `<p style="text-align: center; color: #ff4d4d;">Accesso negato.</p>`;
                 }
             } catch(e) {
                 container.innerHTML = `<p style="text-align: center; color: #ff4d4d;">Errore di connessione.</p>`;
@@ -1241,11 +1040,6 @@
             let targetId = document.getElementById('newAdminId').value.trim();
             if (!targetId) { alert("Inserisci un ID Discord valido!"); return; }
 
-            if (targetId === SUPREME_OWNER_ID) {
-                alert("Il proprietario supremo (Owner) non può essere modificato o degradato!");
-                return;
-            }
-
             try {
                 let res = await fetch(`${CLOUDWORKER_URL}/admin/toggle-admin`, {
                     method: 'POST',
@@ -1254,11 +1048,11 @@
                 });
                 let data = await res.json();
                 if (data.success) {
-                    alert("Ruoli admin aggiornati con successo!");
+                    alert("Ruoli aggiornati con successo!");
                     document.getElementById('newAdminId').value = "";
                     loadAdminData();
                 } else {
-                    alert(data.error || "Errore durante l'aggiornamento dei ruoli.");
+                    alert(data.error || "Errore.");
                 }
             } catch(e) {
                 alert("Errore di connessione.");
@@ -1266,7 +1060,7 @@
         }
 
         async function deleteUserHistory(targetId) {
-            if (!confirm("Sei sicuro di voler rimuovere questo utente e i suoi dati dal cloud?")) return;
+            if (!confirm(`Vuoi davvero rimuovere dal cloud l'utente ID: ${targetId}?`)) return;
 
             try {
                 let res = await fetch(`${CLOUDWORKER_URL}/admin/delete-user`, {
@@ -1276,10 +1070,10 @@
                 });
                 let data = await res.json();
                 if (data.success) {
-                    alert("Utente rimosso con successo!");
+                    alert("Utente eliminato correttamente!");
                     loadAdminData();
                 } else {
-                    alert(data.error || "Errore durante la rimozione.");
+                    alert("Errore durante l'eliminazione.");
                 }
             } catch(e) {
                 alert("Errore di connessione.");
@@ -1287,8 +1081,8 @@
         }
 
         function openCheckoutModal() {
-            if (cartItems.length === 0) { alert("Il carrello è vuoto!"); return; }
-            if (!discordUserData) { alert("Devi effettuare l'accesso con Discord prima di procedere!"); return; }
+            if (cartItems.length === 0) { alert("Carrello vuoto!"); return; }
+            if (!discordUserData) { alert("Accedi con Discord prima di procedere!"); return; }
             closeCartModal();
             document.getElementById('checkoutModal').classList.add('show');
         }
@@ -1296,7 +1090,6 @@
 
         async function submitOrder(event) {
             event.preventDefault();
-
             const name = document.getElementById('custName').value;
             const email = document.getElementById('custEmail').value;
             const phone = document.getElementById('custPhone').value;
@@ -1307,12 +1100,7 @@
             let currentDate = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
             for (let item of cartItems) {
-                let newOrder = {
-                    item: item.name,
-                    total: item.price.toFixed(2),
-                    date: currentDate
-                };
-
+                let newOrder = { item: item.name, total: item.price.toFixed(2), date: currentDate };
                 try {
                     let res = await fetch(`${CLOUDWORKER_URL}/save-order`, {
                         method: 'POST',
@@ -1320,12 +1108,8 @@
                         body: JSON.stringify({ discordId: discordUserData.id, orderData: newOrder })
                     });
                     let data = await res.json();
-                    if (data.success) {
-                        discordUserData.orders = data.orders;
-                    }
-                } catch (e) {
-                    console.error("Errore salvataggio ordine cloud", e);
-                }
+                    if (data.success) discordUserData.orders = data.orders;
+                } catch (e) { console.error(e); }
             }
 
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
@@ -1337,12 +1121,11 @@
                     title: "Dettagli Cliente",
                     color: 3092790,
                     fields: [
-                        { name: "👤 Nome e Cognome", value: name, inline: true },
+                        { name: "👤 Nome", value: name, inline: true },
                         { name: "📧 Email", value: email, inline: true },
                         { name: "📞 Telefono", value: phone, inline: true },
-                        { name: "🎂 Data di Nascita", value: dob, inline: true },
-                        { name: "💬 Profilo Discord Verificato", value: discordStatus, inline: false },
-                        { name: "🛍️ Prodotti Ordinati", value: productsList, inline: false },
+                        { name: "💬 Discord", value: discordStatus, inline: false },
+                        { name: "🛍️ Prodotti", value: productsList, inline: false },
                         { name: "💶 Totale", value: `€ ${total}`, inline: false }
                     ],
                     timestamp: new Date().toISOString()
@@ -1353,22 +1136,17 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(discordMessage)
-            })
-            .then(response => {
+            }).then(response => {
                 if (response.ok) {
-                    alert("Ordine inviato con successo e salvato nel Cloud!");
+                    alert("Ordine completato e salvato nel Cloud!");
                     cartItems = [];
                     updateCartUI();
                     document.getElementById('orderForm').reset();
                     closeCheckoutModal();
                 } else {
-                    alert("Errore nell'invio dell'ordine Webhook.");
+                    alert("Errore invio webhook.");
                 }
-            })
-            .catch(error => {
-                console.error('Errore:', error);
-                alert("Si è verificato un errore di connessione.");
-            });
+            }).catch(error => alert("Errore di connessione."));
         }
 
         function toggleDropdown(event) {
@@ -1378,18 +1156,17 @@
 
         window.onclick = function(event) {
             if (!event.target.closest('.dropdown')) {
-                var dropdowns = document.getElementsByClassName("dropdown");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) { openDropdown.classList.remove('show'); }
+                let dropdowns = document.getElementsByClassName("dropdown");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    dropdowns[i].classList.remove('show');
                 }
             }
         }
 
         const translations = {
-            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine", historyText: "Storico", adminText: "ADMIN", loginNavText: "Accedi" },
-            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order", historyText: "History", adminText: "ADMIN", loginNavText: "Login" },
-            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido", historyText: "Historial", adminText: "ADMIN", loginNavText: "Acceder" }
+            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script", historyText: "Storico", adminText: "ADMIN", loginNavText: "Accedi" },
+            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts", historyText: "History", adminText: "ADMIN", loginNavText: "Login" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts", historyText: "Historial", adminText: "ADMIN", loginNavText: "Acceder" }
         };
 
         function changeLanguage(lang, event) {
@@ -1401,25 +1178,12 @@
             document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
             document.getElementById('shop-title').innerText = translations[lang].shopTitle;
             document.getElementById('shop-desc').innerText = translations[lang].shopDesc;
-            document.getElementById('prod-1-title').innerText = translations[lang].prod1;
-            document.getElementById('prod-2-title').innerText = translations[lang].prod2;
-            document.getElementById('prod-3-title').innerText = translations[lang].prod3;
-            document.getElementById('cart-modal-title').innerText = translations[lang].cartTitle;
-            document.getElementById('total-text').innerText = translations[lang].total;
-            document.getElementById('proceed-btn').innerText = translations[lang].proceed;
-            document.getElementById('checkout-title').innerText = translations[lang].checkoutTitle;
-            document.getElementById('submit-order-btn').innerText = translations[lang].submitOrder;
             document.getElementById('history-label').innerText = translations[lang].historyText;
             document.getElementById('admin-label').innerText = translations[lang].adminText;
             
             if (!discordUserData) {
                 document.getElementById('nav-login-label').innerText = translations[lang].loginNavText;
             }
-            
-            let emptyText = document.getElementById('empty-cart-text');
-            if(emptyText) emptyText.innerText = translations[lang].emptyCart;
-
-            updateShopButtons();
             document.getElementById('langDropdown').classList.remove('show');
         }
     </script>
