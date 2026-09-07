@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Notifiche Toast */
+        /* Notifiche Toast (durata estesa per i 10 secondi) */
         #toast-container {
             position: fixed;
             top: 85px;
@@ -39,19 +39,20 @@
             background: rgba(17, 22, 34, 0.95);
             border: 1px solid #008cff;
             color: white;
-            padding: 12px 18px;
+            padding: 14px 20px;
             border-radius: 10px;
             box-shadow: 0 5px 20px rgba(0, 140, 255, 0.3);
             font-size: 13px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             backdrop-filter: blur(10px);
-            animation: slideInToast 0.3s ease, fadeOutToast 0.3s ease 2.7s forwards;
+            animation: slideInToast 0.3s ease, fadeOutToast 0.3s ease 9.7s forwards;
+            max-width: 350px;
         }
 
-        .toast i { color: #00d2ff; font-size: 16px; }
+        .toast i { color: #00d2ff; font-size: 18px; flex-shrink: 0; }
 
         @keyframes slideInToast {
             from { transform: translateX(100%); opacity: 0; }
@@ -733,7 +734,7 @@
         </div>
     </header>
 
-    <!-- Modali (Carrello, Storico, Checkout, Dettaglio Prodotto) -->
+    <!-- Modali -->
     <div class="product-modal" id="productModal">
         <div class="content-wrapper cart-content">
             <h3 id="modalProdTitle" style="color: #00d2ff;">Titolo Prodotto</h3>
@@ -817,12 +818,11 @@
 
     <div class="section-divider"></div>
 
-    <!-- Shop con Filtri e Nuovi Nomi -->
+    <!-- Shop -->
     <section id="shop" class="page-section" data-nav="link-shop">
         <h2 id="shop-title">Shop</h2>
         <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
         
-        <!-- Pulsanti di Filtro Categorie -->
         <div class="shop-filters">
             <button class="filter-btn active" onclick="filterProducts('all', event)">Tutti</button>
             <button class="filter-btn" onclick="filterProducts('setting', event)">Setting</button>
@@ -911,19 +911,18 @@
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v2.9 - Aggiornamento Nomi e Ticket Discord</span>
+                    <span class="changelog-version">v3.0 - Timer Lettura Messaggi Ticket (10s)</span>
                     <span class="changelog-date">07 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Aggiornata la nomenclatura dei servizi (Settaggio Bot, Creazione Bot, Server Custom, Grafiche e Design).</li>
-                    <li>Rimossi i prezzi dal catalogo e integrato il reindirizzamento diretto al server Discord per l'apertura dei ticket di acquisto.</li>
+                    <li>Aggiunto un ritardo di 10 secondi per permettere all'utente di leggere con calma il messaggio di guida e l'avviso di apertura ticket prima del reindirizzamento a Discord.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // SCRIPT NOTIFICHE TOAST
+        // SCRIPT NOTIFICHE TOAST (durata 10 secondi)
         function showToast(message, icon = "fa-circle-check") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -932,7 +931,7 @@
             container.appendChild(toast);
             setTimeout(() => {
                 toast.remove();
-            }, 3000);
+            }, 10000); // 10 secondi esatti per leggere
         }
 
         // FILTRI PRODOTTI SHOP
@@ -950,7 +949,7 @@
             });
         }
 
-        // MODALE DETTAGLIO PRODOTTO CON REINDIRIZZAMENTO TICKET DISCORD
+        // MODALE DETTAGLIO PRODOTTO CON TIMER DI 10 SECONDI PER IL TICKET
         let currentModalProduct = null;
         function openProductModal(title, category, desc, id) {
             currentModalProduct = { title, id };
@@ -976,13 +975,15 @@
             document.getElementById('productModal').classList.remove('show');
         }
 
-        // Funzione per reindirizzare al server Discord e avvisare di aprire un ticket
+        // Funzione con attesa di 10 secondi prima di aprire Discord
         function redirectToTicket(productName) {
-            showToast(`Reindirizzamento al server Discord per "${productName}"... Apri un ticket!`, "fa-ticket");
+            showToast(`Richiesta registrata per "${productName}". Leggi con attenzione: verrai reindirizzato al server Discord tra 10 secondi per aprire il tuo ticket!`, "fa-ticket");
+            closeProductModal();
+            
+            // Attende 10000 ms (10 secondi) prima di aprire la pagina Discord in un'altra scheda
             setTimeout(() => {
                 window.open("https://discord.gg/dbc2kmHwep", "_blank");
-            }, 1000);
-            closeProductModal();
+            }, 10000);
         }
 
         // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO NELLA NAVBAR
@@ -1244,15 +1245,16 @@
             }
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
             
-            showToast("Richiesta inviata! Reindirizzamento al server Discord per aprire il ticket...", "fa-ticket");
+            showToast("Ordine inviato con successo! Leggi le istruzioni: verrai reindirizzato al server Discord per aprire il ticket tra 10 secondi...", "fa-ticket");
             cartItems = [];
             updateCartUI();
             document.getElementById('orderForm').reset();
             closeCheckoutModal();
 
+            // Attesa di 10 secondi prima di aprire il link del server Discord dopo l'ordine
             setTimeout(() => {
                 window.open("https://discord.gg/dbc2kmHwep", "_blank");
-            }, 1500);
+            }, 10000);
         }
 
         function toggleDropdown(event) {
