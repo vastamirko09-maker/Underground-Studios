@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Notifiche Toast (durata estesa per i 10 secondi) */
+        /* Notifiche Toast (durata estesa per i 5 secondi) */
         #toast-container {
             position: fixed;
             top: 85px;
@@ -48,7 +48,7 @@
             align-items: center;
             gap: 12px;
             backdrop-filter: blur(10px);
-            animation: slideInToast 0.3s ease, fadeOutToast 0.3s ease 9.7s forwards;
+            animation: slideInToast 0.3s ease, fadeOutToast 0.3s ease 4.7s forwards;
             max-width: 350px;
         }
 
@@ -911,18 +911,21 @@
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v3.0 - Timer Lettura Messaggi Ticket (10s)</span>
+                    <span class="changelog-version">v3.1 - Timer 5 Secondi e Webhook Discord Automatico</span>
                     <span class="changelog-date">07 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Aggiunto un ritardo di 10 secondi per permettere all'utente di leggere con calma il messaggio di guida e l'avviso di apertura ticket prima del reindirizzamento a Discord.</li>
+                    <li>Impostato il timer a 5 secondi esatti dopo il checkout prima di inviare i dati al webhook di Discord e reindirizzare al server.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // SCRIPT NOTIFICHE TOAST (durata 10 secondi)
+        // --- CONFIGURA QUI IL TUO WEBHOOK DISCORD ---
+        const DISCORD_WEBHOOK_URL = "INSERISCI_QUI_IL_TUO_WEBHOOK_URL";
+
+        // SCRIPT NOTIFICHE TOAST (durata 5 secondi)
         function showToast(message, icon = "fa-circle-check") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -931,7 +934,7 @@
             container.appendChild(toast);
             setTimeout(() => {
                 toast.remove();
-            }, 10000); // 10 secondi esatti per leggere
+            }, 5000); // 5 secondi esatti
         }
 
         // FILTRI PRODOTTI SHOP
@@ -949,7 +952,7 @@
             });
         }
 
-        // MODALE DETTAGLIO PRODOTTO CON TIMER DI 10 SECONDI PER IL TICKET
+        // MODALE DETTAGLIO PRODOTTO CON TIMER DI 5 SECONDI PER IL TICKET
         let currentModalProduct = null;
         function openProductModal(title, category, desc, id) {
             currentModalProduct = { title, id };
@@ -975,15 +978,14 @@
             document.getElementById('productModal').classList.remove('show');
         }
 
-        // Funzione con attesa di 10 secondi prima di aprire Discord
+        // Funzione con attesa di 5 secondi prima di aprire Discord
         function redirectToTicket(productName) {
-            showToast(`Richiesta registrata per "${productName}". Leggi con attenzione: verrai reindirizzato al server Discord tra 10 secondi per aprire il tuo ticket!`, "fa-ticket");
+            showToast(`Richiesta registrata per "${productName}". Verrai reindirizzato a Discord tra 5 secondi!`, "fa-ticket");
             closeProductModal();
             
-            // Attende 10000 ms (10 secondi) prima di aprire la pagina Discord in un'altra scheda
             setTimeout(() => {
                 window.open("https://discord.gg/dbc2kmHwep", "_blank");
-            }, 10000);
+            }, 5000);
         }
 
         // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO NELLA NAVBAR
@@ -1228,9 +1230,40 @@
             const email = document.getElementById('custEmail').value;
             const phone = document.getElementById('custPhone').value;
             const dob = document.getElementById('custDob').value;
-            const discordStatus = document.getElementById('custDiscord').value;
             let currentDate = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
+            let itemsListStr = cartItems.map(i => i.name).join(", ");
+
+            // 1. Invio dell'ordine al Webhook di Discord
+            if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== "INSERISCI_QUI_IL_TUO_WEBHOOK_URL") {
+                const webhookPayload = {
+                    embeds: [{
+                        title: "🛒 Nuovo Ordine Effettuato!",
+                        color: 3092790,
+                        fields: [
+                            { name: "👤 Cliente", value: `${name} (@${discordUserData.username})`, inline: true },
+                            { name: "🆔 Discord ID", value: discordUserData.id, inline: true },
+                            { name: "📧 Email", value: email, inline: true },
+                            { name: "📞 Telefono", value: phone, inline: true },
+                            { name: "🎂 Data di Nascita", value: dob, inline: true },
+                            { name: "📦 Prodotti", value: itemsListStr, inline: false }
+                        ],
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                try {
+                    await fetch(DISCORD_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(webhookPayload)
+                    });
+                } catch (err) {
+                    console.error("Errore invio webhook Discord:", err);
+                }
+            }
+
+            // 2. Salvataggio locale e cloudworker ordini
             for (let item of cartItems) {
                 let newOrder = { item: item.name, total: "Ticket", date: currentDate };
                 try {
@@ -1245,16 +1278,16 @@
             }
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
             
-            showToast("Ordine inviato con successo! Leggi le istruzioni: verrai reindirizzato al server Discord per aprire il ticket tra 10 secondi...", "fa-ticket");
+            showToast("Ordine inviato con successo! Reindirizzamento a Discord tra 5 secondi...", "fa-ticket");
             cartItems = [];
             updateCartUI();
             document.getElementById('orderForm').reset();
             closeCheckoutModal();
 
-            // Attesa di 10 secondi prima di aprire il link del server Discord dopo l'ordine
+            // 3. Attesa di 5 secondi prima di aprire il link del server Discord
             setTimeout(() => {
                 window.open("https://discord.gg/dbc2kmHwep", "_blank");
-            }, 10000);
+            }, 5000);
         }
 
         function toggleDropdown(event) {
