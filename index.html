@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Effetto Scenico: Scia del Cursore */
+        /* Effetto Scenico: Scia del Cursore fluida e collegata */
         .cursor-trail {
             position: fixed;
             width: 8px;
@@ -34,12 +34,13 @@
             pointer-events: none;
             z-index: 9999;
             box-shadow: 0 0 10px #00d2ff, 0 0 20px #008cff;
-            animation: fadeTrail 0.6s forwards;
+            transition: transform 0.1s ease-out;
+            animation: fadeTrail 0.5s linear forwards;
         }
 
         @keyframes fadeTrail {
-            0% { transform: scale(1); opacity: 0.9; }
-            100% { transform: scale(0.2); opacity: 0; }
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(0.1); opacity: 0; }
         }
 
         header {
@@ -111,7 +112,7 @@
             gap: 10px;
         }
 
-        .cart-btn, .history-btn, .admin-nav-btn, .nav-login-btn {
+        .cart-btn, .history-btn, .nav-login-btn {
             background-color: #111622;
             border: 1px solid rgba(0, 140, 255, 0.3);
             color: white;
@@ -131,17 +132,6 @@
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             border-color: rgba(88, 101, 242, 0.5) !important;
             box-shadow: 0 2px 10px rgba(88, 101, 242, 0.3);
-        }
-
-        .admin-nav-btn {
-            border-color: rgba(255, 77, 77, 0.4);
-            color: #ff4d4d;
-            display: none; 
-        }
-
-        .admin-nav-btn:hover {
-            border-color: #ff4d4d;
-            background-color: rgba(255, 77, 77, 0.1);
         }
 
         .cart-btn:hover, .history-btn:hover {
@@ -191,7 +181,7 @@
         .dropdown-content a:hover { background-color: #008cff; color: #fff; }
         .dropdown.show .dropdown-content { display: block; }
 
-        .cart-modal, .checkout-modal, .history-modal, .admin-modal {
+        .cart-modal, .checkout-modal, .history-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -206,7 +196,7 @@
             padding: 15px;
         }
 
-        .cart-modal.show, .checkout-modal.show, .history-modal.show, .admin-modal.show { display: flex; }
+        .cart-modal.show, .checkout-modal.show, .history-modal.show { display: flex; }
 
         .cart-content {
             background-color: #111622;
@@ -439,9 +429,6 @@
             <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
                 <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
             </button>
-            <button class="admin-nav-btn" id="nav-admin" onclick="openAdminDashboard()">
-                <i class="fa-solid fa-user-shield"></i> <span id="admin-label">ADMIN</span>
-            </button>
             <button class="history-btn" onclick="openHistoryModal()">
                 <i class="fa-solid fa-clock-rotate-left"></i> <span id="history-label">Storico</span>
             </button>
@@ -490,33 +477,6 @@
                 <p style="text-align: center; color: #888; font-size: 13px;">Accedi con Discord per visualizzare il tuo storico acquisti.</p>
             </div>
             <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi</button>
-        </div>
-    </div>
-
-    <!-- Modale Pannello Admin Supremo (RISERVATO SOLO A TE) -->
-    <div class="admin-modal" id="adminModal">
-        <div class="content-wrapper cart-content" style="max-width: 650px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="color: #ff4d4d; margin: 0;"><i class="fa-solid fa-user-shield"></i> Pannello Ruolo Supremo (Admin)</h3>
-                <span style="font-size: 11px; color: #ff4d4d; background: rgba(255,77,77,0.1); padding: 4px 8px; border-radius: 6px; font-weight: bold;">Area Protetta</span>
-            </div>
-
-            <div style="background: rgba(255,77,77,0.05); border: 1px solid rgba(255,77,77,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
-                <label style="font-size: 12px; color: #ff4d4d; font-weight: 700; display: block; margin-bottom: 6px;">Gestione Ruolo Supremo (Tramite ID Discord)</label>
-                <div style="display: flex; gap: 8px;">
-                    <input type="text" id="newAdminId" placeholder="Inserisci ID Discord utente" style="background: #080b12; border: 1px solid rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; color: white; font-size: 12px; flex: 1; outline: none;">
-                    <button onclick="toggleAdminRole()" style="background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px;">Aggiungi / Rimuovi</button>
-                </div>
-                <div id="adminsListBadge" style="font-size: 11px; color: #aaa; margin-top: 8px;">Admin attivi: Caricamento...</div>
-            </div>
-
-            <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #ddd;">Elenco Utenti e Nomi Discord Registrati:</div>
-            
-            <div id="adminUsersList" style="max-height: 260px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <p style="text-align: center; color: #888; font-size: 13px;">Caricamento dati dal cloud...</p>
-            </div>
-
-            <button class="btn-close-cart" onclick="closeAdminModal()" style="width: 100%;">Chiudi Pannello</button>
         </div>
     </div>
 
@@ -573,19 +533,23 @@
 
     <script>
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
-        const MIO_ID_SUPREMO = "1521921208193650861"; // Il tuo ID blindato
 
         let cartItems = [];
         let discordUserData = null;
 
-        // Effetto scia del cursore
+        // Effetto scia del cursore ottimizzato (ancorato fluidamente al movimento)
+        let lastMove = 0;
         window.addEventListener('mousemove', (e) => {
-            let trail = document.createElement('div');
-            trail.className = 'cursor-trail';
-            trail.style.left = e.pageX + 'px';
-            trail.style.top = e.pageY + 'px';
-            document.body.appendChild(trail);
-            setTimeout(() => { trail.remove(); }, 600);
+            const now = Date.now();
+            if (now - lastMove > 30) { // Regola la frequenza per evitare blocchi o scatti
+                let trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = (e.clientX - 4) + 'px';
+                trail.style.top = (e.clientY - 4) + 'px';
+                document.body.appendChild(trail);
+                setTimeout(() => { trail.remove(); }, 500);
+                lastMove = now;
+            }
         });
 
         window.addEventListener('DOMContentLoaded', async () => {
@@ -634,16 +598,6 @@
             let loginNavBtn = document.getElementById('nav-login-btn');
             if (loginNavBtn) {
                 loginNavBtn.innerHTML = `<i class="fa-brands fa-discord"></i> <span>@${discordUserData.username}</span>`;
-            }
-
-            // CONTROLLO RIGIDO: Il bottone Admin appare SOLO se l'ID è il tuo
-            let adminNav = document.getElementById('nav-admin');
-            if (adminNav) {
-                if (discordUserData.id === MIO_ID_SUPREMO) {
-                    adminNav.style.display = 'flex';
-                } else {
-                    adminNav.style.display = 'none';
-                }
             }
         }
 
@@ -713,99 +667,6 @@
             document.getElementById('historyModal').classList.add('show');
         }
         function closeHistoryModal() { document.getElementById('historyModal').classList.remove('show'); }
-
-        // BLOCCO DI APERTURA PANNELLO ADMIN: Solo per il tuo ID
-        function openAdminDashboard() {
-            if (!discordUserData || discordUserData.id !== MIO_ID_SUPREMO) {
-                alert("Accesso negato. Area riservata esclusivamente al fondatore.");
-                return;
-            }
-            document.getElementById('adminModal').classList.add('show');
-            loadAdminData();
-        }
-        function closeAdminModal() { document.getElementById('adminModal').classList.remove('show'); }
-
-        async function loadAdminData() {
-            let container = document.getElementById('adminUsersList');
-            container.innerHTML = `<p style="text-align: center; color: #888;">Caricamento utenti dal Cloud...</p>`;
-
-            try {
-                let res = await fetch(`${CLOUDWORKER_URL}/admin/get-all`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: discordUserData.id })
-                });
-                let data = await res.json();
-
-                if (data.success) {
-                    document.getElementById('adminsListBadge').innerText = `Admin attivi: ${data.admins.join(", ")}`;
-                    container.innerHTML = "";
-
-                    if (data.users.length === 0) {
-                        container.innerHTML = `<p style="text-align: center; color: #888;">Nessun utente registrato nel Cloud.</p>`;
-                        return;
-                    }
-
-                    data.users.forEach(userObj => {
-                        let userDiv = document.createElement('div');
-                        userDiv.className = 'history-box';
-                        userDiv.style.borderColor = "rgba(255, 77, 77, 0.4)";
-                        
-                        let displayName = userObj.global_name ? `${userObj.global_name} (@${userObj.username})` : `@${userObj.username}`;
-
-                        userDiv.innerHTML = `
-                            <div class="history-header" style="color: #ff4d4d; align-items: center;">
-                                <div>
-                                    <b style="color: #fff; font-size: 13px;">${displayName}</b><br>
-                                    <span style="font-size: 10px; color: #888;">ID: ${userObj.discordId}</span>
-                                </div>
-                                <button onclick="deleteUserCloud('${userObj.discordId}')" style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;"><i class="fa-solid fa-trash"></i> Elimina</button>
-                            </div>
-                        `;
-                        container.appendChild(userDiv);
-                    });
-                } else {
-                    container.innerHTML = `<p style="text-align: center; color: #ff4d4d;">Accesso negato dal server.</p>`;
-                }
-            } catch(e) {
-                container.innerHTML = `<p style="text-align: center; color: #ff4d4d;">Errore di connessione.</p>`;
-            }
-        }
-
-        async function toggleAdminRole() {
-            let targetId = document.getElementById('newAdminId').value.trim();
-            if (!targetId) { alert("Inserisci un ID valido!"); return; }
-
-            try {
-                let res = await fetch(`${CLOUDWORKER_URL}/admin/toggle-admin`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: discordUserData.id, targetDiscordId: targetId })
-                });
-                let data = await res.json();
-                if (data.success) {
-                    alert("Ruoli aggiornati!");
-                    document.getElementById('newAdminId').value = "";
-                    loadAdminData();
-                } else { alert(data.error || "Errore."); }
-            } catch(e) { alert("Errore di connessione."); }
-        }
-
-        async function deleteUserCloud(targetId) {
-            if (!confirm(`Vuoi davvero eliminare l'utente ID: ${targetId}?`)) return;
-
-            try {
-                let res = await fetch(`${CLOUDWORKER_URL}/admin/delete-user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: discordUserData.id, targetDiscordId: targetId })
-                });
-                let data = await res.json();
-                if (data.success) {
-                    loadAdminData();
-                } else { alert("Errore durante l'eliminazione."); }
-            } catch(e) { alert("Errore di connessione."); }
-        }
 
         function openCheckoutModal() {
             if (cartItems.length === 0) { alert("Carrello vuoto!"); return; }
