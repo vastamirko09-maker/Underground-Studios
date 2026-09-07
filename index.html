@@ -24,24 +24,6 @@
             overflow-x: hidden;
         }
 
-        /* Overlay globale per il flash del fulmine al click */
-        #click-lightning-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0);
-            pointer-events: none;
-            z-index: 9999;
-            transition: background 0.05s ease-in-out;
-        }
-
-        #click-lightning-overlay.flash {
-            background: rgba(200, 230, 255, 0.85);
-            box-shadow: inset 0 0 100px #00d2ff;
-        }
-
         /* Header Adattivo (PC & Mobile) */
         header {
             display: flex;
@@ -414,27 +396,50 @@
             z-index: 2;
         }
 
+        /* ANIMAZIONE FIGA ATTORNO AL LOGO */
         .hero-logo-container {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 160px;
+            height: 160px;
         }
 
+        /* Anello luminoso principale con scia sfumata */
+        .hero-logo-container::before {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #00d2ff;
+            border-right-color: #008cff;
+            animation: spinRing 3s linear infinite;
+            box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
+        }
+
+        /* Secondo anello interno in senso inverso con effetto particella */
         .hero-logo-container::after {
             content: '';
             position: absolute;
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            border: 2px dashed rgba(0, 140, 255, 0.5);
-            animation: rotate 20s linear infinite;
+            border: 2px dashed rgba(0, 210, 255, 0.6);
+            animation: spinRingReverse 6s linear infinite;
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spinRingReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
         }
 
         .hero-logo {
@@ -566,7 +571,7 @@
             }
 
             .logo-area {
-                display: none; /* Nasconde il logo piccolo nell'header su mobile per fare spazio */
+                display: none; 
             }
 
             nav {
@@ -593,14 +598,12 @@
             }
 
             .shop-section {
-                padding-top: 130px; /* Più spazio in alto su mobile per via dell'header a due righe */
+                padding-top: 130px; 
             }
         }
     </style>
 </head>
 <body>
-
-    <div id="click-lightning-overlay"></div>
 
     <header>
         <div class="logo-area">
@@ -764,61 +767,7 @@
 
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
-
-            const clickableElements = document.querySelectorAll('button, a, .shop-card button, .cart-btn, .lang-btn');
-            clickableElements.forEach(el => {
-                el.addEventListener('click', () => {
-                    triggerLightningEffect();
-                });
-            });
         });
-
-        function playThunderSound() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContext) return;
-                const ctx = new AudioContext();
-
-                const bufferSize = ctx.sampleRate * 1.2;
-                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
-
-                const noise = ctx.createBufferSource();
-                noise.buffer = buffer;
-
-                const filter = ctx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(300, ctx.currentTime);
-                filter.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 1.2);
-
-                const gainNode = ctx.createGain();
-                gainNode.gain.setValueAtTime(1.0, ctx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2);
-
-                noise.connect(filter);
-                filter.connect(gainNode);
-                gainNode.connect(ctx.destination);
-
-                noise.start(ctx.currentTime);
-            } catch (e) {
-                console.log("Audio non supportato", e);
-            }
-        }
-
-        function triggerLightningEffect() {
-            const overlay = document.getElementById('click-lightning-overlay');
-            overlay.classList.add('flash');
-            setTimeout(() => { overlay.classList.remove('flash'); }, 80);
-            setTimeout(() => { 
-                overlay.classList.add('flash'); 
-                setTimeout(() => { overlay.classList.remove('flash'); }, 120);
-            }, 150);
-
-            playThunderSound();
-        }
 
         function loginWithDiscord() {
             const clientId = "1534237159823769610";
