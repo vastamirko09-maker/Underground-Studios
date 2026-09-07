@@ -145,7 +145,6 @@
             text-decoration: none;
         }
 
-        /* Pulsante Login Discord nella Nav */
         .nav-login-btn {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             border-color: rgba(88, 101, 242, 0.5) !important;
@@ -161,7 +160,7 @@
         .admin-nav-btn {
             border-color: rgba(255, 77, 77, 0.4);
             color: #ff4d4d;
-            display: none; /* Mostrato via JS se admin */
+            display: none; 
         }
 
         .admin-nav-btn:hover {
@@ -339,7 +338,7 @@
 
         .btn-close-cart:hover { background-color: #2e3b55; }
 
-        /* Stile Storico Ordini Privato */
+        /* Storico Ordini Privato / Admin Box */
         .history-box {
             background: #080d17;
             border: 1px dashed rgba(0, 210, 255, 0.3);
@@ -372,7 +371,7 @@
             color: #88a0c0;
         }
 
-        /* Stili Form Checkout */
+        /* Form Checkout */
         .checkout-form {
             display: flex;
             flex-direction: column;
@@ -553,7 +552,7 @@
             text-transform: uppercase;
         }
 
-        /* Linea Separatrice Personalizzata tra Home e Shop */
+        /* Linea Separatrice */
         .section-divider {
             width: 100%;
             height: 4px;
@@ -747,11 +746,11 @@
         </nav>
 
         <div class="nav-right">
-            <!-- Pulsante Login / Profilo Discord nella Nav -->
+            <!-- Pulsante Login / Profilo Discord -->
             <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
                 <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
             </button>
-            <!-- Pulsante Admin Dashboard (Visibile solo per gli Admin) -->
+            <!-- Pulsante Admin Dashboard (Visibile solo se Admin) -->
             <button class="admin-nav-btn" id="nav-admin" onclick="openAdminDashboard()">
                 <i class="fa-solid fa-user-shield"></i> <span id="admin-label">ADMIN</span>
             </button>
@@ -793,7 +792,7 @@
         </div>
     </div>
 
-    <!-- Modale Categoria Privata: Storico Ordini -->
+    <!-- Modale Storico Ordini Cloud Privato -->
     <div class="history-modal" id="historyModal">
         <div class="content-wrapper cart-content" style="max-width: 520px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -809,7 +808,7 @@
         </div>
     </div>
 
-    <!-- Modale Dashboard Amministratore (Admin Panel) -->
+    <!-- Modale Dashboard Amministratore Avanzata -->
     <div class="admin-modal" id="adminModal">
         <div class="content-wrapper cart-content" style="max-width: 650px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
@@ -817,17 +816,19 @@
                 <span style="font-size: 11px; color: #ff4d4d; background: rgba(255,77,77,0.1); padding: 4px 8px; border-radius: 6px; font-weight: bold;">Area Protetta</span>
             </div>
 
+            <!-- Badge Admin Attivi -->
+            <div id="adminsListBadge" style="font-size: 12px; color: #aaa; margin-bottom: 15px;">Caricamento admin attivi...</div>
+
             <!-- Sezione Gestione Ruoli Admin -->
             <div style="background: rgba(255,77,77,0.05); border: 1px solid rgba(255,77,77,0.2); padding: 12px; border-radius: 8px; margin-bottom: 15px;">
                 <label style="font-size: 12px; color: #ff4d4d; font-weight: 700; display: block; margin-bottom: 6px;">Gestione Ruoli Admin (Tramite Discord ID)</label>
                 <div style="display: flex; gap: 8px;">
                     <input type="text" id="newAdminId" placeholder="Inserisci ID Discord utente" style="background: #080b12; border: 1px solid rgba(255,255,255,0.1); padding: 8px; border-radius: 6px; color: white; font-size: 12px; flex: 1; outline: none;">
-                    <button onclick="toggleAdminRole()" style="background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px;">Aggiungi / Rimuovi</button>
+                    <button onclick="toggleAdminRole()" style="background: #ff4d4d; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 12px;">Aggiorna Ruolo</button>
                 </div>
-                <div id="adminsListBadge" style="font-size: 11px; color: #aaa; margin-top: 8px;">Admin attivi: Caricamento...</div>
             </div>
 
-            <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #ddd;">Storico Ordini di Tutti gli Utenti (Cloud):</div>
+            <div style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #ddd;">Storico Ordini e Utenti nel Cloud:</div>
             <div id="adminUsersList" style="max-height: 260px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
                 <p style="text-align: center; color: #888; font-size: 13px;">Caricamento dati dal cloud...</p>
             </div>
@@ -882,7 +883,7 @@
         <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
     </section>
 
-    <!-- LINEA SEPARATRICE TRA HOME E SHOP -->
+    <!-- LINEA SEPARATRICE -->
     <div class="section-divider"></div>
 
     <!-- Sezione Shop -->
@@ -921,17 +922,12 @@
             const currentTime = Date.now();
             if (currentTime - lastTime > 30) {
                 lastTime = currentTime;
-                
                 const trail = document.createElement('div');
                 trail.className = 'cursor-trail';
                 trail.style.left = `${e.clientX - 4}px`;
                 trail.style.top = `${e.clientY - 4}px`;
-                
                 document.body.appendChild(trail);
-
-                setTimeout(() => {
-                    trail.remove();
-                }, 600);
+                setTimeout(() => trail.remove(), 600);
             }
         });
 
@@ -945,9 +941,7 @@
                 if (audioCtx.state === 'suspended') {
                     audioCtx.resume();
                 }
-
                 const now = audioCtx.currentTime;
-
                 const osc = audioCtx.createOscillator();
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(329.63, now); 
@@ -968,18 +962,16 @@
 
                 osc.start(now);
                 osc2.start(now);
-
                 osc.stop(now + 0.9);
                 osc2.stop(now + 0.9);
             } catch (e) {}
         }
 
-        document.addEventListener('click', () => {
-            playRelaxingSound();
-        });
+        document.addEventListener('click', () => { playRelaxingSound(); });
 
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
+        const SUPREME_OWNER_ID = "1521921208193650861";
 
         let cartItems = [];
         let discordUserData = null;
@@ -1015,7 +1007,6 @@
                         discordUserData = JSON.parse(cached);
                         applyUserDataToUI();
                         
-                        // Sincronizzazione in background dei dati aggiornati (es. ordini/ruolo admin)
                         fetch(`${CLOUDWORKER_URL}/refresh-user?id=${discordUserData.id}`)
                             .then(res => res.json())
                             .then(freshData => {
@@ -1034,7 +1025,6 @@
 
         function applyUserDataToUI() {
             if (!discordUserData) return;
-            
             updateShopButtons();
             
             const discordInput = document.getElementById('custDiscord');
@@ -1055,7 +1045,6 @@
         }
 
         function loginWithDiscord() {
-            // Se l'utente è già loggato, cliccando sul pulsante in alto potrebbe voler uscire o aggiornare la sessione
             if (discordUserData) {
                 let action = confirm(`Sei già loggato come @${discordUserData.username}.\nVuoi effettuare il logout?`);
                 if (action) {
@@ -1068,7 +1057,6 @@
             const clientId = "1534237159823769610";
             const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
             const discordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
-            
             window.location.href = discordOAuthUrl;
         }
 
@@ -1144,7 +1132,7 @@
         function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
         function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
 
-        // Gestione Storico Privato Cloud
+        // Storico Privato Cloud
         function openHistoryModal() {
             if (!discordUserData) {
                 alert("Devi effettuare l'accesso con Discord per visualizzare la categoria privata dello storico!");
@@ -1181,7 +1169,7 @@
             });
         }
 
-        // GESTIONE ADMIN PANEL LOGIC
+        // GESTIONE ADMIN PANEL AVANZATA
         function openAdminDashboard() {
             if (!discordUserData || !discordUserData.isAdmin) return;
             document.getElementById('adminModal').classList.add('show');
@@ -1206,7 +1194,9 @@
 
                 if (data.success) {
                     currentAdminsArray = data.admins || [];
-                    document.getElementById('adminsListBadge').innerText = `Admin attivi IDs: ${currentAdminsArray.join(", ")}`;
+                    if(document.getElementById('adminsListBadge')) {
+                        document.getElementById('adminsListBadge').innerText = `Admin attivi IDs: ${currentAdminsArray.join(", ")}`;
+                    }
 
                     container.innerHTML = "";
                     if (data.users.length === 0) {
@@ -1217,22 +1207,24 @@
                     data.users.forEach(userObj => {
                         let userDiv = document.createElement('div');
                         userDiv.className = 'history-box';
-                        userDiv.style.borderColor = "rgba(255, 77, 77, 0.4)";
+                        userDiv.style.cssText = "border: 1px solid rgba(255, 77, 77, 0.4); margin-bottom: 10px; padding: 10px; border-radius: 8px; background: #1e1e1e;";
                         
-                        let ordersHtml = userObj.orders.map((ord, i) => 
+                        let ordersHtml = userObj.orders && userObj.orders.length > 0 ? userObj.orders.map((ord, i) => 
                             `<div style="font-size: 12px; color: #aaa; margin-top: 4px;">• Ordine #${i+1}: <b>${ord.item}</b> (€ ${ord.total}) - <span style="color:#888;">${ord.date}</span></div>`
-                        ).join("");
+                        ).join("") : `<div style="font-size: 12px; color: #666; margin-top: 4px;">Nessun ordine registrato.</div>`;
 
                         let isAdminUser = currentAdminsArray.includes(userObj.discordId);
+                        let isOwner = (userObj.discordId === SUPREME_OWNER_ID);
+                        let displayName = userObj.username ? `${userObj.global_name || userObj.username} (@${userObj.username})` : `ID: ${userObj.discordId}`;
 
                         userDiv.innerHTML = `
-                            <div class="history-header" style="color: #ff4d4d;">
-                                <span>Discord ID: ${userObj.discordId} ${isAdminUser ? '<b style="color: #00d2ff;">[ADMIN]</b>' : ''}</span>
+                            <div class="history-header" style="color: #ff4d4d; display: flex; justify-content: space-between; align-items: center;">
+                                <span>👤 <b>${displayName}</b> ${isOwner ? '<b style="color: #ffD700;">[OWNER SUPREMO]</b>' : (isAdminUser ? '<b style="color: #00d2ff;">[ADMIN]</b>' : '')}</span>
                                 <div>
-                                    <button onclick="deleteUserHistory('${userObj.discordId}')" style="background: #ff4d4d; color: white; border: none; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: bold;"><i class="fa-solid fa-trash"></i> Elimina</button>
+                                    ${!isOwner ? `<button onclick="deleteUserHistory('${userObj.discordId}')" style="background: #ff4d4d; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold;"><i class="fa-solid fa-user-xmark"></i> Rimuovi</button>` : '<span style="font-size:11px; color:#ffD700; font-weight:bold;">Protetto</span>'}
                                 </div>
                             </div>
-                            <div class="history-items" style="margin-bottom: 5px;">Totale ordini registrati: ${userObj.orders.length}</div>
+                            <div style="margin-bottom: 5px; font-size: 12px; color: #ccc;">Discord ID: ${userObj.discordId} | Totale ordini: ${userObj.orders ? userObj.orders.length : 0}</div>
                             ${ordersHtml}
                         `;
                         container.appendChild(userDiv);
@@ -1248,6 +1240,11 @@
         async function toggleAdminRole() {
             let targetId = document.getElementById('newAdminId').value.trim();
             if (!targetId) { alert("Inserisci un ID Discord valido!"); return; }
+
+            if (targetId === SUPREME_OWNER_ID) {
+                alert("Il proprietario supremo (Owner) non può essere modificato o degradato!");
+                return;
+            }
 
             try {
                 let res = await fetch(`${CLOUDWORKER_URL}/admin/toggle-admin`, {
@@ -1269,7 +1266,7 @@
         }
 
         async function deleteUserHistory(targetId) {
-            if (!confirm(`Sei sicuro di voler eliminare tutto lo storico ordini per l'utente ID: ${targetId}?`)) return;
+            if (!confirm("Sei sicuro di voler rimuovere questo utente e i suoi dati dal cloud?")) return;
 
             try {
                 let res = await fetch(`${CLOUDWORKER_URL}/admin/delete-user`, {
@@ -1279,10 +1276,10 @@
                 });
                 let data = await res.json();
                 if (data.success) {
-                    alert("Storico utente eliminato con successo dal cloud!");
+                    alert("Utente rimosso con successo!");
                     loadAdminData();
                 } else {
-                    alert("Errore durante l'eliminazione.");
+                    alert(data.error || "Errore durante la rimozione.");
                 }
             } catch(e) {
                 alert("Errore di connessione.");
@@ -1332,7 +1329,6 @@
             }
 
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
-
             let productsList = cartItems.map(item => `• ${item.name} (€ ${item.price.toFixed(2)})`).join("\n");
 
             const discordMessage = {
