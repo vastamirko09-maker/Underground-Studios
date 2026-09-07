@@ -778,21 +778,38 @@
 
     <script>
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
+        const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
 
         let cartItems = [];
-        let isDiscordLoggedIn = false; 
+        let discordUserData = null; // Memorizzerà l'ID e il profilo reale
 
         // Controllo automatico al caricamento della pagina per verificare il ritorno da Discord OAuth2
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('code')) {
-                isDiscordLoggedIn = true;
-                updateShopButtons();
+            const code = urlParams.get('code');
+
+            if (code) {
+                const currentUri = window.location.origin + window.location.pathname;
                 
-                // Compila in automatico il campo ID Discord nel modulo d'ordine indicando che l'utente è verificato
-                const discordInput = document.getElementById('custDiscord');
-                discordInput.value = "Utente Autenticato via Discord (Verificato ✔️)";
-                discordInput.style.borderColor = "#00d2ff";
+                try {
+                    let response = await fetch(`${CLOUDWORKER_URL}?code=${code}&redirect_uri=${encodeURIComponent(currentUri)}`);
+                    let data = await response.json();
+
+                    if (data.id) {
+                        discordUserData = data;
+                        updateShopButtons();
+                        
+                        // Inserisce in automatico il nome e l'ID reale nel modulo d'ordine
+                        const discordInput = document.getElementById('custDiscord');
+                        discordInput.value = `${data.global_name} (@${data.username}) - ID: ${data.id}`;
+                        discordInput.style.borderColor = "#00d2ff";
+                    } else {
+                        alert("Errore durante l'autenticazione con Discord.");
+                    }
+                } catch (e) {
+                    console.error("Errore di connessione con il worker", e);
+                    alert("Si è verificato un errore durante la verifica Discord.");
+                }
 
                 // Pulisce l'URL rimuovendo il parametro ?code=
                 window.history.replaceState({}, document.title, window.location.pathname);
@@ -806,7 +823,6 @@
             });
         });
 
-        // Funzione per riprodurre il suono del tuono / fulmine (Web Audio API)
         function playThunderSound() {
             try {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -838,7 +854,7 @@
 
                 noise.start(ctx.currentTime);
             } catch (e) {
-                console.log("Audio non supportato o bloccato dal browser", e);
+                console.log("Audio non supportato", e);
             }
         }
 
@@ -854,17 +870,14 @@
             playThunderSound();
         }
 
-        // Funzione di Login Reale tramite Discord OAuth2 (Client ID integrato)
         function loginWithDiscord() {
             const clientId = "1534237159823769610";
             const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
-            
             const discordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
             
             window.location.href = discordOAuthUrl;
         }
 
-        // Aggiorna i pulsanti dello shop in base allo stato di login
         function updateShopButtons() {
             let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
             let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
@@ -875,7 +888,7 @@
                 let price = i === 1 ? 14.99 : (i === 2 ? 19.99 : 24.99);
                 let name = `Script ${i}`;
 
-                if (isDiscordLoggedIn) {
+                if (discordUserData) {
                     container.innerHTML = `<button onclick="addToCart('${name}', ${price})" class="buy-text">${buyText}</button>`;
                 } else {
                     container.innerHTML = `<button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
@@ -884,15 +897,13 @@
         }
 
         function addToCart(name, price) {
-            if (!isDiscordLoggedIn) {
+            if (!discordUserData) {
                 alert("Devi prima accedere con Discord per poter acquistare!");
                 return;
             }
 
             let confirmAdd = confirm(`Sei sicuro di voler aggiungere "${name}" al carrello? (€ ${price.toFixed(2)})`);
-            if (!confirmAdd) {
-                return;
-            }
+            if (!confirmAdd) return;
 
             cartItems.push({ name: name, price: price });
             updateCartUI();
@@ -944,7 +955,7 @@
                 alert("Il carrello è vuoto!");
                 return;
             }
-            if (!isDiscordLoggedIn) {
+            if (!discordUserData) {
                 alert("Devi effettuare l'accesso con Discord prima di procedere al checkout!");
                 return;
             }
@@ -978,7 +989,7 @@
                         { name: "📧 Email", value: email, inline: true },
                         { name: "📞 Telefono", value: phone, inline: true },
                         { name: "🎂 Data di Nascita", value: dob, inline: true },
-                        { name: "💬 Stato Discord", value: discordStatus, inline: true },
+                        { name: "💬 Profilo Discord Verificato", value: discordStatus, inline: false },
                         { name: "🛍️ Prodotti Ordinati", value: productsList, inline: false },
                         { name: "💶 Totale", value: `€ ${total}`, inline: false }
                     ],
@@ -1035,13 +1046,11 @@
             if (scrollPos >= shopTop) {
                 shopLink.classList.add('active');
                 shopLink.classList.remove('inactive');
-                
                 homeLink.classList.add('inactive');
                 homeLink.classList.remove('active');
             } else {
                 homeLink.classList.add('active');
                 homeLink.classList.remove('inactive');
-                
                 shopLink.classList.add('inactive');
                 shopLink.classList.remove('active');
             }
@@ -1075,7 +1084,6 @@
             if(emptyText) emptyText.innerText = translations[lang].emptyCart;
 
             updateShopButtons();
-            
             document.getElementById('langDropdown').classList.remove('show');
         }
     </script>
