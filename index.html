@@ -407,7 +407,6 @@
             height: 160px;
         }
 
-        /* Anello luminoso principale con scia sfumata */
         .hero-logo-container::before {
             content: '';
             position: absolute;
@@ -421,7 +420,6 @@
             box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
         }
 
-        /* Secondo anello interno in senso inverso con effetto particella */
         .hero-logo-container::after {
             content: '';
             position: absolute;
@@ -733,6 +731,54 @@
     </section>
 
     <script>
+        // FUNZIONE EFFETTO SCARICA ELETTRICA AL CLICK
+        let audioCtx = null;
+        function playLightningSound() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                // Crea un buffer di rumore bianco per simulare il fruscio del fulmine
+                const bufferSize = audioCtx.sampleRate * 0.15; // 150ms di durata
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                // Filtro passa-banda per dare l'effetto elettrico metallico
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                filter.Q.setValueAtTime(3, audioCtx.currentTime);
+
+                // Controllo del volume (inizia alto e scende subito)
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+                noise.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                noise.start();
+            } catch (e) {
+                // Gestione silenziosa se il browser blocca l'audio prima di un'interazione
+            }
+        }
+
+        // Ascolta qualsiasi click sullo schermo per riprodurre la scarica
+        document.addEventListener('click', () => {
+            playLightningSound();
+        });
+
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
 
