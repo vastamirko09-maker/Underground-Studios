@@ -325,29 +325,6 @@
         }
         .checkout-form input:focus { border-color: #008cff; outline: none; }
 
-        /* WIDGET LINK TICKET DISCORD (SOSTITUISCE LA CHAT) */
-        .support-widget-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: linear-gradient(135deg, #5865F2, #008cff);
-            color: #fff;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 22px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 140, 255, 0.5);
-            z-index: 1500;
-            transition: transform 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.2);
-            text-decoration: none;
-        }
-        .support-widget-btn:hover { transform: scale(1.1); color: #fff; }
-
         /* Sezione Home (Hero) */
         .hero {
             height: 100vh;
@@ -684,11 +661,6 @@
         </div>
     </header>
 
-    <!-- WIDGET LINK DIRETTO AL CANALE TICKET DI DISCORD -->
-    <a href="https://discord.gg/dbc2kmHwep" target="_blank" class="support-widget-btn" title="Apri Ticket su Discord">
-        <i class="fa-solid fa-headset"></i>
-    </a>
-
     <!-- Modali (Carrello, Storico, Checkout) -->
     <div class="cart-modal" id="cartModal">
         <div class="content-wrapper cart-content">
@@ -830,12 +802,12 @@
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v2.5 - Widget Ticket Discord</span>
+                    <span class="changelog-version">v2.6 - Rimozione Widget Laterale</span>
                     <span class="changelog-date">07 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Sostituita la chat interattiva con un collegamento rapido fluttuante diretto al canale ticket su Discord.</li>
-                    <li>Ottimizzata la stabilità generale del sistema di autenticazione Cloudflare.</li>
+                    <li>Rimossa la scorciatoia fluttuante in basso a destra per un'interfaccia ancora più pulita.</li>
+                    <li>Il link di supporto rimane comunque accessibile direttamente tramite la voce "Discord" nella barra di navigazione principale.</li>
                 </ul>
             </div>
             <div class="changelog-item">
