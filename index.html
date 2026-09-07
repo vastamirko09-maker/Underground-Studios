@@ -24,6 +24,30 @@
             overflow-x: hidden;
         }
 
+        /* Stile delle particelle della scia del cursore */
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #00d2ff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 10px #00d2ff, 0 0 20px #008cff;
+            animation: fadeTrail 0.6s forwards;
+        }
+
+        @keyframes fadeTrail {
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(0.2);
+                opacity: 0;
+            }
+        }
+
         /* Header Adattivo (PC & Mobile) */
         header {
             display: flex;
@@ -97,14 +121,14 @@
             color: #ffffff !important;
         }
 
-        /* Parte destra: Carrello + Lingua */
+        /* Parte destra: Carrello + Storico + Lingua */
         .nav-right {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .cart-btn {
+        .cart-btn, .history-btn {
             background-color: #111622;
             border: 1px solid rgba(0, 140, 255, 0.3);
             color: white;
@@ -119,7 +143,7 @@
             transition: all 0.3s ease;
         }
 
-        .cart-btn:hover {
+        .cart-btn:hover, .history-btn:hover {
             border-color: #008cff;
             background-color: rgba(0, 140, 255, 0.1);
         }
@@ -181,34 +205,34 @@
             display: block;
         }
 
-        /* Modale Carrello & Checkout */
-        .cart-modal, .checkout-modal {
+        /* Modali (Carrello, Checkout, Storico Privato) */
+        .cart-modal, .checkout-modal, .history-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.85);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             padding: 15px;
         }
 
-        .cart-modal.show, .checkout-modal.show {
+        .cart-modal.show, .checkout-modal.show, .history-modal.show {
             display: flex;
         }
 
         .cart-content {
             background-color: #111622;
-            border: 1px solid rgba(0, 140, 255, 0.3);
+            border: 1px solid rgba(0, 140, 255, 0.4);
             width: 100%;
-            max-width: 420px;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 480px;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 10px 40px rgba(0, 140, 255, 0.2);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -288,6 +312,39 @@
         }
 
         .btn-close-cart:hover { background-color: #2e3b55; }
+
+        /* Stile Storico Ordini Privato */
+        .history-box {
+            background: #080d17;
+            border: 1px dashed rgba(0, 210, 255, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #00d2ff;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .history-items {
+            font-size: 13px;
+            color: #c0d0e8;
+            margin-bottom: 6px;
+        }
+
+        .history-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 6px;
+            color: #88a0c0;
+        }
 
         /* Stili Form Checkout */
         .checkout-form {
@@ -396,7 +453,7 @@
             z-index: 2;
         }
 
-        /* ANIMAZIONE FIGA ATTORNO AL LOGO */
+        /* ANIMAZIONE ATTORNO AL LOGO */
         .hero-logo-container {
             position: relative;
             margin-bottom: 25px;
@@ -497,53 +554,96 @@
         .shop-section p {
             font-size: 14px;
             color: #c0d0e8;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .shop-grid {
             display: flex;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 950px;
+            max-width: 1000px;
             width: 100%;
         }
 
+        /* PANNELLI SHOP ANIMATI CON BORDI NEON */
         .shop-card {
-            background: rgba(13, 20, 36, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 140, 255, 0.4);
-            padding: 25px 20px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 270px;
-            text-align: center;
             position: relative;
+            background: rgba(10, 15, 28, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 30px 20px;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 290px;
+            text-align: center;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            z-index: 1;
+        }
+
+        /* Bordo Neon Rotante Continuo */
+        .shop-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, #00d2ff 0deg, transparent 60deg, transparent 300deg, #008cff 360deg);
+            animation: rotateBorder 4s linear infinite;
+            z-index: -2;
+        }
+
+        /* Sfondo interno per coprire il centro del gradiente rotante */
+        .shop-card::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: linear-gradient(145deg, #0d1424 0%, #060a12 100%);
+            border-radius: 16px;
+            z-index: -1;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Effetto Hover sul Pannello */
+        .shop-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 140, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.2);
         }
 
         .shop-card h4 {
-            font-size: 18px;
+            font-size: 20px;
             color: #fff;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
         .shop-card span {
             display: block;
             color: #00d2ff;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            text-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.7);
+            animation: pricePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pricePulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+            50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(0, 210, 255, 0.9); }
         }
 
         .shop-card button {
             background: linear-gradient(135deg, #008cff, #004ba8);
             color: #fff;
-            padding: 11px 15px;
-            border-radius: 8px;
+            padding: 12px 18px;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: 700;
             border: none;
@@ -554,9 +654,19 @@
             transition: all 0.3s ease;
         }
 
+        .shop-card button:hover {
+            background: linear-gradient(135deg, #00a2ff, #0060d1);
+            box-shadow: 0 6px 20px rgba(0, 162, 255, 0.7);
+        }
+
         .btn-discord-login {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4) !important;
+        }
+
+        .btn-discord-login:hover {
+            background: linear-gradient(135deg, #6c78ff, #5865F2) !important;
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.7) !important;
         }
 
         /* MEDIA QUERIES PER ADATTABILITÀ MOBILE ESTREMA */
@@ -621,6 +731,9 @@
         </nav>
 
         <div class="nav-right">
+            <button class="history-btn" onclick="openHistoryModal()" title="I tuoi ordini privati">
+                <i class="fa-solid fa-clock-rotate-left"></i> <span id="history-label">Storico</span>
+            </button>
             <button class="cart-btn" onclick="openCartModal()">
                 <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
             </button>
@@ -652,6 +765,22 @@
             <div class="cart-actions">
                 <button class="btn-checkout" onclick="openCheckoutModal()" id="proceed-btn">Procedi al Checkout</button>
                 <button class="btn-close-cart" onclick="closeCartModal()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale Categoria Privata: Storico Ordini -->
+    <div class="history-modal" id="historyModal">
+        <div class="content-wrapper cart-content" style="max-width: 520px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 id="history-modal-title" style="margin: 0;"><i class="fa-solid fa-shield-halved"></i> Categoria Privata: Storico</h3>
+                <span id="user-discord-badge" style="font-size: 11px; color: #00d2ff; background: rgba(0,210,255,0.1); padding: 4px 8px; border-radius: 6px;">Non loggato</span>
+            </div>
+            <div id="historyListContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                <p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Accedi con Discord per visualizzare il tuo storico acquisti privato.</p>
+            </div>
+            <div class="cart-actions">
+                <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi Categoria</button>
             </div>
         </div>
     </div>
@@ -731,7 +860,27 @@
     </section>
 
     <script>
-        // FUNZIONE EFFETTO AUDIO RILASSANTE CON DISSOLVENZA (FADE-OUT)
+        // EFFETTO SCIA LUMINOSA DEL CURSORE
+        let lastTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const currentTime = Date.now();
+            if (currentTime - lastTime > 30) {
+                lastTime = currentTime;
+                
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = `${e.clientX - 4}px`;
+                trail.style.top = `${e.clientY - 4}px`;
+                
+                document.body.appendChild(trail);
+
+                setTimeout(() => {
+                    trail.remove();
+                }, 600);
+            }
+        });
+
+        // EFFETTO AUDIO RILASSANTE
         let audioCtx = null;
         function playRelaxingSound() {
             try {
@@ -744,22 +893,19 @@
 
                 const now = audioCtx.currentTime;
 
-                // Oscillatore per un suono morbido e armonico (onda sinusoidale)
                 const osc = audioCtx.createOscillator();
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(329.63, now); // Nota E4 (rilassante)
-                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.4); // Salita morbida a E5
+                osc.frequency.setValueAtTime(329.63, now); 
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.4); 
 
-                // Secondo oscillatore per dare pienezza (accordo celestiale)
                 const osc2 = audioCtx.createOscillator();
                 osc2.type = 'triangle';
-                osc2.frequency.setValueAtTime(164.81, now); // Nota E3
+                osc2.frequency.setValueAtTime(164.81, now); 
 
-                // Controllo del volume con dissolvenza in apertura e dissolvenza lunga in chiusura (fade-out)
                 const gainNode = audioCtx.createGain();
                 gainNode.gain.setValueAtTime(0.001, now);
-                gainNode.gain.linearRampToValueAtTime(0.15, now + 0.1); // Entrata dolce
-                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.9); // Dissolvenza prolungata di quasi 1 secondo
+                gainNode.gain.linearRampToValueAtTime(0.15, now + 0.1); 
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.9); 
 
                 osc.connect(gainNode);
                 osc2.connect(gainNode);
@@ -770,12 +916,9 @@
 
                 osc.stop(now + 0.9);
                 osc2.stop(now + 0.9);
-            } catch (e) {
-                // Gestione silenziosa se il browser blocca l'audio iniziale
-            }
+            } catch (e) {}
         }
 
-        // Ascolta qualsiasi click sullo schermo per riprodurre il suono rilassante
         document.addEventListener('click', () => {
             playRelaxingSound();
         });
@@ -804,6 +947,8 @@
                         const discordInput = document.getElementById('custDiscord');
                         discordInput.value = `${data.global_name} (@${data.username}) - ID: ${data.id}`;
                         discordInput.style.borderColor = "#00d2ff";
+
+                        document.getElementById('user-discord-badge').innerText = `@${data.username}`;
                     } else {
                         alert("Errore durante l'autenticazione con Discord.");
                     }
@@ -888,6 +1033,48 @@
         function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
         function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
 
+        // Gestione Storico Privato
+        function openHistoryModal() {
+            if (!discordUserData) {
+                alert("Devi effettuare l'accesso con Discord per visualizzare la categoria privata dello storico!");
+                return;
+            }
+            renderUserHistory();
+            document.getElementById('historyModal').classList.add('show');
+        }
+        function closeHistoryModal() { document.getElementById('historyModal').classList.remove('show'); }
+
+        function renderUserHistory() {
+            let container = document.getElementById('historyListContainer');
+            container.innerHTML = "";
+
+            let allOrders = JSON.parse(localStorage.getItem('underground_orders') || '{}');
+            let userOrders = allOrders[discordUserData.id] || [];
+
+            if (userOrders.length === 0) {
+                container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Nessun ordine trovato nel tuo storico privato.</p>`;
+                return;
+            }
+
+            userOrders.forEach((order, idx) => {
+                let itemsStr = order.items.map(i => `${i.name} (€ ${i.price.toFixed(2)})`).join(", ");
+                let box = document.createElement('div');
+                box.className = 'history-box';
+                box.innerHTML = `
+                    <div class="history-header">
+                        <span>Ordine #${idx + 1} (${order.date})</span>
+                        <span style="color: #00d2ff;">Completato</span>
+                    </div>
+                    <div class="history-items">Prodotti: ${itemsStr}</div>
+                    <div class="history-footer">
+                        <span>Cliente: ${order.name}</span>
+                        <strong style="color: #fff;">Totale: € ${order.total}</strong>
+                    </div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
         function openCheckoutModal() {
             if (cartItems.length === 0) { alert("Il carrello è vuoto!"); return; }
             if (!discordUserData) { alert("Devi effettuare l'accesso con Discord prima di procedere!"); return; }
@@ -907,6 +1094,20 @@
 
             let productsList = cartItems.map(item => `• ${item.name} (€ ${item.price.toFixed(2)})`).join("\n");
             let total = cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+            let currentDate = new Date().toLocaleDateString();
+
+            // Salva nel LocalStorage dello storico privato dell'utente
+            let allOrders = JSON.parse(localStorage.getItem('underground_orders') || '{}');
+            if (!allOrders[discordUserData.id]) {
+                allOrders[discordUserData.id] = [];
+            }
+            allOrders[discordUserData.id].push({
+                date: currentDate,
+                items: [...cartItems],
+                total: total,
+                name: name
+            });
+            localStorage.setItem('underground_orders', JSON.stringify(allOrders));
 
             const discordMessage = {
                 content: "🛒 **NUOVO ORDINE RICEVUTO!**",
@@ -933,7 +1134,7 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert("Ordine inviato con successo! Ti contatteremo presto su Discord.");
+                    alert("Ordine inviato con successo! Lo troverai ora nella tua categoria privata dello storico acquisti.");
                     cartItems = [];
                     updateCartUI();
                     document.getElementById('orderForm').reset();
@@ -964,9 +1165,9 @@
         }
 
         const translations = {
-            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine" },
-            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order" },
-            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido" }
+            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine", historyText: "Storico" },
+            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order", historyText: "History" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido", historyText: "Historial" }
         };
 
         function changeLanguage(lang, event) {
@@ -986,6 +1187,7 @@
             document.getElementById('proceed-btn').innerText = translations[lang].proceed;
             document.getElementById('checkout-title').innerText = translations[lang].checkoutTitle;
             document.getElementById('submit-order-btn').innerText = translations[lang].submitOrder;
+            document.getElementById('history-label').innerText = translations[lang].historyText;
             
             let emptyText = document.getElementById('empty-cart-text');
             if(emptyText) emptyText.innerText = translations[lang].emptyCart;
