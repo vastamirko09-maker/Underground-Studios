@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Effetto Scenico: Scia del Cursore fluida e collegata */
+        /* Stile delle particelle della scia del cursore */
         .cursor-trail {
             position: fixed;
             width: 8px;
@@ -34,15 +34,21 @@
             pointer-events: none;
             z-index: 9999;
             box-shadow: 0 0 10px #00d2ff, 0 0 20px #008cff;
-            transition: transform 0.1s ease-out;
-            animation: fadeTrail 0.5s linear forwards;
+            animation: fadeTrail 0.6s forwards;
         }
 
         @keyframes fadeTrail {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(0.1); opacity: 0; }
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: scale(0.2);
+                opacity: 0;
+            }
         }
 
+        /* Header Adattivo (PC & Mobile) */
         header {
             display: flex;
             justify-content: space-between;
@@ -87,6 +93,7 @@
             letter-spacing: 2px;
         }
 
+        /* Navigazione centrale */
         nav ul {
             display: flex;
             list-style: none;
@@ -102,10 +109,20 @@
             cursor: pointer;
         }
 
-        nav ul li a:hover { color: #008cff; }
-        nav ul li a.active { color: #008cff !important; text-shadow: 0 0 10px rgba(0, 140, 255, 0.5); }
-        nav ul li a.inactive { color: #ffffff !important; }
+        nav ul li a:hover {
+            color: #008cff;
+        }
 
+        nav ul li a.active {
+            color: #008cff !important;
+            text-shadow: 0 0 10px rgba(0, 140, 255, 0.5);
+        }
+
+        nav ul li a.inactive {
+            color: #ffffff !important;
+        }
+
+        /* Parte destra: Carrello + Storico + Login Nav + Lingua */
         .nav-right {
             display: flex;
             align-items: center;
@@ -128,10 +145,17 @@
             text-decoration: none;
         }
 
+        /* Pulsante Login Discord nella Nav */
         .nav-login-btn {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             border-color: rgba(88, 101, 242, 0.5) !important;
             box-shadow: 0 2px 10px rgba(88, 101, 242, 0.3);
+        }
+
+        .nav-login-btn:hover {
+            background: linear-gradient(135deg, #6c78ff, #5865F2) !important;
+            border-color: #5865F2 !important;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.6);
         }
 
         .cart-btn:hover, .history-btn:hover {
@@ -139,7 +163,10 @@
             background-color: rgba(0, 140, 255, 0.1);
         }
 
-        .dropdown { position: relative; display: inline-block; }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
 
         .lang-btn {
             background: #111622;
@@ -153,6 +180,11 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            border-color: #008cff;
         }
 
         .dropdown-content {
@@ -176,11 +208,19 @@
             display: block;
             font-size: 12px;
             font-weight: 600;
+            transition: background 0.2s;
         }
 
-        .dropdown-content a:hover { background-color: #008cff; color: #fff; }
-        .dropdown.show .dropdown-content { display: block; }
+        .dropdown-content a:hover {
+            background-color: #008cff;
+            color: #fff;
+        }
 
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        /* Modali (Carrello, Checkout, Storico Privato) */
         .cart-modal, .checkout-modal, .history-modal {
             display: none;
             position: fixed;
@@ -196,7 +236,9 @@
             padding: 15px;
         }
 
-        .cart-modal.show, .checkout-modal.show, .history-modal.show { display: flex; }
+        .cart-modal.show, .checkout-modal.show, .history-modal.show {
+            display: flex;
+        }
 
         .cart-content {
             background-color: #111622;
@@ -210,7 +252,12 @@
             overflow-y: auto;
         }
 
-        .cart-content h3 { color: #008cff; margin-bottom: 15px; font-size: 20px; text-transform: uppercase; }
+        .cart-content h3 {
+            color: #008cff;
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
 
         .cart-list {
             list-style: none;
@@ -231,10 +278,26 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .remove-item { color: #ff4d4d; cursor: pointer; background: none; border: none; font-size: 14px; }
+        .remove-item {
+            color: #ff4d4d;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 14px;
+        }
 
-        .cart-total { font-size: 16px; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        .cart-actions { display: flex; gap: 10px; }
+        .cart-total {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 10px;
+        }
 
         .btn-checkout {
             background-color: #008cff;
@@ -245,8 +308,11 @@
             font-weight: 700;
             flex: 1;
             cursor: pointer;
+            transition: background 0.3s;
             font-size: 13px;
         }
+
+        .btn-checkout:hover { background-color: #0070d1; }
 
         .btn-close-cart {
             background-color: #222b3f;
@@ -256,9 +322,13 @@
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
+            transition: background 0.3s;
             font-size: 13px;
         }
 
+        .btn-close-cart:hover { background-color: #2e3b55; }
+
+        /* Stile Storico Ordini Privato */
         .history-box {
             background: #080d17;
             border: 1px dashed rgba(0, 210, 255, 0.3);
@@ -276,8 +346,35 @@
             margin-bottom: 6px;
         }
 
-        .checkout-form { display: flex; flex-direction: column; gap: 10px; }
-        .checkout-form label { font-size: 11px; font-weight: 600; color: #a0a8b8; margin-bottom: -6px; }
+        .history-items {
+            font-size: 13px;
+            color: #c0d0e8;
+            margin-bottom: 6px;
+        }
+
+        .history-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 6px;
+            color: #88a0c0;
+        }
+
+        /* Stili Form Checkout */
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkout-form label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #a0a8b8;
+            margin-bottom: -6px;
+        }
+
         .checkout-form input {
             background: #080b12;
             border: 1px solid rgba(255,255,255,0.1);
@@ -288,6 +385,12 @@
             width: 100%;
         }
 
+        .checkout-form input:focus {
+            border-color: #008cff;
+            outline: none;
+        }
+
+        /* Sezione Home (Hero) */
         .hero {
             height: 100vh;
             display: flex;
@@ -301,6 +404,70 @@
             overflow: hidden;
         }
 
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,140,255,0.25) 0%, transparent 75%);
+            opacity: 0;
+            z-index: 1;
+            animation: stormFlash 3s infinite ease-in-out;
+        }
+
+        @keyframes stormFlash {
+            0%, 100% { opacity: 0; }
+            10% { opacity: 0.9; }
+            13% { opacity: 0.3; }
+            15% { opacity: 1; }
+            20% { opacity: 0.1; }
+            25% { opacity: 0.6; }
+            30% { opacity: 0; }
+            65% { opacity: 0; }
+            70% { opacity: 0.8; }
+            73% { opacity: 0.2; }
+            75% { opacity: 1; }
+            80% { opacity: 0; }
+        }
+
+        .lightning-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bolt {
+            position: absolute;
+            background: linear-gradient(to bottom, transparent, #00d2ff, #ffffff);
+            opacity: 0;
+            filter: drop-shadow(0 0 15px #008cff) drop-shadow(0 0 30px #00d2ff);
+        }
+
+        .bolt-1 { left: 8%; top: -25%; width: 3px; height: 200px; animation: strike 2.5s infinite; animation-delay: 0.2s; transform: rotate(15deg); }
+        .bolt-2 { left: 25%; top: -25%; width: 2px; height: 260px; animation: strike 3.1s infinite; animation-delay: 1.0s; transform: rotate(-10deg); }
+        .bolt-3 { left: 42%; top: -25%; width: 4px; height: 230px; animation: strike 2.1s infinite; animation-delay: 0.4s; transform: rotate(8deg); }
+        .bolt-4 { left: 60%; top: -25%; width: 3px; height: 290px; animation: strike 3.8s infinite; animation-delay: 1.8s; transform: rotate(-12deg); }
+        .bolt-5 { left: 78%; top: -25%; width: 2px; height: 240px; animation: strike 2.4s infinite; animation-delay: 0.7s; transform: rotate(20deg); }
+        .bolt-6 { left: 90%; top: -25%; width: 4px; height: 270px; animation: strike 2.9s infinite; animation-delay: 1.4s; transform: rotate(-18deg); }
+
+        @keyframes strike {
+            0%, 75%, 100% { opacity: 0; transform: translateY(-80px) scaleY(0.1); }
+            78% { opacity: 1; transform: translateY(280px) scaleY(1.2); }
+            81% { opacity: 0.3; transform: translateY(450px) scaleY(0.7); }
+            84% { opacity: 1; transform: translateY(600px) scaleY(1.6); }
+            88% { opacity: 0; transform: translateY(800px) scaleY(2); }
+        }
+
+        .hero-logo-container, .hero h1, .hero h3 {
+            z-index: 2;
+        }
+
         .hero-logo-container {
             position: relative;
             margin-bottom: 25px;
@@ -309,7 +476,6 @@
             align-items: center;
             width: 160px;
             height: 160px;
-            z-index: 2;
         }
 
         .hero-logo-container::before {
@@ -322,9 +488,28 @@
             border-top-color: #00d2ff;
             border-right-color: #008cff;
             animation: spinRing 3s linear infinite;
+            box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
         }
 
-        @keyframes spinRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hero-logo-container::after {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px dashed rgba(0, 210, 255, 0.6);
+            animation: spinRingReverse 6s linear infinite;
+        }
+
+        @keyframes spinRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spinRingReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
 
         .hero-logo {
             width: 95px;
@@ -343,7 +528,9 @@
             text-transform: uppercase;
             text-shadow: 0 0 35px rgba(0, 140, 255, 0.5);
             margin: 10px 0;
-            z-index: 2;
+            letter-spacing: -1px;
+            text-align: center;
+            line-height: 1.1;
         }
 
         .hero h3 {
@@ -351,19 +538,21 @@
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 10px;
-            z-index: 2;
+            text-align: center;
             text-transform: uppercase;
         }
 
+        /* Linea Separatrice Personalizzata tra Home e Shop */
         .section-divider {
             width: 100%;
             height: 4px;
             background: linear-gradient(90deg, transparent, #008cff, #00d2ff, #008cff, transparent);
-            box-shadow: 0 0 15px rgba(0, 140, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 140, 255, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
             position: relative;
             z-index: 10;
         }
 
+        /* Sezione Shop */
         .shop-section {
             min-height: 100vh;
             padding: 100px 15px 60px 15px;
@@ -373,40 +562,158 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .shop-section h2 { font-size: clamp(30px, 4vw, 42px); font-weight: 900; color: #008cff; text-transform: uppercase; margin-bottom: 10px; }
-        .shop-section p { font-size: 14px; color: #c0d0e8; margin-bottom: 35px; }
+        .shop-section h2 {
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 900;
+            color: #008cff;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 0 0 25px rgba(0, 140, 255, 0.6);
+        }
 
-        .shop-grid { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; max-width: 1000px; width: 100%; }
+        .shop-section p {
+            font-size: 14px;
+            color: #c0d0e8;
+            margin-bottom: 35px;
+        }
+
+        .shop-grid {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+            width: 100%;
+        }
 
         .shop-card {
+            position: relative;
             background: rgba(10, 15, 28, 0.9);
+            backdrop-filter: blur(12px);
             padding: 30px 20px;
             border-radius: 18px;
             width: 100%;
             max-width: 290px;
             text-align: center;
+            overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(0, 140, 255, 0.2);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+            z-index: 1;
         }
 
-        .shop-card h4 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
-        .shop-card span { display: block; color: #00d2ff; font-size: 20px; font-weight: 900; margin-bottom: 20px; }
+        .shop-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg at 50% 50%, #00d2ff 0deg, transparent 60deg, transparent 300deg, #008cff 360deg);
+            animation: rotateBorder 4s linear infinite;
+            z-index: -2;
+        }
+
+        .shop-card::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: linear-gradient(145deg, #0d1424 0%, #060a12 100%);
+            border-radius: 16px;
+            z-index: -1;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .shop-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0, 140, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .shop-card h4 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .shop-card span {
+            display: block;
+            color: #00d2ff;
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(0, 210, 255, 0.7);
+            animation: pricePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pricePulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+            50% { transform: scale(1.05); text-shadow: 0 0 20px rgba(0, 210, 255, 0.9); }
+        }
 
         .shop-card button {
             background: linear-gradient(135deg, #008cff, #004ba8);
             color: #fff;
             padding: 12px 18px;
             border-radius: 10px;
+            text-decoration: none;
             font-weight: 700;
             border: none;
             cursor: pointer;
             width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 140, 255, 0.4);
             font-size: 13px;
+            transition: all 0.3s ease;
         }
 
-        .btn-discord-login { background: linear-gradient(135deg, #5865F2, #4752C4) !important; }
+        .shop-card button:hover {
+            background: linear-gradient(135deg, #00a2ff, #0060d1);
+            box-shadow: 0 6px 20px rgba(0, 162, 255, 0.7);
+        }
+
+        .btn-discord-login {
+            background: linear-gradient(135deg, #5865F2, #4752C4) !important;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4) !important;
+        }
+
+        .btn-discord-login:hover {
+            background: linear-gradient(135deg, #6c78ff, #5865F2) !important;
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.7) !important;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 10px 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+            .logo-area { display: none; }
+            nav {
+                width: 100%;
+                order: 2;
+                display: flex;
+                justify-content: center;
+                border-top: 1px solid rgba(255,255,255,0.05);
+                padding-top: 6px;
+            }
+            nav ul { gap: 20px; }
+            nav ul li a { font-size: 12px; }
+            .nav-right {
+                order: 1;
+                width: 100%;
+                justify-content: space-between;
+            }
+            .shop-section { padding-top: 130px; }
+        }
     </style>
 </head>
 <body>
@@ -414,7 +721,10 @@
     <header>
         <div class="logo-area">
             <img src="logo.png" alt="Logo">
-            <div class="logo-text">UNDERGROUND<span>STUDIOS</span></div>
+            <div class="logo-text">
+                UNDERGROUND
+                <span>STUDIOS</span>
+            </div>
         </div>
 
         <nav>
@@ -426,10 +736,11 @@
         </nav>
 
         <div class="nav-right">
+            <!-- Pulsante Login / Profilo Discord nella Nav -->
             <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
                 <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
             </button>
-            <button class="history-btn" onclick="openHistoryModal()">
+            <button class="history-btn" onclick="openHistoryModal()" title="I tuoi ordini privati">
                 <i class="fa-solid fa-clock-rotate-left"></i> <span id="history-label">Storico</span>
             </button>
             <button class="cart-btn" onclick="openCartModal()">
@@ -443,6 +754,7 @@
                 <div class="dropdown-content">
                     <a href="#" onclick="changeLanguage('it', event)">Italiano</a>
                     <a href="#" onclick="changeLanguage('en', event)">English</a>
+                    <a href="#" onclick="changeLanguage('es', event)">Español</a>
                 </div>
             </div>
         </div>
@@ -451,106 +763,187 @@
     <!-- Modale Carrello -->
     <div class="cart-modal" id="cartModal">
         <div class="content-wrapper cart-content">
-            <h3>Il tuo carrello</h3>
+            <h3 id="cart-modal-title">Il tuo carrello</h3>
             <ul class="cart-list" id="cartList">
-                <li style="text-align: center; color: #888;">Il carrello è vuoto</li>
+                <li style="text-align: center; color: #888;" id="empty-cart-text">Il carrello è vuoto</li>
             </ul>
             <div class="cart-total">
-                <span>Totale:</span>
+                <span id="total-text">Totale:</span>
                 <span id="cartTotalPrice" style="color: #008cff;">€ 0.00</span>
             </div>
             <div class="cart-actions">
-                <button class="btn-checkout" onclick="openCheckoutModal()">Procedi al Checkout</button>
+                <button class="btn-checkout" onclick="openCheckoutModal()" id="proceed-btn">Procedi al Checkout</button>
                 <button class="btn-close-cart" onclick="closeCartModal()">Chiudi</button>
             </div>
         </div>
     </div>
 
-    <!-- Modale Storico Ordini -->
+    <!-- Modale Categoria Privata: Storico Ordini -->
     <div class="history-modal" id="historyModal">
         <div class="content-wrapper cart-content" style="max-width: 520px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0;"><i class="fa-solid fa-shield-halved"></i> I tuoi Ordini Cloud</h3>
+                <h3 id="history-modal-title" style="margin: 0;"><i class="fa-solid fa-shield-halved"></i> Categoria Privata: Storico</h3>
                 <span id="user-discord-badge" style="font-size: 11px; color: #00d2ff; background: rgba(0,210,255,0.1); padding: 4px 8px; border-radius: 6px;">Non loggato</span>
             </div>
             <div id="historyListContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <p style="text-align: center; color: #888; font-size: 13px;">Accedi con Discord per visualizzare il tuo storico acquisti.</p>
+                <p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Accedi con Discord per visualizzare il tuo storico acquisti cloud.</p>
             </div>
-            <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi</button>
+            <div class="cart-actions">
+                <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi Categoria</button>
+            </div>
         </div>
     </div>
 
-    <!-- Modale Checkout -->
+    <!-- Modale Checkout Dati Cliente -->
     <div class="checkout-modal" id="checkoutModal">
         <div class="content-wrapper cart-content">
-            <h3>Dati Ordine</h3>
+            <h3 id="checkout-title">Dati Ordine</h3>
             <form class="checkout-form" id="orderForm" onsubmit="submitOrder(event)">
                 <label>Nome e Cognome</label>
                 <input type="text" id="custName" required placeholder="Mario Rossi">
+
                 <label>Email</label>
                 <input type="email" id="custEmail" required placeholder="mario@example.com">
+
                 <label>Numero di Telefono</label>
                 <input type="tel" id="custPhone" required placeholder="+39 333 1234567">
+
                 <label>Data di Nascita</label>
                 <input type="date" id="custDob" required>
-                <label>Nome Discord Verificato</label>
-                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;">
+
+                <label>ID Discord Verificato</label>
+                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login con Discord">
 
                 <div class="cart-actions" style="margin-top: 12px;">
-                    <button type="submit" class="btn-checkout">Invia Ordine</button>
+                    <button type="submit" class="btn-checkout" id="submit-order-btn">Invia Ordine</button>
                     <button type="button" class="btn-close-cart" onclick="closeCheckoutModal()">Indietro</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- Sezione Home -->
     <section id="home" class="hero">
-        <div class="hero-logo-container"><img src="logo.png" alt="Logo" class="hero-logo"></div>
+        <div class="lightning-container">
+            <div class="bolt bolt-1"></div>
+            <div class="bolt bolt-2"></div>
+            <div class="bolt bolt-3"></div>
+            <div class="bolt bolt-4"></div>
+            <div class="bolt bolt-5"></div>
+            <div class="bolt bolt-6"></div>
+        </div>
+        <div class="hero-logo-container">
+            <img src="logo.png" alt="Logo Centrale" class="hero-logo">
+        </div>
         <h1>Underground Studios</h1>
-        <h3>Script di qualità per Discord e siti web</h3>
+        <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
     </section>
 
+    <!-- LINEA SEPARATRICE TRA HOME E SHOP -->
     <div class="section-divider"></div>
 
+    <!-- Sezione Shop -->
     <section id="shop" class="shop-section">
-        <h2>Shop</h2>
-        <p>Esplora i nostri script e migliora il tuo server</p>
+        <h2 id="shop-title">Shop</h2>
+        <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
         <div class="shop-grid">
             <div class="shop-card">
-                <h4>Script 1</h4><span>€ 14.99</span>
-                <div id="shop-btn-1"><button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi</button></div>
+                <h4 id="prod-1-title">Script 1</h4>
+                <span>€ 14.99</span>
+                <div id="shop-btn-1">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                </div>
             </div>
             <div class="shop-card">
-                <h4>Script 2</h4><span>€ 19.99</span>
-                <div id="shop-btn-2"><button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi</button></div>
+                <h4 id="prod-2-title">Script 2</h4>
+                <span>€ 19.99</span>
+                <div id="shop-btn-2">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                </div>
             </div>
             <div class="shop-card">
-                <h4>Script 3</h4><span>€ 24.99</span>
-                <div id="shop-btn-3"><button onclick="loginWithDiscord()" class="btn-discord-login"><i class="fa-brands fa-discord"></i> Accedi</button></div>
+                <h4 id="prod-3-title">Script 3</h4>
+                <span>€ 24.99</span>
+                <div id="shop-btn-3">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                </div>
             </div>
         </div>
     </section>
 
     <script>
+        // EFFETTO SCIA LUMINOSA DEL CURSORE PERSISTENTE (SESSIONSTORAGE)
+        let lastTime = 0;
+        document.addEventListener('mousemove', (e) => {
+            const currentTime = Date.now();
+            if (currentTime - lastTime > 30) {
+                lastTime = currentTime;
+                
+                const trail = document.createElement('div');
+                trail.className = 'cursor-trail';
+                trail.style.left = `${e.clientX - 4}px`;
+                trail.style.top = `${e.clientY - 4}px`;
+                
+                document.body.appendChild(trail);
+
+                // Salviamo le coordinate recenti nella sessionStorage per mantenere continuità visiva nei cambi pagina interni
+                sessionStorage.setItem('last_mouse_x', e.clientX);
+                sessionStorage.setItem('last_mouse_y', e.clientY);
+
+                setTimeout(() => {
+                    trail.remove();
+                }, 600);
+            }
+        });
+
+        // EFFETTO AUDIO RILASSANTE
+        let audioCtx = null;
+        function playRelaxingSound() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+
+                const now = audioCtx.currentTime;
+
+                const osc = audioCtx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(329.63, now); 
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.4); 
+
+                const osc2 = audioCtx.createOscillator();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(164.81, now); 
+
+                const gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0.001, now);
+                gainNode.gain.linearRampToValueAtTime(0.15, now + 0.1); 
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.9); 
+
+                osc.connect(gainNode);
+                osc2.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc2.start(now);
+
+                osc.stop(now + 0.9);
+                osc2.stop(now + 0.9);
+            } catch (e) {}
+        }
+
+        document.addEventListener('click', () => {
+            playRelaxingSound();
+        });
+
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
 
         let cartItems = [];
         let discordUserData = null;
-
-        // Effetto scia del cursore ottimizzato (ancorato fluidamente al movimento)
-        let lastMove = 0;
-        window.addEventListener('mousemove', (e) => {
-            const now = Date.now();
-            if (now - lastMove > 30) { // Regola la frequenza per evitare blocchi o scatti
-                let trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.left = (e.clientX - 4) + 'px';
-                trail.style.top = (e.clientY - 4) + 'px';
-                document.body.appendChild(trail);
-                setTimeout(() => { trail.remove(); }, 500);
-                lastMove = now;
-            }
-        });
 
         window.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -571,25 +964,43 @@
                     } else {
                         alert("Errore durante l'autenticazione con Discord.");
                     }
-                } catch (e) { console.error("Errore", e); }
+                } catch (e) {
+                    console.error("Errore di connessione", e);
+                    alert("Si è verificato un errore durante la verifica Discord.");
+                }
             } else {
                 let cached = localStorage.getItem('discord_user_cache');
                 if (cached) {
                     try {
                         discordUserData = JSON.parse(cached);
                         applyUserDataToUI();
-                    } catch(e) { localStorage.removeItem('discord_user_cache'); }
+                        
+                        // Sincronizzazione in background dei dati aggiornati (es. ordini)
+                        fetch(`${CLOUDWORKER_URL}/refresh-user?id=${discordUserData.id}`)
+                            .then(res => res.json())
+                            .then(freshData => {
+                                if (freshData && freshData.id) {
+                                    discordUserData = freshData;
+                                    localStorage.setItem('discord_user_cache', JSON.stringify(freshData));
+                                    applyUserDataToUI();
+                                }
+                            }).catch(err => {});
+                    } catch(e) {
+                        localStorage.removeItem('discord_user_cache');
+                    }
                 }
             }
         });
 
         function applyUserDataToUI() {
             if (!discordUserData) return;
+            
             updateShopButtons();
             
             const discordInput = document.getElementById('custDiscord');
             if(discordInput) {
                 discordInput.value = `${discordUserData.global_name || discordUserData.username} (@${discordUserData.username}) - ID: ${discordUserData.id}`;
+                discordInput.style.borderColor = "#00d2ff";
             }
 
             let badge = document.getElementById('user-discord-badge');
@@ -603,44 +1014,71 @@
 
         function loginWithDiscord() {
             if (discordUserData) {
-                if (confirm(`Sei loggato come @${discordUserData.username}. Vuoi uscire?`)) {
+                let action = confirm(`Sei già loggato come @${discordUserData.username}.\nVuoi effettuare il logout?`);
+                if (action) {
                     localStorage.removeItem('discord_user_cache');
                     window.location.reload();
                 }
                 return;
             }
+
             const clientId = "1534237159823769610";
             const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
-            window.location.href = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
+            const discordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
+            
+            window.location.href = discordOAuthUrl;
         }
 
         function updateShopButtons() {
+            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+            let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
+            let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
+
             for (let i = 1; i <= 3; i++) {
                 let container = document.getElementById(`shop-btn-${i}`);
                 if(!container) continue;
                 let price = i === 1 ? 14.99 : (i === 2 ? 19.99 : 24.99);
-                container.innerHTML = `<button onclick="addToCart('Script ${i}', ${price})">Acquista</button>`;
+                let name = `Script ${i}`;
+
+                if (discordUserData) {
+                    container.innerHTML = `<button onclick="addToCart('${name}', ${price})" class="buy-text">${buyText}</button>`;
+                } else {
+                    container.innerHTML = `<button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
+                }
             }
         }
 
         function addToCart(name, price) {
-            if (!discordUserData) { alert("Accedi con Discord!"); return; }
-            cartItems.push({ name, price });
+            if (!discordUserData) {
+                alert("Devi prima accedere con Discord per poter acquistare!");
+                return;
+            }
+
+            let confirmAdd = confirm(`Sei sicuro di voler aggiungere "${name}" al carrello? (€ ${price.toFixed(2)})`);
+            if (!confirmAdd) return;
+
+            cartItems.push({ name: name, price: price });
             updateCartUI();
-            alert(`Aggiunto "${name}" al carrello.`);
         }
 
-        function removeFromCart(index) { cartItems.splice(index, 1); updateCartUI(); }
+        function removeFromCart(index) {
+            cartItems.splice(index, 1);
+            updateCartUI();
+        }
 
         function updateCartUI() {
             document.getElementById('cartCount').innerText = cartItems.length;
             let list = document.getElementById('cartList');
             list.innerHTML = "";
+
             if (cartItems.length === 0) {
-                list.innerHTML = `<li style="text-align: center; color: #888;">Il carrello è vuoto</li>`;
+                let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+                let emptyMsg = translations[currentLang] ? translations[currentLang].emptyCart : "Il carrello è vuoto";
+                list.innerHTML = `<li style="text-align: center; color: #888;" id="empty-cart-text">${emptyMsg}</li>`;
                 document.getElementById('cartTotalPrice').innerText = "€ 0.00";
                 return;
             }
+
             let total = 0;
             cartItems.forEach((item, index) => {
                 total += item.price;
@@ -649,27 +1087,53 @@
                 li.innerHTML = `<span>${item.name}</span> <span>€ ${item.price.toFixed(2)}</span> <button class="remove-item" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>`;
                 list.appendChild(li);
             });
+
             document.getElementById('cartTotalPrice').innerText = "€ " + total.toFixed(2);
         }
 
         function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
         function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
-        
+
+        // Gestione Storico Privato Cloud
         function openHistoryModal() {
-            if (!discordUserData) { alert("Accedi prima!"); return; }
-            let container = document.getElementById('historyListContainer');
-            let orders = discordUserData.orders || [];
-            if (orders.length === 0) {
-                container.innerHTML = `<p style="text-align: center; color: #888;">Nessun ordine.</p>`;
-            } else {
-                container.innerHTML = orders.map((o, i) => `<div class="history-box"><div class="history-header"><span>#${i+1} - ${o.item}</span><span>€ ${o.total}</span></div><div>Data: ${o.date}</div></div>`).join('');
+            if (!discordUserData) {
+                alert("Devi effettuare l'accesso con Discord per visualizzare la categoria privata dello storico!");
+                return;
             }
+            renderUserHistory();
             document.getElementById('historyModal').classList.add('show');
         }
         function closeHistoryModal() { document.getElementById('historyModal').classList.remove('show'); }
 
+        function renderUserHistory() {
+            let container = document.getElementById('historyListContainer');
+            container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;">Caricamento ordini dal cloud...</p>`;
+
+            let userOrders = discordUserData.orders || [];
+
+            if (userOrders.length === 0) {
+                container.innerHTML = `<p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Nessun ordine trovato nel tuo storico cloud.</p>`;
+                return;
+            }
+
+            container.innerHTML = "";
+            userOrders.forEach((order, idx) => {
+                let box = document.createElement('div');
+                box.className = 'history-box';
+                box.innerHTML = `
+                    <div class="history-header">
+                        <span>Ordine #${idx + 1} - ${order.item}</span>
+                        <span style="color: #00d2ff;">€ ${order.total}</span>
+                    </div>
+                    <div class="history-items"><i class="fa-regular fa-calendar"></i> Data: ${order.date}</div>
+                `;
+                container.appendChild(box);
+            });
+        }
+
         function openCheckoutModal() {
-            if (cartItems.length === 0) { alert("Carrello vuoto!"); return; }
+            if (cartItems.length === 0) { alert("Il carrello è vuoto!"); return; }
+            if (!discordUserData) { alert("Devi effettuare l'accesso con Discord prima di procedere!"); return; }
             closeCartModal();
             document.getElementById('checkoutModal').classList.add('show');
         }
@@ -677,26 +1141,80 @@
 
         async function submitOrder(event) {
             event.preventDefault();
+
+            const name = document.getElementById('custName').value;
+            const email = document.getElementById('custEmail').value;
+            const phone = document.getElementById('custPhone').value;
+            const dob = document.getElementById('custDob').value;
+            const discordStatus = document.getElementById('custDiscord').value;
+
             let total = cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
             let currentDate = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
             for (let item of cartItems) {
-                let newOrder = { item: item.name, total: item.price.toFixed(2), date: currentDate };
-                await fetch(`${CLOUDWORKER_URL}/save-order`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ discordId: discordUserData.id, orderData: newOrder })
-                }).then(res => res.json()).then(data => {
-                    if(data.success) discordUserData.orders = data.orders;
-                });
+                let newOrder = {
+                    item: item.name,
+                    total: item.price.toFixed(2),
+                    date: currentDate
+                };
+
+                try {
+                    let res = await fetch(`${CLOUDWORKER_URL}/save-order`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ discordId: discordUserData.id, orderData: newOrder })
+                    });
+                    let data = await res.json();
+                    if (data.success) {
+                        discordUserData.orders = data.orders;
+                    }
+                } catch (e) {
+                    console.error("Errore salvataggio ordine cloud", e);
+                }
             }
 
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
-            alert("Ordine completato!");
-            cartItems = [];
-            updateCartUI();
-            document.getElementById('orderForm').reset();
-            closeCheckoutModal();
+
+            let productsList = cartItems.map(item => `• ${item.name} (€ ${item.price.toFixed(2)})`).join("\n");
+
+            const discordMessage = {
+                content: "🛒 **NUOVO ORDINE RICEVUTO!**",
+                embeds: [{
+                    title: "Dettagli Cliente",
+                    color: 3092790,
+                    fields: [
+                        { name: "👤 Nome e Cognome", value: name, inline: true },
+                        { name: "📧 Email", value: email, inline: true },
+                        { name: "📞 Telefono", value: phone, inline: true },
+                        { name: "🎂 Data di Nascita", value: dob, inline: true },
+                        { name: "💬 Profilo Discord Verificato", value: discordStatus, inline: false },
+                        { name: "🛍️ Prodotti Ordinati", value: productsList, inline: false },
+                        { name: "💶 Totale", value: `€ ${total}`, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(discordMessage)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Ordine inviato con successo e salvato nel Cloud!");
+                    cartItems = [];
+                    updateCartUI();
+                    document.getElementById('orderForm').reset();
+                    closeCheckoutModal();
+                } else {
+                    alert("Errore nell'invio dell'ordine Webhook.");
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                alert("Si è verificato un errore di connessione.");
+            });
         }
 
         function toggleDropdown(event) {
@@ -706,8 +1224,48 @@
 
         window.onclick = function(event) {
             if (!event.target.closest('.dropdown')) {
-                document.getElementById('langDropdown').classList.remove('show');
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) { openDropdown.classList.remove('show'); }
+                }
             }
+        }
+
+        const translations = {
+            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine", historyText: "Storico", loginNavText: "Accedi" },
+            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order", historyText: "History", loginNavText: "Login" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido", historyText: "Historial", loginNavText: "Acceder" }
+        };
+
+        function changeLanguage(lang, event) {
+            event.preventDefault();
+            document.getElementById('currentLang').innerText = lang.toUpperCase();
+            document.getElementById('nav-home').innerText = translations[lang].navHome;
+            document.getElementById('nav-shop').innerText = translations[lang].navShop;
+            document.getElementById('nav-discord').innerText = translations[lang].navDiscord;
+            document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
+            document.getElementById('shop-title').innerText = translations[lang].shopTitle;
+            document.getElementById('shop-desc').innerText = translations[lang].shopDesc;
+            document.getElementById('prod-1-title').innerText = translations[lang].prod1;
+            document.getElementById('prod-2-title').innerText = translations[lang].prod2;
+            document.getElementById('prod-3-title').innerText = translations[lang].prod3;
+            document.getElementById('cart-modal-title').innerText = translations[lang].cartTitle;
+            document.getElementById('total-text').innerText = translations[lang].total;
+            document.getElementById('proceed-btn').innerText = translations[lang].proceed;
+            document.getElementById('checkout-title').innerText = translations[lang].checkoutTitle;
+            document.getElementById('submit-order-btn').innerText = translations[lang].submitOrder;
+            document.getElementById('history-label').innerText = translations[lang].historyText;
+            
+            if (!discordUserData) {
+                document.getElementById('nav-login-label').innerText = translations[lang].loginNavText;
+            }
+            
+            let emptyText = document.getElementById('empty-cart-text');
+            if(emptyText) emptyText.innerText = translations[lang].emptyCart;
+
+            updateShopButtons();
+            document.getElementById('langDropdown').classList.remove('show');
         }
     </script>
 </body>
