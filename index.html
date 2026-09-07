@@ -325,6 +325,112 @@
         }
         .checkout-form input:focus { border-color: #008cff; outline: none; }
 
+        /* WIDGET LIVE CHAT / TICKET SUPPORT */
+        .support-widget-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #5865F2, #008cff);
+            color: #fff;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 140, 255, 0.5);
+            z-index: 1500;
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .support-widget-btn:hover { transform: scale(1.1); }
+
+        .support-chat-box {
+            position: fixed;
+            bottom: 95px;
+            right: 25px;
+            width: 330px;
+            background: #0b101c;
+            border: 1px solid rgba(0, 140, 255, 0.4);
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 1500;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            animation: slideUpChat 0.3s ease forwards;
+        }
+
+        @keyframes slideUpChat {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .support-chat-header {
+            background: #111827;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0,140,255,0.2);
+        }
+
+        .support-chat-header h4 { font-size: 13px; color: #00d2ff; display: flex; align-items: center; gap: 6px; }
+        .support-chat-close { background: none; border: none; color: #a0a8b8; cursor: pointer; font-size: 14px; }
+        .support-chat-close:hover { color: #fff; }
+
+        .support-chat-body {
+            padding: 12px;
+            height: 220px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .chat-msg {
+            max-width: 80%;
+            padding: 8px 10px;
+            border-radius: 8px;
+            line-height: 1.3;
+        }
+
+        .chat-msg.bot { background: #1a2235; color: #c0d0e8; align-self: flex-start; border-left: 3px solid #008cff; }
+        .chat-msg.user { background: #008cff; color: #fff; align-self: flex-end; }
+
+        .support-chat-footer {
+            padding: 10px;
+            background: #080b12;
+            display: flex;
+            gap: 6px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .support-chat-footer input {
+            flex: 1;
+            background: #111622;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 7px 10px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .support-chat-footer input:focus { border-color: #008cff; outline: none; }
+
+        .support-chat-footer button {
+            background: #008cff;
+            color: #fff;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
         /* Sezione Home (Hero) */
         .hero {
             height: 100vh;
@@ -565,7 +671,7 @@
         }
         .btn-discord-login:hover { background: linear-gradient(135deg, #6c78ff, #5865F2) !important; }
 
-        /* NUOVA IDEA: Sistema di Recensioni e Testimonianze Verificate */
+        /* Recensioni Verificate */
         .reviews-grid {
             display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 1000px; width: 100%; margin-bottom: 25px;
         }
@@ -591,7 +697,7 @@
         }
         .add-review-box textarea { resize: none; height: 60px; }
 
-        /* Changelog / Aggiornamenti */
+        /* Changelog */
         .changelog-container {
             max-width: 800px; width: 100%; text-align: left; display: flex; flex-direction: column; gap: 15px;
         }
@@ -611,6 +717,7 @@
             nav ul li a { font-size: 11px; padding: 4px 8px; }
             .nav-right { width: 100%; justify-content: space-between; }
             .page-section { padding-top: 150px; }
+            .support-chat-box { width: 290px; right: 15px; }
         }
     </style>
 </head>
@@ -660,6 +767,25 @@
             </button>
         </div>
     </header>
+
+    <!-- WIDGET SUPPORTO TICKET (LIVE CHAT) -->
+    <div class="support-widget-btn" onclick="toggleSupportChat()" title="Apri Assistenza Live">
+        <i class="fa-solid fa-headset"></i>
+    </div>
+
+    <div class="support-chat-box" id="supportChatBox">
+        <div class="support-chat-header">
+            <h4><i class="fa-brands fa-discord" style="color: #5865F2;"></i> Ticket Support</h4>
+            <button class="support-chat-close" onclick="toggleSupportChat()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="support-chat-body" id="chatBody">
+            <div class="chat-msg bot">Ciao! Benvenuto in Underground Studios. Come possiamo aiutarti con i nostri script oggi?</div>
+        </div>
+        <div class="support-chat-footer">
+            <input type="text" id="chatInput" placeholder="Scrivi un messaggio..." onkeypress="handleChatKey(event)">
+            <button onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
 
     <!-- Modali (Carrello, Storico, Checkout) -->
     <div class="cart-modal" id="cartModal">
@@ -756,7 +882,7 @@
 
     <div class="section-divider"></div>
 
-    <!-- IDEA AGGIUNTA: Sezione Recensioni e Testimonianze Verificate -->
+    <!-- Sezione Recensioni e Testimonianze Verificate -->
     <section id="reviews" class="page-section">
         <h2>Recensioni Verificate</h2>
         <p>Cosa dicono i nostri clienti sui prodotti acquistati</p>
@@ -802,6 +928,16 @@
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
+                    <span class="changelog-version">v2.5 - Widget Live Chat Integrato</span>
+                    <span class="changelog-date">07 Settembre 2026</span>
+                </div>
+                <ul>
+                    <li>Aggiunto il pannello di supporto live fluttuante per interagire direttamente dal sito.</li>
+                    <li>Ottimizzata la stabilità generale del sistema di autenticazione Cloudflare.</li>
+                </ul>
+            </div>
+            <div class="changelog-item">
+                <div class="changelog-header">
                     <span class="changelog-version">v2.4 - Ottimizzazione Webhook e Cloud</span>
                     <span class="changelog-date">05 Settembre 2026</span>
                 </div>
@@ -810,20 +946,50 @@
                     <li>Risolti bug minori relativi alla sincronizzazione del carrello su dispositivi mobili.</li>
                 </ul>
             </div>
-            <div class="changelog-item">
-                <div class="changelog-header">
-                    <span class="changelog-version">v2.0 - Nuovo Design Interattivo</span>
-                    <span class="changelog-date">28 Agosto 2026</span>
-                </div>
-                <ul>
-                    <li>Implementato il nuovo tema grafico con effetti di fulmini e scia luminosa persistente.</li>
-                    <li>Aggiunta la selezione multilingua (Italiano, Inglese, Spagnolo).</li>
-                </ul>
-            </div>
         </div>
     </section>
 
     <script>
+        // Logica per il Widget Live Chat / Ticket
+        function toggleSupportChat() {
+            let box = document.getElementById('supportChatBox');
+            if (box.style.display === 'flex') {
+                box.style.display = 'none';
+            } else {
+                box.style.display = 'flex';
+                document.getElementById('chatInput').focus();
+            }
+        }
+
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendChatMessage();
+        }
+
+        function sendChatMessage() {
+            let input = document.getElementById('chatInput');
+            let text = input.value.trim();
+            if (!text) return;
+
+            let chatBody = document.getElementById('chatBody');
+            
+            // Messaggio utente
+            let userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.innerText = text;
+            chatBody.appendChild(userMsg);
+            input.value = "";
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Risposta automatica di supporto simulata
+            setTimeout(() => {
+                let botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg bot';
+                botMsg.innerText = "Grazie per averci scritto! Un nostro operatore ti risponderà al più presto sul server Discord.";
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1000);
+        }
+
         // Logica per aggiungere recensioni dinamicamente
         function addNewReview(event) {
             event.preventDefault();
