@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Underground Studios</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #030508;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Overlay globale per il flash del fulmine al click */
+        #click-lightning-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 9999;
+            transition: background 0.05s ease-in-out;
+        }
+
+        #click-lightning-overlay.flash {
+            background: rgba(200, 230, 255, 0.85);
+            box-shadow: inset 0 0 100px #00d2ff;
+        }
+
+        /* Header Centrato */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: rgba(3, 5, 8, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 140, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #008cff;
+            box-shadow: 0 0 10px rgba(0, 140, 255, 0.4);
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #fff;
+            line-height: 1.1;
+        }
+
+        .logo-text span {
+            display: block;
+            font-size: 11px;
+            color: #008cff;
+            letter-spacing: 3px;
+        }
+
+        /* Navigazione centrale */
+        nav {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #008cff;
+        }
+
+        nav ul li a.active {
+            color: #008cff !important;
+            text-shadow: 0 0 10px rgba(0, 140, 255, 0.5);
+        }
+
+        nav ul li a.inactive {
+            color: #ffffff !important;
+            text-shadow: none;
+        }
+
+        /* Parte destra: Carrello + Lingua */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-btn {
+            background-color: #111622;
+            border: 1px solid rgba(0, 140, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-btn:hover {
+            border-color: #008cff;
+            background-color: rgba(0, 140, 255, 0.1);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-btn {
+            background: #111622;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: border-color 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            border-color: #008cff;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #111622;
+            min-width: 130px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
+            border: 1px solid rgba(0, 140, 255, 0.3);
+            border-radius: 8px;
+            z-index: 1001;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #008cff;
+            color: #fff;
+        }
+
+        .dropdown.show .dropdown-content {
+            display: block;
+        }
+
+        /* Modale Carrello & Checkout */
+        .cart-modal, .checkout-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .cart-modal.show, .checkout-modal.show {
+            display: flex;
+        }
+
+        .cart-content {
+            background-color: #111622;
+            border: 1px solid rgba(0, 140, 255, 0.3);
+            width: 90%;
+            max-width: 450px;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .cart-content h3 {
+            color: #008cff;
+            margin-bottom: 20px;
+            font-size: 22px;
+            text-transform: uppercase;
+        }
+
+        .cart-list {
+            list-style: none;
+            max-height: 220px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .remove-item {
+            color: #ff4d4d;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 14px;
+        }
+
+        .cart-total {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-checkout {
+            background-color: #008cff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            flex: 1;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-checkout:hover { background-color: #0070d1; }
+
+        .btn-close-cart {
+            background-color: #222b3f;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-close-cart:hover { background-color: #2e3b55; }
+
+        /* Stili Form Checkout */
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkout-form label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #a0a8b8;
+            margin-bottom: -8px;
+        }
+
+        .checkout-form input {
+            background: #080b12;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 12px;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .checkout-form input:focus {
+            border-color: #008cff;
+            outline: none;
+        }
+
+        /* Sezione Home (Hero) con Tempesta attiva */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            background: radial-gradient(circle at center, #0a162c 0%, #030508 80%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,140,255,0.25) 0%, transparent 75%);
+            opacity: 0;
+            z-index: 1;
+            animation: stormFlash 3s infinite ease-in-out;
+        }
+
+        @keyframes stormFlash {
+            0%, 100% { opacity: 0; }
+            10% { opacity: 0.9; }
+            13% { opacity: 0.3; }
+            15% { opacity: 1; }
+            20% { opacity: 0.1; }
+            25% { opacity: 0.6; }
+            30% { opacity: 0; }
+            65% { opacity: 0; }
+            70% { opacity: 0.8; }
+            73% { opacity: 0.2; }
+            75% { opacity: 1; }
+            80% { opacity: 0; }
+        }
+
+        .lightning-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bolt {
+            position: absolute;
+            background: linear-gradient(to bottom, transparent, #00d2ff, #ffffff);
+            opacity: 0;
+            filter: drop-shadow(0 0 15px #008cff) drop-shadow(0 0 30px #00d2ff);
+        }
+
+        .bolt-1 { left: 8%; top: -25%; width: 3px; height: 200px; animation: strike 2.5s infinite; animation-delay: 0.2s; transform: rotate(15deg); }
+        .bolt-2 { left: 25%; top: -25%; width: 2px; height: 260px; animation: strike 3.1s infinite; animation-delay: 1.0s; transform: rotate(-10deg); }
+        .bolt-3 { left: 42%; top: -25%; width: 4px; height: 230px; animation: strike 2.1s infinite; animation-delay: 0.4s; transform: rotate(8deg); }
+        .bolt-4 { left: 60%; top: -25%; width: 3px; height: 290px; animation: strike 3.8s infinite; animation-delay: 1.8s; transform: rotate(-12deg); }
+        .bolt-5 { left: 78%; top: -25%; width: 2px; height: 240px; animation: strike 2.4s infinite; animation-delay: 0.7s; transform: rotate(20deg); }
+        .bolt-6 { left: 90%; top: -25%; width: 4px; height: 270px; animation: strike 2.9s infinite; animation-delay: 1.4s; transform: rotate(-18deg); }
+
+        @keyframes strike {
+            0%, 75%, 100% {
+                opacity: 0;
+                transform: translateY(-80px) scaleY(0.1);
+            }
+            78% {
+                opacity: 1;
+                transform: translateY(280px) scaleY(1.2);
+            }
+            81% {
+                opacity: 0.3;
+                transform: translateY(450px) scaleY(0.7);
+            }
+            84% {
+                opacity: 1;
+                transform: translateY(600px) scaleY(1.6);
+            }
+            88% {
+                opacity: 0;
+                transform: translateY(800px) scaleY(2);
+            }
+        }
+
+        .hero-logo-container, .hero h1, .hero h3 {
+            z-index: 2;
+        }
+
+        .hero-logo-container {
+            position: relative;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-logo-container::after {
+            content: '';
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 2px dashed rgba(0, 140, 255, 0.5);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #008cff;
+            box-shadow: 0 0 35px rgba(0, 140, 255, 0.7);
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 6vw, 68px);
+            font-weight: 900;
+            color: #008cff;
+            text-transform: uppercase;
+            text-shadow: 0 0 35px rgba(0, 140, 255, 0.5);
+            margin: 10px 0;
+            letter-spacing: -1px;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .hero h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        /* Sezione Shop Fortemente Animata */
+        .shop-section {
+            min-height: 100vh;
+            padding: 120px 20px 80px 20px;
+            background: linear-gradient(180deg, #030508 0%, #061124 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shop-section::before {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(0, 140, 255, 0.15) 0%, transparent 65%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            animation: shopPulse 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes shopPulse {
+            0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0.3; }
+            100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.9; }
+        }
+
+        .shop-section h2, .shop-section p, .shop-grid {
+            z-index: 2;
+        }
+
+        .shop-section h2 {
+            font-size: 42px;
+            font-weight: 900;
+            color: #008cff;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-shadow: 0 0 25px rgba(0, 140, 255, 0.6);
+        }
+
+        .shop-section p {
+            font-size: 16px;
+            color: #c0d0e8;
+            margin-bottom: 40px;
+        }
+
+        .shop-grid {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+        }
+
+        .shop-card {
+            background: rgba(13, 20, 36, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 140, 255, 0.4);
+            padding: 30px;
+            border-radius: 16px;
+            width: 280px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 140, 255, 0.05);
+            animation: cardFloat 5s ease-in-out infinite;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .shop-card:nth-child(1) { animation-delay: 0s; }
+        .shop-card:nth-child(2) { animation-delay: 1.5s; }
+        .shop-card:nth-child(3) { animation-delay: 3s; }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .shop-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #00d2ff, #ffffff, transparent);
+            transition: 0.5s;
+        }
+
+        .shop-card:hover::after {
+            left: 100%;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-15px) scale(1.04);
+            border-color: #00d2ff;
+            box-shadow: 0 15px 40px rgba(0, 140, 255, 0.4), inset 0 0 20px rgba(0, 210, 255, 0.2);
+            animation-play-state: paused;
+        }
+
+        .shop-card h4 {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .shop-card span {
+            display: block;
+            color: #00d2ff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
+        }
+
+        .shop-card button {
+            background: linear-gradient(135deg, #008cff, #004ba8);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0, 140, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .shop-card button:hover {
+            background: linear-gradient(135deg, #00bfff, #0070d1);
+            box-shadow: 0 6px 25px rgba(0, 210, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        /* Pulsante Login Discord personalizzato */
+        .btn-discord-login {
+            background: linear-gradient(135deg, #5865F2, #4752C4) !important;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4) !important;
+        }
+        .btn-discord-login:hover {
+            background: linear-gradient(135deg, #7983f5, #5865F2) !important;
+            box-shadow: 0 6px 25px rgba(88, 101, 242, 0.8) !important;
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            nav { position: static; transform: none; }
+            nav ul { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Overlay per il lampo di fulmine globale -->
+    <div id="click-lightning-overlay"></div>
+
+    <!-- Header / Navbar -->
+    <header>
+        <div class="logo-area">
+            <img src="logo.png" alt="Logo">
+            <div class="logo-text">
+                UNDERGROUND
+                <span>STUDIOS</span>
+            </div>
+        </div>
+
+        <!-- Menu centrale -->
+        <nav>
+            <ul>
+                <li><a href="#home" id="nav-home" class="active">HOME</a></li>
+                <li><a href="#shop" id="nav-shop" class="inactive">SHOP</a></li>
+                <li><a href="https://discord.gg/dbc2kmHwep" target="_blank" id="nav-discord">DISCORD</a></li>
+            </ul>
+        </nav>
+
+        <!-- Parte Destra: Carrello + Lingua -->
+        <div class="nav-right">
+            <button class="cart-btn" onclick="openCartModal()">
+                <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
+            </button>
+
+            <div class="dropdown" id="langDropdown">
+                <button class="lang-btn" onclick="toggleDropdown(event)">
+                    <i class="fa-solid fa-globe"></i> <span id="currentLang">IT</span> <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="changeLanguage('it', event)">Italiano</a>
+                    <a href="#" onclick="changeLanguage('en', event)">English</a>
+                    <a href="#" onclick="changeLanguage('es', event)">Español</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Modale Carrello -->
+    <div class="cart-modal" id="cartModal">
+        <div class="content-wrapper cart-content">
+            <h3 id="cart-modal-title">Il tuo carrello</h3>
+            <ul class="cart-list" id="cartList">
+                <li style="text-align: center; color: #888;" id="empty-cart-text">Il carrello è vuoto</li>
+            </ul>
+            <div class="cart-total">
+                <span id="total-text">Totale:</span>
+                <span id="cartTotalPrice" style="color: #008cff;">€ 0.00</span>
+            </div>
+            <div class="cart-actions">
+                <button class="btn-checkout" onclick="openCheckoutModal()" id="proceed-btn">Procedi al Checkout</button>
+                <button class="btn-close-cart" onclick="closeCartModal()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale Checkout Dati Cliente -->
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="content-wrapper cart-content">
+            <h3 id="checkout-title">Dati Ordine</h3>
+            <form class="checkout-form" id="orderForm" onsubmit="submitOrder(event)">
+                <label>Nome e Cognome</label>
+                <input type="text" id="custName" required placeholder="Mario Rossi">
+
+                <label>Email</label>
+                <input type="email" id="custEmail" required placeholder="mario@example.com">
+
+                <label>Numero di Telefono</label>
+                <input type="tel" id="custPhone" required placeholder="+39 333 1234567">
+
+                <label>Data di Nascita</label>
+                <input type="date" id="custDob" required>
+
+                <label>ID Discord (es. utente#1234 o nome utente)</label>
+                <input type="text" id="custDiscord" required placeholder="tuonome">
+
+                <div class="cart-actions" style="margin-top: 15px;">
+                    <button type="submit" class="btn-checkout" id="submit-order-btn">Invia Ordine</button>
+                    <button type="button" class="btn-close-cart" onclick="closeCheckoutModal()">Indietro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sezione Home con Tempesta e Fulmini -->
+    <section id="home" class="hero">
+        <div class="lightning-container">
+            <div class="bolt bolt-1"></div>
+            <div class="bolt bolt-2"></div>
+            <div class="bolt bolt-3"></div>
+            <div class="bolt bolt-4"></div>
+            <div class="bolt bolt-5"></div>
+            <div class="bolt bolt-6"></div>
+        </div>
+        <div class="hero-logo-container">
+            <img src="logo.png" alt="Logo Centrale" class="hero-logo">
+        </div>
+        <h1>Underground Studios</h1>
+        <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
+    </section>
+
+    <!-- Sezione Shop Fortemente Animata -->
+    <section id="shop" class="shop-section">
+        <h2 id="shop-title">Shop</h2>
+        <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
+        <div class="shop-grid">
+            <div class="shop-card">
+                <h4 id="prod-1-title">Script 1</h4>
+                <span>€ 14.99</span>
+                <div id="shop-btn-1">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                </div>
+            </div>
+            <div class="shop-card">
+                <h4 id="prod-2-title">Script 2</h4>
+                <span>€ 19.99</span>
+                <div id="shop-btn-2">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                </div>
+            </div>
+            <div class="shop-card">
+                <h4 id="prod-3-title">Script 3</h4>
+                <span>€ 24.99</span>
+                <div id="shop-btn-3">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
+
+        let cartItems = [];
+        let isDiscordLoggedIn = false; // Stato dell'accesso Discord
+
+        // Funzione per riprodurre il suono del tuono / fulmine (Web Audio API)
+        function playThunderSound() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+
+                const bufferSize = ctx.sampleRate * 1.2;
+                const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                const noise = ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = ctx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(300, ctx.currentTime);
+                filter.frequency.exponentialRampToValueAtTime(50, ctx.currentTime + 1.2);
+
+                const gainNode = ctx.createGain();
+                gainNode.gain.setValueAtTime(1.0, ctx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2);
+
+                noise.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(ctx.destination);
+
+                noise.start(ctx.currentTime);
+            } catch (e) {
+                console.log("Audio non supportato o bloccato dal browser", e);
+            }
+        }
+
+        function triggerLightningEffect() {
+            const overlay = document.getElementById('click-lightning-overlay');
+            overlay.classList.add('flash');
+            setTimeout(() => { overlay.classList.remove('flash'); }, 80);
+            setTimeout(() => { 
+                overlay.classList.add('flash'); 
+                setTimeout(() => { overlay.classList.remove('flash'); }, 120);
+            }, 150);
+
+            playThunderSound();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const clickableElements = document.querySelectorAll('button, a, .shop-card button, .cart-btn, .lang-btn');
+            clickableElements.forEach(el => {
+                el.addEventListener('click', () => {
+                    triggerLightningEffect();
+                });
+            });
+        });
+
+        // Funzione di simulazione login Discord (puoi sostituirla con OAuth2)
+        function loginWithDiscord() {
+            let confirmLogin = confirm("Effettuare l'accesso con Discord per sbloccare gli acquisti nello shop?");
+            if (confirmLogin) {
+                isDiscordLoggedIn = true;
+                updateShopButtons();
+                alert("Accesso effettuato con successo tramite Discord!");
+            }
+        }
+
+        // Aggiorna i pulsanti dello shop in base allo stato di login
+        function updateShopButtons() {
+            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+            let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
+            let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
+
+            for (let i = 1; i <= 3; i++) {
+                let container = document.getElementById(`shop-btn-${i}`);
+                let price = i === 1 ? 14.99 : (i === 2 ? 19.99 : 24.99);
+                let name = `Script ${i}`;
+
+                if (isDiscordLoggedIn) {
+                    container.innerHTML = `<button onclick="addToCart('${name}', ${price})" class="buy-text">${buyText}</button>`;
+                } else {
+                    container.innerHTML = `<button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
+                }
+            }
+        }
+
+        function addToCart(name, price) {
+            if (!isDiscordLoggedIn) {
+                alert("Devi prima accedere con Discord per poter acquistare!");
+                return;
+            }
+
+            let confirmAdd = confirm(`Sei sicuro di voler aggiungere "${name}" al carrello? (€ ${price.toFixed(2)})`);
+            if (!confirmAdd) {
+                return;
+            }
+
+            cartItems.push({ name: name, price: price });
+            updateCartUI();
+            let countSpan = document.getElementById('cartCount');
+            countSpan.style.transform = "scale(1.3)";
+            setTimeout(() => countSpan.style.transform = "scale(1)", 200);
+        }
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').innerText = cartItems.length;
+            let list = document.getElementById('cartList');
+            list.innerHTML = "";
+
+            if (cartItems.length === 0) {
+                let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+                let emptyMsg = translations[currentLang] ? translations[currentLang].emptyCart : "Il carrello è vuoto";
+                list.innerHTML = `<li style="text-align: center; color: #888;" id="empty-cart-text">${emptyMsg}</li>`;
+                document.getElementById('cartTotalPrice').innerText = "€ 0.00";
+                return;
+            }
+
+            let total = 0;
+            cartItems.forEach((item, index) => {
+                total += item.price;
+                let li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `<span>${item.name}</span> <span>€ ${item.price.toFixed(2)}</span> <button class="remove-item" onclick="removeFromCart(${index})"><i class="fa-solid fa-trash"></i></button>`;
+                list.appendChild(li);
+            });
+
+            document.getElementById('cartTotalPrice').innerText = "€ " + total.toFixed(2);
+        }
+
+        function openCartModal() {
+            document.getElementById('cartModal').classList.add('show');
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('show');
+        }
+
+        function openCheckoutModal() {
+            if (cartItems.length === 0) {
+                alert("Il carrello è vuoto!");
+                return;
+            }
+            closeCartModal();
+            document.getElementById('checkoutModal').classList.add('show');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('show');
+        }
+
+        function submitOrder(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('custName').value;
+            const email = document.getElementById('custEmail').value;
+            const phone = document.getElementById('custPhone').value;
+            const dob = document.getElementById('custDob').value;
+            const discordId = document.getElementById('custDiscord').value;
+
+            let productsList = cartItems.map(item => `• ${item.name} (€ ${item.price.toFixed(2)})`).join("\n");
+            let total = cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+
+            const discordMessage = {
+                content: "🛒 **NUOVO ORDINE RICEVUTO!**",
+                embeds: [{
+                    title: "Dettagli Cliente",
+                    color: 3092790,
+                    fields: [
+                        { name: "👤 Nome e Cognome", value: name, inline: true },
+                        { name: "📧 Email", value: email, inline: true },
+                        { name: "📞 Telefono", value: phone, inline: true },
+                        { name: "🎂 Data di Nascita", value: dob, inline: true },
+                        { name: "💬 ID Discord", value: discordId, inline: true },
+                        { name: "🛍️ Prodotti Ordinati", value: productsList, inline: false },
+                        { name: "💶 Totale", value: `€ ${total}`, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
+
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(discordMessage)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Ordine inviato con successo! Ti contatteremo presto su Discord.");
+                    cartItems = [];
+                    updateCartUI();
+                    document.getElementById('orderForm').reset();
+                    closeCheckoutModal();
+                } else {
+                    alert("Errore nell'invio dell'ordine. Riprova più tardi.");
+                }
+            })
+            .catch(error => {
+                console.error('Errore:', error);
+                alert("Si è verificato un errore di connessione.");
+            });
+        }
+
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            document.getElementById('langDropdown').classList.toggle('show');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown')) {
+                var dropdowns = document.getElementsByClassName("dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+            let scrollPos = window.scrollY;
+            let homeLink = document.getElementById('nav-home');
+            let shopLink = document.getElementById('nav-shop');
+            let shopSection = document.getElementById('shop');
+            let shopTop = shopSection.offsetTop - 150;
+
+            if (scrollPos >= shopTop) {
+                shopLink.classList.add('active');
+                shopLink.classList.remove('inactive');
+                
+                homeLink.classList.add('inactive');
+                homeLink.classList.remove('active');
+            } else {
+                homeLink.classList.add('active');
+                homeLink.classList.remove('inactive');
+                
+                shopLink.classList.add('inactive');
+                shopLink.classList.remove('active');
+            }
+        });
+
+        const translations = {
+            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine" },
+            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido" }
+        };
+
+        function changeLanguage(lang, event) {
+            event.preventDefault();
+            document.getElementById('currentLang').innerText = lang.toUpperCase();
+            document.getElementById('nav-home').innerText = translations[lang].navHome;
+            document.getElementById('nav-shop').innerText = translations[lang].navShop;
+            document.getElementById('nav-discord').innerText = translations[lang].navDiscord;
+            document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
+            document.getElementById('shop-title').innerText = translations[lang].shopTitle;
+            document.getElementById('shop-desc').innerText = translations[lang].shopDesc;
+            document.getElementById('prod-1-title').innerText = translations[lang].prod1;
+            document.getElementById('prod-2-title').innerText = translations[lang].prod2;
+            document.getElementById('prod-3-title').innerText = translations[lang].prod3;
+            document.getElementById('cart-modal-title').innerText = translations[lang].cartTitle;
+            document.getElementById('total-text').innerText = translations[lang].total;
+            document.getElementById('proceed-btn').innerText = translations[lang].proceed;
+            document.getElementById('checkout-title').innerText = translations[lang].checkoutTitle;
+            document.getElementById('submit-order-btn').innerText = translations[lang].submitOrder;
+            
+            let emptyText = document.getElementById('empty-cart-text');
+            if(emptyText) emptyText.innerText = translations[lang].emptyCart;
+
+            updateShopButtons();
+            
+            document.getElementById('langDropdown').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
