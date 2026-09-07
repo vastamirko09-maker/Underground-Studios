@@ -747,7 +747,7 @@
         </nav>
 
         <div class="nav-right">
-            <!-- Nuovo Pulsante Login Discord nella Nav -->
+            <!-- Pulsante Login / Profilo Discord nella Nav -->
             <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
                 <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
             </button>
@@ -1014,6 +1014,17 @@
                     try {
                         discordUserData = JSON.parse(cached);
                         applyUserDataToUI();
+                        
+                        // Sincronizzazione in background dei dati aggiornati (es. ordini/ruolo admin)
+                        fetch(`${CLOUDWORKER_URL}/refresh-user?id=${discordUserData.id}`)
+                            .then(res => res.json())
+                            .then(freshData => {
+                                if (freshData && freshData.id) {
+                                    discordUserData = freshData;
+                                    localStorage.setItem('discord_user_cache', JSON.stringify(freshData));
+                                    applyUserDataToUI();
+                                }
+                            }).catch(err => {});
                     } catch(e) {
                         localStorage.removeItem('discord_user_cache');
                     }
@@ -1022,15 +1033,19 @@
         });
 
         function applyUserDataToUI() {
+            if (!discordUserData) return;
+            
             updateShopButtons();
             
             const discordInput = document.getElementById('custDiscord');
-            discordInput.value = `${discordUserData.global_name || discordUserData.username} (@${discordUserData.username}) - ID: ${discordUserData.id}`;
-            discordInput.style.borderColor = "#00d2ff";
+            if(discordInput) {
+                discordInput.value = `${discordUserData.global_name || discordUserData.username} (@${discordUserData.username}) - ID: ${discordUserData.id}`;
+                discordInput.style.borderColor = "#00d2ff";
+            }
 
-            document.getElementById('user-discord-badge').innerText = `@${discordUserData.username}`;
+            let badge = document.getElementById('user-discord-badge');
+            if(badge) badge.innerText = `@${discordUserData.username}`;
             
-            // Se l'utente ha fatto il login, cambiamo l'aspetto o il testo del pulsante in alto
             let loginNavBtn = document.getElementById('nav-login-btn');
             if (loginNavBtn) {
                 loginNavBtn.innerHTML = `<i class="fa-brands fa-discord"></i> <span>@${discordUserData.username}</span>`;
@@ -1040,6 +1055,16 @@
         }
 
         function loginWithDiscord() {
+            // Se l'utente è già loggato, cliccando sul pulsante in alto potrebbe voler uscire o aggiornare la sessione
+            if (discordUserData) {
+                let action = confirm(`Sei già loggato come @${discordUserData.username}.\nVuoi effettuare il logout?`);
+                if (action) {
+                    localStorage.removeItem('discord_user_cache');
+                    window.location.reload();
+                }
+                return;
+            }
+
             const clientId = "1534237159823769610";
             const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
             const discordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
@@ -1061,6 +1086,7 @@
 
             for (let i = 1; i <= 3; i++) {
                 let container = document.getElementById(`shop-btn-${i}`);
+                if(!container) continue;
                 let price = i === 1 ? 14.99 : (i === 2 ? 19.99 : 24.99);
                 let name = `Script ${i}`;
 
