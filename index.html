@@ -719,8 +719,8 @@
                 <label>Data di Nascita</label>
                 <input type="date" id="custDob" required>
 
-                <label>ID Discord (es. utente#1234 o nome utente)</label>
-                <input type="text" id="custDiscord" required placeholder="tuonome">
+                <label>ID Discord (Autenticato automaticamente)</label>
+                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login con Discord prima di procedere">
 
                 <div class="cart-actions" style="margin-top: 15px;">
                     <button type="submit" class="btn-checkout" id="submit-order-btn">Invia Ordine</button>
@@ -780,7 +780,7 @@
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
 
         let cartItems = [];
-        let isDiscordLoggedIn = false; // Stato dell'accesso Discord
+        let isDiscordLoggedIn = false; 
 
         // Controllo automatico al caricamento della pagina per verificare il ritorno da Discord OAuth2
         window.addEventListener('DOMContentLoaded', () => {
@@ -788,6 +788,12 @@
             if (urlParams.has('code')) {
                 isDiscordLoggedIn = true;
                 updateShopButtons();
+                
+                // Compila in automatico il campo ID Discord nel modulo d'ordine indicando che l'utente è verificato
+                const discordInput = document.getElementById('custDiscord');
+                discordInput.value = "Utente Autenticato via Discord (Verificato ✔️)";
+                discordInput.style.borderColor = "#00d2ff";
+
                 // Pulisce l'URL rimuovendo il parametro ?code=
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
@@ -938,6 +944,10 @@
                 alert("Il carrello è vuoto!");
                 return;
             }
+            if (!isDiscordLoggedIn) {
+                alert("Devi effettuare l'accesso con Discord prima di procedere al checkout!");
+                return;
+            }
             closeCartModal();
             document.getElementById('checkoutModal').classList.add('show');
         }
@@ -953,7 +963,7 @@
             const email = document.getElementById('custEmail').value;
             const phone = document.getElementById('custPhone').value;
             const dob = document.getElementById('custDob').value;
-            const discordId = document.getElementById('custDiscord').value;
+            const discordStatus = document.getElementById('custDiscord').value;
 
             let productsList = cartItems.map(item => `• ${item.name} (€ ${item.price.toFixed(2)})`).join("\n");
             let total = cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
@@ -968,7 +978,7 @@
                         { name: "📧 Email", value: email, inline: true },
                         { name: "📞 Telefono", value: phone, inline: true },
                         { name: "🎂 Data di Nascita", value: dob, inline: true },
-                        { name: "💬 ID Discord", value: discordId, inline: true },
+                        { name: "💬 Stato Discord", value: discordStatus, inline: true },
                         { name: "🛍️ Prodotti Ordinati", value: productsList, inline: false },
                         { name: "💶 Totale", value: `€ ${total}`, inline: false }
                     ],
