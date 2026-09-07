@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Notifiche Toast (durata estesa per i 5 secondi) */
+        /* Notifiche Toast */
         #toast-container {
             position: fixed;
             top: 85px;
@@ -911,11 +911,11 @@
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v3.1 - Timer 5 Secondi e Webhook Discord Automatico</span>
+                    <span class="changelog-version">v3.2 - Invio Ordine via Webhook senza Reindirizzamento</span>
                     <span class="changelog-date">07 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Impostato il timer a 5 secondi esatti dopo il checkout prima di inviare i dati al webhook di Discord e reindirizzare al server.</li>
+                    <li>Rimosso il reindirizzamento automatico a Discord: ora l'ordine viene inviato tramite Webhook al checkout e resti comodamente sul sito.</li>
                 </ul>
             </div>
         </div>
@@ -934,7 +934,7 @@
             container.appendChild(toast);
             setTimeout(() => {
                 toast.remove();
-            }, 5000); // 5 secondi esatti
+            }, 5000);
         }
 
         // FILTRI PRODOTTI SHOP
@@ -952,7 +952,7 @@
             });
         }
 
-        // MODALE DETTAGLIO PRODOTTO CON TIMER DI 5 SECONDI PER IL TICKET
+        // MODALE DETTAGLIO PRODOTTO
         let currentModalProduct = null;
         function openProductModal(title, category, desc, id) {
             currentModalProduct = { title, id };
@@ -966,7 +966,7 @@
             let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
 
             if (discordUserData) {
-                actionsContainer.innerHTML = `<button class="btn-checkout" onclick="redirectToTicket('${currentModalProduct.title}')"><i class="fa-brands fa-discord"></i> ${buyText} (Apri Ticket)</button>`;
+                actionsContainer.innerHTML = `<button class="btn-checkout" onclick="addToCart('${currentModalProduct.title}'); closeProductModal();"><i class="fa-solid fa-cart-plus"></i> ${buyText}</button>`;
             } else {
                 actionsContainer.innerHTML = `<button class="btn-discord-login buy-text" onclick="loginWithDiscord()"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
             }
@@ -976,16 +976,6 @@
 
         function closeProductModal() {
             document.getElementById('productModal').classList.remove('show');
-        }
-
-        // Funzione con attesa di 5 secondi prima di aprire Discord
-        function redirectToTicket(productName) {
-            showToast(`Richiesta registrata per "${productName}". Verrai reindirizzato a Discord tra 5 secondi!`, "fa-ticket");
-            closeProductModal();
-            
-            setTimeout(() => {
-                window.open("https://discord.gg/dbc2kmHwep", "_blank");
-            }, 5000);
         }
 
         // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO NELLA NAVBAR
@@ -1211,7 +1201,7 @@
             userOrders.forEach((order, idx) => {
                 let box = document.createElement('div');
                 box.className = 'history-box';
-                box.innerHTML = `<div class="history-header"><span>Richiesta #${idx + 1} - ${order.item}</span><span style="color: #00d2ff;">Ticket</span></div><div class="history-items"><i class="fa-regular fa-calendar"></i> Data: ${order.date}</div>`;
+                box.innerHTML = `<div class="history-header"><span>Ordine #${idx + 1} - ${order.item}</span><span style="color: #00d2ff;">Completato</span></div><div class="history-items"><i class="fa-regular fa-calendar"></i> Data: ${order.date}</div>`;
                 container.appendChild(box);
             });
         }
@@ -1234,7 +1224,7 @@
 
             let itemsListStr = cartItems.map(i => i.name).join(", ");
 
-            // 1. Invio dell'ordine al Webhook di Discord
+            // 1. Invio dell'ordine al Webhook di Discord (subito al checkout)
             if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== "INSERISCI_QUI_IL_TUO_WEBHOOK_URL") {
                 const webhookPayload = {
                     embeds: [{
@@ -1265,7 +1255,7 @@
 
             // 2. Salvataggio locale e cloudworker ordini
             for (let item of cartItems) {
-                let newOrder = { item: item.name, total: "Ticket", date: currentDate };
+                let newOrder = { item: item.name, total: "Completato", date: currentDate };
                 try {
                     let res = await fetch(`${CLOUDWORKER_URL}/save-order`, {
                         method: 'POST',
@@ -1278,16 +1268,12 @@
             }
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
             
-            showToast("Ordine inviato con successo! Reindirizzamento a Discord tra 5 secondi...", "fa-ticket");
+            // 3. Notifica a schermo (nessun reindirizzamento esterno)
+            showToast("Ordine inviato con successo e notificato su Discord!", "fa-circle-check");
             cartItems = [];
             updateCartUI();
             document.getElementById('orderForm').reset();
             closeCheckoutModal();
-
-            // 3. Attesa di 5 secondi prima di aprire il link del server Discord
-            setTimeout(() => {
-                window.open("https://discord.gg/dbc2kmHwep", "_blank");
-            }, 5000);
         }
 
         function toggleDropdown(event) {
