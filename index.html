@@ -122,14 +122,14 @@
             color: #ffffff !important;
         }
 
-        /* Parte destra: Carrello + Storico + Admin + Lingua */
+        /* Parte destra: Carrello + Storico + Admin + Login Nav + Lingua */
         .nav-right {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .cart-btn, .history-btn, .admin-nav-btn {
+        .cart-btn, .history-btn, .admin-nav-btn, .nav-login-btn {
             background-color: #111622;
             border: 1px solid rgba(0, 140, 255, 0.3);
             color: white;
@@ -143,6 +143,19 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
+        }
+
+        /* Pulsante Login Discord nella Nav */
+        .nav-login-btn {
+            background: linear-gradient(135deg, #5865F2, #4752C4) !important;
+            border-color: rgba(88, 101, 242, 0.5) !important;
+            box-shadow: 0 2px 10px rgba(88, 101, 242, 0.3);
+        }
+
+        .nav-login-btn:hover {
+            background: linear-gradient(135deg, #6c78ff, #5865F2) !important;
+            border-color: #5865F2 !important;
+            box-shadow: 0 4px 15px rgba(88, 101, 242, 0.6);
         }
 
         .admin-nav-btn {
@@ -734,6 +747,10 @@
         </nav>
 
         <div class="nav-right">
+            <!-- Nuovo Pulsante Login Discord nella Nav -->
+            <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
+                <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
+            </button>
             <!-- Pulsante Admin Dashboard (Visibile solo per gli Admin) -->
             <button class="admin-nav-btn" id="nav-admin" onclick="openAdminDashboard()">
                 <i class="fa-solid fa-user-shield"></i> <span id="admin-label">ADMIN</span>
@@ -1012,6 +1029,13 @@
             discordInput.style.borderColor = "#00d2ff";
 
             document.getElementById('user-discord-badge').innerText = `@${discordUserData.username}`;
+            
+            // Se l'utente ha fatto il login, cambiamo l'aspetto o il testo del pulsante in alto
+            let loginNavBtn = document.getElementById('nav-login-btn');
+            if (loginNavBtn) {
+                loginNavBtn.innerHTML = `<i class="fa-brands fa-discord"></i> <span>@${discordUserData.username}</span>`;
+            }
+
             checkAdminAccess();
         }
 
@@ -1341,9 +1365,9 @@
         }
 
         const translations = {
-            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine", historyText: "Storico", adminText: "ADMIN" },
-            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order", historyText: "History", adminText: "ADMIN" },
-            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido", historyText: "Historial", adminText: "ADMIN" }
+            it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine", historyText: "Storico", adminText: "ADMIN", loginNavText: "Accedi" },
+            en: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", shopTitle: "Shop", shopDesc: "Explore our scripts and upgrade your server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Buy Now", loginDiscord: "Login with Discord", cartTitle: "Your Shopping Cart", emptyCart: "Your cart is empty", total: "Total:", proceed: "Proceed to Checkout", checkoutTitle: "Order Details", submitOrder: "Submit Order", historyText: "History", adminText: "ADMIN", loginNavText: "Login" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", shopTitle: "Tienda", shopDesc: "Explora nuestros scripts y mejora tu servidor", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Comprar", loginDiscord: "Iniciar sesión con Discord", cartTitle: "Tu Carrito", emptyCart: "Tu carrito está vacío", total: "Total:", proceed: "Proceder al Pago", checkoutTitle: "Detalles del Pedido", submitOrder: "Enviar Pedido", historyText: "Historial", adminText: "ADMIN", loginNavText: "Acceder" }
         };
 
         function changeLanguage(lang, event) {
@@ -1365,6 +1389,10 @@
             document.getElementById('submit-order-btn').innerText = translations[lang].submitOrder;
             document.getElementById('history-label').innerText = translations[lang].historyText;
             document.getElementById('admin-label').innerText = translations[lang].adminText;
+            
+            if (!discordUserData) {
+                document.getElementById('nav-login-label').innerText = translations[lang].loginNavText;
+            }
             
             let emptyText = document.getElementById('empty-cart-text');
             if(emptyText) emptyText.innerText = translations[lang].emptyCart;
