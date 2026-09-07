@@ -627,12 +627,12 @@
             </div>
 
             <nav>
-                <ul>
-                    <li><a href="#home" id="nav-home" class="active">HOME</a></li>
-                    <li><a href="#shop" id="nav-shop">SHOP</a></li>
-                    <li><a href="#reviews" id="nav-reviews">RECENSIONI</a></li>
-                    <li><a href="#changelog" id="nav-changelog">NOVITÀ</a></li>
-                    <li><a href="https://discord.gg/dbc2kmHwep" target="_blank" id="nav-discord">DISCORD</a></li>
+                <ul id="nav-list">
+                    <li><a href="#home" id="link-home" class="active">HOME</a></li>
+                    <li><a href="#shop" id="link-shop">SHOP</a></li>
+                    <li><a href="#reviews" id="link-reviews">RECENSIONI</a></li>
+                    <li><a href="#changelog" id="link-changelog">NOVITÀ</a></li>
+                    <li><a href="https://discord.gg/dbc2kmHwep" target="_blank" id="link-discord">DISCORD</a></li>
                 </ul>
             </nav>
 
@@ -717,7 +717,7 @@
     </div>
 
     <!-- Home -->
-    <section id="home" class="hero">
+    <section id="home" class="hero" data-nav="link-home">
         <div class="lightning-container">
             <div class="bolt bolt-1"></div><div class="bolt bolt-2"></div><div class="bolt bolt-3"></div>
             <div class="bolt bolt-4"></div><div class="bolt bolt-5"></div><div class="bolt bolt-6"></div>
@@ -732,7 +732,7 @@
     <div class="section-divider"></div>
 
     <!-- Shop -->
-    <section id="shop" class="page-section">
+    <section id="shop" class="page-section" data-nav="link-shop">
         <h2 id="shop-title">Shop</h2>
         <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
         <div class="shop-grid">
@@ -757,7 +757,7 @@
     <div class="section-divider"></div>
 
     <!-- Sezione Recensioni e Testimonianze Verificate -->
-    <section id="reviews" class="page-section">
+    <section id="reviews" class="page-section" data-nav="link-reviews">
         <h2>Recensioni Verificate</h2>
         <p>Cosa dicono i nostri clienti sui prodotti acquistati</p>
         
@@ -796,10 +796,19 @@
     <div class="section-divider"></div>
 
     <!-- Changelog / Aggiornamenti -->
-    <section id="changelog" class="page-section">
+    <section id="changelog" class="page-section" data-nav="link-changelog">
         <h2>Ultimi Aggiornamenti</h2>
         <p>Segui il registro delle modifiche e le novità rilasciate per i nostri prodotti</p>
         <div class="changelog-container">
+            <div class="changelog-item">
+                <div class="changelog-header">
+                    <span class="changelog-version">v2.7 - Evidenziazione Pulsanti Menu</span>
+                    <span class="changelog-date">07 Settembre 2026</span>
+                </div>
+                <ul>
+                    <li>Aggiunta la sincronizzazione automatica della classe active sulla barra di navigazione in base alla sezione visibile.</li>
+                </ul>
+            </div>
             <div class="changelog-item">
                 <div class="changelog-header">
                     <span class="changelog-version">v2.6 - Rimozione Widget Laterale</span>
@@ -807,23 +816,36 @@
                 </div>
                 <ul>
                     <li>Rimossa la scorciatoia fluttuante in basso a destra per un'interfaccia ancora più pulita.</li>
-                    <li>Il link di supporto rimane comunque accessibile direttamente tramite la voce "Discord" nella barra di navigazione principale.</li>
-                </ul>
-            </div>
-            <div class="changelog-item">
-                <div class="changelog-header">
-                    <span class="changelog-version">v2.4 - Ottimizzazione Webhook e Cloud</span>
-                    <span class="changelog-date">05 Settembre 2026</span>
-                </div>
-                <ul>
-                    <li>Aggiunto il salvataggio automatico degli ordini nello storico cloud tramite Cloudflare Worker.</li>
-                    <li>Risolti bug minori relativi alla sincronizzazione del carrello su dispositivi mobili.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <script>
+        // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO IN BASE ALLA SEZIONE VISIBILE
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -50% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const navId = entry.target.getAttribute('data-nav');
+                    if (navId) {
+                        document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+                        const targetLink = document.getElementById(navId);
+                        if (targetLink) targetLink.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section[data-nav]').forEach(section => {
+            observer.observe(section);
+        });
+
         // Logica per aggiungere recensioni dinamicamente
         function addNewReview(event) {
             event.preventDefault();
@@ -1080,11 +1102,11 @@
         function changeLanguage(lang, event) {
             event.preventDefault();
             document.getElementById('currentLang').innerText = lang.toUpperCase();
-            document.getElementById('nav-home').innerText = translations[lang].navHome;
-            document.getElementById('nav-shop').innerText = translations[lang].navShop;
-            document.getElementById('nav-reviews').innerText = translations[lang].navReviews;
-            document.getElementById('nav-changelog').innerText = translations[lang].navChangelog;
-            document.getElementById('nav-discord').innerText = translations[lang].navDiscord;
+            document.getElementById('link-home').innerText = translations[lang].navHome;
+            document.getElementById('link-shop').innerText = translations[lang].navShop;
+            document.getElementById('link-reviews').innerText = translations[lang].navReviews;
+            document.getElementById('link-changelog').innerText = translations[lang].navChangelog;
+            document.getElementById('link-discord').innerText = translations[lang].navDiscord;
             document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
             document.getElementById('history-label').innerText = translations[lang].historyText;
             if (!discordUserData) document.getElementById('nav-login-label').innerText = translations[lang].loginNavText;
