@@ -540,6 +540,16 @@
             text-transform: uppercase;
         }
 
+        /* Linea Separatrice Personalizzata tra Home e Shop */
+        .section-divider {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #008cff, #00d2ff, #008cff, transparent);
+            box-shadow: 0 0 15px rgba(0, 140, 255, 0.8), 0 0 30px rgba(0, 210, 255, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
         /* Sezione Shop */
         .shop-section {
             min-height: 100vh;
@@ -854,6 +864,9 @@
         <h1>Underground Studios</h1>
         <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
     </section>
+
+    <!-- LINEA SEPARATRICE TRA HOME E SHOP -->
+    <div class="section-divider"></div>
 
     <!-- Sezione Shop -->
     <section id="shop" class="shop-section">
@@ -1246,7 +1259,6 @@
             let total = cartItems.reduce((sum, item) => sum + item.price, 0).toFixed(2);
             let currentDate = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
-            // Inviamo ogni elemento del carrello o l'ordine al Cloud Worker
             for (let item of cartItems) {
                 let newOrder = {
                     item: item.name,
