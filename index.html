@@ -782,6 +782,24 @@
         let cartItems = [];
         let isDiscordLoggedIn = false; // Stato dell'accesso Discord
 
+        // Controllo automatico al caricamento della pagina per verificare il ritorno da Discord OAuth2
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('code')) {
+                isDiscordLoggedIn = true;
+                updateShopButtons();
+                // Pulisce l'URL rimuovendo il parametro ?code=
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+
+            const clickableElements = document.querySelectorAll('button, a, .shop-card button, .cart-btn, .lang-btn');
+            clickableElements.forEach(el => {
+                el.addEventListener('click', () => {
+                    triggerLightningEffect();
+                });
+            });
+        });
+
         // Funzione per riprodurre il suono del tuono / fulmine (Web Audio API)
         function playThunderSound() {
             try {
@@ -830,23 +848,14 @@
             playThunderSound();
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const clickableElements = document.querySelectorAll('button, a, .shop-card button, .cart-btn, .lang-btn');
-            clickableElements.forEach(el => {
-                el.addEventListener('click', () => {
-                    triggerLightningEffect();
-                });
-            });
-        });
-
-        // Funzione di simulazione login Discord (puoi sostituirla con OAuth2)
+        // Funzione di Login Reale tramite Discord OAuth2 (Client ID integrato)
         function loginWithDiscord() {
-            let confirmLogin = confirm("Effettuare l'accesso con Discord per sbloccare gli acquisti nello shop?");
-            if (confirmLogin) {
-                isDiscordLoggedIn = true;
-                updateShopButtons();
-                alert("Accesso effettuato con successo tramite Discord!");
-            }
+            const clientId = "1534237159823769610";
+            const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+            
+            const discordOAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=identify`;
+            
+            window.location.href = discordOAuthUrl;
         }
 
         // Aggiorna i pulsanti dello shop in base allo stato di login
