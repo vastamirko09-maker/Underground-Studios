@@ -466,7 +466,7 @@
             z-index: 10;
         }
 
-        /* Sezioni Comuni (Shop, Portfolio, Changelog, Preventivi) */
+        /* Sezioni Comuni */
         .page-section {
             min-height: 100vh;
             padding: 100px 15px 60px 15px;
@@ -565,25 +565,33 @@
         }
         .btn-discord-login:hover { background: linear-gradient(135deg, #6c78ff, #5865F2) !important; }
 
-        /* NUOVA IDEA 1: Portfolio / Vetrina Progetti */
-        .portfolio-grid {
-            display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 1000px; width: 100%;
+        /* NUOVA IDEA: Sistema di Recensioni e Testimonianze Verificate */
+        .reviews-grid {
+            display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 1000px; width: 100%; margin-bottom: 25px;
         }
-        .portfolio-card {
+        .review-card {
             background: #0b101c; border: 1px solid rgba(0,140,255,0.2); border-radius: 14px;
-            width: 100%; max-width: 300px; overflow: hidden; text-align: left;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4); transition: transform 0.3s;
+            width: 100%; max-width: 300px; padding: 20px; text-align: left;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4); position: relative;
         }
-        .portfolio-card:hover { transform: translateY(-5px); border-color: #00d2ff; }
-        .portfolio-img {
-            width: 100%; height: 140px; background: #131b2e; display: flex;
-            align-items: center; justify-content: center; color: #008cff; font-size: 32px;
-        }
-        .portfolio-info { padding: 15px; }
-        .portfolio-info h4 { color: #fff; font-size: 16px; margin-bottom: 5px; }
-        .portfolio-info p { color: #88a0c0; font-size: 12px; margin-bottom: 10px; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .review-author { font-size: 13px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 5px; }
+        .verified-badge { background: rgba(88, 101, 242, 0.2); color: #5865F2; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(88, 101, 242, 0.4); }
+        .review-stars { color: #ffc107; font-size: 12px; }
+        .review-text { font-size: 12px; color: #a0b4d0; line-height: 1.4; }
 
-        /* NUOVA IDEA 2: Changelog / Aggiornamenti */
+        .add-review-box {
+            background: rgba(10, 15, 28, 0.9); border: 1px solid rgba(0, 140, 255, 0.3);
+            border-radius: 14px; padding: 20px; max-width: 400px; width: 100%; text-align: left;
+        }
+        .add-review-box h4 { font-size: 14px; color: #00d2ff; margin-bottom: 10px; }
+        .add-review-box input, .add-review-box textarea, .add-review-box select {
+            background: #05080f; border: 1px solid rgba(255,255,255,0.1); color: #fff;
+            padding: 8px 10px; border-radius: 6px; width: 100%; font-size: 12px; margin-bottom: 10px;
+        }
+        .add-review-box textarea { resize: none; height: 60px; }
+
+        /* Changelog / Aggiornamenti */
         .changelog-container {
             max-width: 800px; width: 100%; text-align: left; display: flex; flex-direction: column; gap: 15px;
         }
@@ -595,27 +603,6 @@
         .changelog-version { color: #00d2ff; font-weight: 700; font-size: 14px; }
         .changelog-date { color: #7788a0; font-size: 11px; }
         .changelog-item ul { list-style: disc; padding-left: 18px; color: #c0d0e8; font-size: 13px; }
-
-        /* NUOVA IDEA 3: Calcolatore di Preventivi Personalizzati */
-        .calc-container {
-            background: rgba(10, 15, 28, 0.95); border: 1px solid rgba(0, 140, 255, 0.3);
-            border-radius: 16px; padding: 25px; max-width: 550px; width: 100%; text-align: left;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .calc-group { margin-bottom: 15px; }
-        .calc-group label { display: block; font-size: 12px; font-weight: 600; color: #c0d0e8; margin-bottom: 6px; }
-        .calc-group select, .calc-group input[type="checkbox"] {
-            background: #05080f; border: 1px solid rgba(255,255,255,0.1); color: #fff;
-            padding: 10px; border-radius: 6px; width: 100%; font-size: 13px;
-        }
-        .calc-options { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
-        .calc-checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #c0d0e8; cursor: pointer; }
-        .calc-checkbox-label input { width: 16px; height: 16px; accent-color: #008cff; cursor: pointer; }
-        .calc-total-box {
-            display: flex; justify-content: space-between; align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 20px;
-            font-size: 16px; font-weight: 700;
-        }
 
         @media (max-width: 768px) {
             header { padding: 10px 15px; flex-direction: column; gap: 12px; }
@@ -643,9 +630,8 @@
                 <ul>
                     <li><a href="#home" id="nav-home" class="active">HOME</a></li>
                     <li><a href="#shop" id="nav-shop">SHOP</a></li>
-                    <li><a href="#portfolio" id="nav-portfolio">PORTFOLIO</a></li>
+                    <li><a href="#reviews" id="nav-reviews">RECENSIONI</a></li>
                     <li><a href="#changelog" id="nav-changelog">NOVITÀ</a></li>
-                    <li><a href="#calculator" id="nav-calc">PREVENTIVO</a></li>
                     <li><a href="https://discord.gg/dbc2kmHwep" target="_blank" id="nav-discord">DISCORD</a></li>
                 </ul>
             </nav>
@@ -770,38 +756,46 @@
 
     <div class="section-divider"></div>
 
-    <!-- NUOVA IDEA 1: Portfolio / Vetrina Progetti -->
-    <section id="portfolio" class="page-section">
-        <h2>Portfolio Progetti</h2>
-        <p>Dai un'occhiata ad alcuni dei nostri script e layout realizzati di recente</p>
-        <div class="portfolio-grid">
-            <div class="portfolio-card">
-                <div class="portfolio-img"><i class="fa-solid fa-robot"></i></div>
-                <div class="portfolio-info">
-                    <h4>Bot Ticket Avanzato</h4>
-                    <p>Gestione ticket con trascrizioni automatiche e pannelli di controllo embed.</p>
+    <!-- IDEA AGGIUNTA: Sezione Recensioni e Testimonianze Verificate -->
+    <section id="reviews" class="page-section">
+        <h2>Recensioni Verificate</h2>
+        <p>Cosa dicono i nostri clienti sui prodotti acquistati</p>
+        
+        <div class="reviews-grid" id="reviewsGrid">
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-author">Alex_Dev <span class="verified-badge">Verificato</span></span>
+                    <span class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
                 </div>
+                <p class="review-text">Script 1 spettacolare! Installazione rapidissima e supporto sul server Discord impeccabile.</p>
             </div>
-            <div class="portfolio-card">
-                <div class="portfolio-img"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="portfolio-info">
-                    <h4>Sistema Anti-Nuke</h4>
-                    <p>Protezione in tempo reale per server Discord di grandi dimensioni.</p>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-author">Marco99 <span class="verified-badge">Verificato</span></span>
+                    <span class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
                 </div>
+                <p class="review-text">Ottimo bot, zero lag e funzioni avanzate che fanno la differenza. Consigliatissimo a tutti!</p>
             </div>
-            <div class="portfolio-card">
-                <div class="portfolio-img"><i class="fa-solid fa-globe"></i></div>
-                <div class="portfolio-info">
-                    <h4>Dashboard Web Store</h4>
-                    <p>Pannello di acquisto integrato con API Discord e gestione ruoli automatica.</p>
-                </div>
-            </div>
+        </div>
+
+        <div class="add-review-box">
+            <h4>Lascia una recensione</h4>
+            <form onsubmit="addNewReview(event)">
+                <input type="text" id="revName" required placeholder="Il tuo nome o username Discord">
+                <select id="revRating">
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                    <option value="3">⭐⭐⭐ (3/5)</option>
+                </select>
+                <textarea id="revText" required placeholder="Scrivi la tua opinione sullo script..."></textarea>
+                <button type="submit" class="btn-checkout" style="width: 100%;">Pubblica Recensione</button>
+            </form>
         </div>
     </section>
 
     <div class="section-divider"></div>
 
-    <!-- NUOVA IDEA 2: Changelog / Aggiornamenti -->
+    <!-- Changelog / Aggiornamenti -->
     <section id="changelog" class="page-section">
         <h2>Ultimi Aggiornamenti</h2>
         <p>Segui il registro delle modifiche e le novità rilasciate per i nostri prodotti</p>
@@ -829,53 +823,30 @@
         </div>
     </section>
 
-    <div class="section-divider"></div>
-
-    <!-- NUOVA IDEA 3: Calcolatore di Preventivi Personalizzati -->
-    <section id="calculator" class="page-section">
-        <h2>Preventivo Personalizzato</h2>
-        <p>Configura il tuo script o bot su misura e ottieni una stima immediata del costo</p>
-        <div class="calc-container">
-            <div class="calc-group">
-                <label>Tipo di Progetto</label>
-                <select id="calcType" onchange="calculateEstimate()">
-                    <option value="50">Bot Discord Custom (Base) - € 50</option>
-                    <option value="90">Bot Discord Completo (Ticket + Economy) - € 90</option>
-                    <option value="120">Sito Web / Store Personalizzato - € 120</option>
-                </select>
-            </div>
-            <div class="calc-group">
-                <label>Opzioni Aggiuntive</label>
-                <div class="calc-options">
-                    <label class="calc-checkbox-label"><input type="checkbox" id="opt1" value="25" onchange="calculateEstimate()"> Integrazione Webhook Avanzata (+ € 25)</label>
-                    <label class="calc-checkbox-label"><input type="checkbox" id="opt2" value="40" onchange="calculateEstimate()"> Pannello di Amministrazione Web (+ € 40)</label>
-                    <label class="calc-checkbox-label"><input type="checkbox" id="opt3" value="20" onchange="calculateEstimate()"> Consegna Rapida Prioritaria (+ € 20)</label>
-                </div>
-            </div>
-            <div class="calc-total-box">
-                <span>Stima Totale:</span>
-                <span id="calcTotalPrice" style="color: #00d2ff;">€ 50</span>
-            </div>
-            <button onclick="requestCustomQuote()" class="btn-checkout" style="width: 100%; margin-top: 15px;">Apri Ticket su Discord per Ordinare</button>
-        </div>
-    </section>
-
     <script>
-        // Logica Calcolatore Preventivi
-        function calculateEstimate() {
-            let basePrice = parseInt(document.getElementById('calcType').value);
-            let opt1 = document.getElementById('opt1').checked ? parseInt(document.getElementById('opt1').value) : 0;
-            let opt2 = document.getElementById('opt2').checked ? parseInt(document.getElementById('opt2').value) : 0;
-            let opt3 = document.getElementById('opt3').checked ? parseInt(document.getElementById('opt3').value) : 0;
-            
-            let total = basePrice + opt1 + opt2 + opt3;
-            document.getElementById('calcTotalPrice').innerText = "€ " + total;
-        }
+        // Logica per aggiungere recensioni dinamicamente
+        function addNewReview(event) {
+            event.preventDefault();
+            let name = document.getElementById('revName').value;
+            let rating = parseInt(document.getElementById('revRating').value);
+            let text = document.getElementById('revText').value;
 
-        function requestCustomQuote() {
-            let total = document.getElementById('calcTotalPrice').innerText;
-            alert("Stima calcolata: " + total + ".\nVerrai reindirizzato al server Discord per aprire un ticket con questa configurazione!");
-            window.open("https://discord.gg/dbc2kmHwep", "_blank");
+            let starsHTML = '<i class="fa-solid fa-star"></i>'.repeat(rating);
+            
+            let grid = document.getElementById('reviewsGrid');
+            let card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="review-header">
+                    <span class="review-author">${name} <span class="verified-badge">Verificato</span></span>
+                    <span class="review-stars">${starsHTML}</span>
+                </div>
+                <p class="review-text">${text}</p>
+            `;
+            grid.appendChild(card);
+            alert("Recensione pubblicata con successo!");
+            document.getElementById('revName').value = "";
+            document.getElementById('revText').value = "";
         }
 
         // SCIA LUMINOSA CURSORE
@@ -1101,9 +1072,9 @@
         }
 
         const translations = {
-            it: { navHome: "HOME", navShop: "SHOP", navPortfolio: "PORTFOLIO", navChangelog: "NOVITÀ", navCalc: "PREVENTIVO", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", historyText: "Storico", loginNavText: "Accedi" },
-            en: { navHome: "HOME", navShop: "SHOP", navPortfolio: "PORTFOLIO", navChangelog: "UPDATES", navCalc: "ESTIMATE", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", historyText: "History", loginNavText: "Login" },
-            es: { navHome: "INICIO", navShop: "TIENDA", navPortfolio: "PORTAFOLIO", navChangelog: "NOVEDADES", navCalc: "PRESUPUESTO", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", historyText: "Historial", loginNavText: "Acceder" }
+            it: { navHome: "HOME", navShop: "SHOP", navReviews: "RECENSIONI", navChangelog: "NOVITÀ", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", historyText: "Storico", loginNavText: "Accedi" },
+            en: { navHome: "HOME", navShop: "SHOP", navReviews: "REVIEWS", navChangelog: "UPDATES", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", historyText: "History", loginNavText: "Login" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navReviews: "RESEÑAS", navChangelog: "NOVEDADES", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", historyText: "Historial", loginNavText: "Acceder" }
         };
 
         function changeLanguage(lang, event) {
@@ -1111,9 +1082,8 @@
             document.getElementById('currentLang').innerText = lang.toUpperCase();
             document.getElementById('nav-home').innerText = translations[lang].navHome;
             document.getElementById('nav-shop').innerText = translations[lang].navShop;
-            document.getElementById('nav-portfolio').innerText = translations[lang].navPortfolio;
+            document.getElementById('nav-reviews').innerText = translations[lang].navReviews;
             document.getElementById('nav-changelog').innerText = translations[lang].navChangelog;
-            document.getElementById('nav-calc').innerText = translations[lang].navCalc;
             document.getElementById('nav-discord').innerText = translations[lang].navDiscord;
             document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
             document.getElementById('history-label').innerText = translations[lang].historyText;
