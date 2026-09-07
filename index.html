@@ -911,19 +911,19 @@
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v3.2 - Invio Ordine via Webhook senza Reindirizzamento</span>
+                    <span class="changelog-version">v3.3 - Invio Webhook Tramite Worker Server-Side</span>
                     <span class="changelog-date">07 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Rimosso il reindirizzamento automatico a Discord: ora l'ordine viene inviato tramite Webhook al checkout e resti comodamente sul sito.</li>
+                    <li>Integrato l'invio protetto via server-side per bypassare i blocchi CORS di Discord e garantire la ricezione istantanea dell'ordine.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // --- CONFIGURA QUI IL TUO WEBHOOK DISCORD ---
-        const DISCORD_WEBHOOK_URL = "INSERISCI_QUI_IL_TUO_WEBHOOK_URL";
+        // WEBHOOK DI DISCORD CONFIGURATO CORRETTAMENTE
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm";
 
         // SCRIPT NOTIFICHE TOAST (durata 5 secondi)
         function showToast(message, icon = "fa-circle-check") {
@@ -1224,33 +1224,31 @@
 
             let itemsListStr = cartItems.map(i => i.name).join(", ");
 
-            // 1. Invio dell'ordine al Webhook di Discord (subito al checkout)
-            if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== "INSERISCI_QUI_IL_TUO_WEBHOOK_URL") {
-                const webhookPayload = {
-                    embeds: [{
-                        title: "🛒 Nuovo Ordine Effettuato!",
-                        color: 3092790,
-                        fields: [
-                            { name: "👤 Cliente", value: `${name} (@${discordUserData.username})`, inline: true },
-                            { name: "🆔 Discord ID", value: discordUserData.id, inline: true },
-                            { name: "📧 Email", value: email, inline: true },
-                            { name: "📞 Telefono", value: phone, inline: true },
-                            { name: "🎂 Data di Nascita", value: dob, inline: true },
-                            { name: "📦 Prodotti", value: itemsListStr, inline: false }
-                        ],
-                        timestamp: new Date().toISOString()
-                    }]
-                };
+            const webhookPayload = {
+                embeds: [{
+                    title: "🛒 Nuovo Ordine Effettuato!",
+                    color: 3092790,
+                    fields: [
+                        { name: "👤 Cliente", value: `${name} (@${discordUserData.username})`, inline: true },
+                        { name: "🆔 Discord ID", value: discordUserData.id, inline: true },
+                        { name: "📧 Email", value: email, inline: true },
+                        { name: "📞 Telefono", value: phone, inline: true },
+                        { name: "🎂 Data di Nascita", value: dob, inline: true },
+                        { name: "📦 Prodotti", value: itemsListStr, inline: false }
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
+            };
 
-                try {
-                    await fetch(DISCORD_WEBHOOK_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(webhookPayload)
-                    });
-                } catch (err) {
-                    console.error("Errore invio webhook Discord:", err);
-                }
+            // 1. Invio tramite Cloudflare Worker per bypassare i blocchi CORS del browser
+            try {
+                await fetch(`${CLOUDWORKER_URL}/send-webhook`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ webhookUrl: DISCORD_WEBHOOK_URL, payload: webhookPayload })
+                });
+            } catch (err) {
+                console.error("Errore invio webhook via Worker:", err);
             }
 
             // 2. Salvataggio locale e cloudworker ordini
@@ -1268,7 +1266,7 @@
             }
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
             
-            // 3. Notifica a schermo (nessun reindirizzamento esterno)
+            // 3. Notifica a schermo (nessun reindirizzamento)
             showToast("Ordine inviato con successo e notificato su Discord!", "fa-circle-check");
             cartItems = [];
             updateCartUI();
