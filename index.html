@@ -731,9 +731,9 @@
     </section>
 
     <script>
-        // FUNZIONE EFFETTO SCARICA ELETTRICA AL CLICK
+        // FUNZIONE EFFETTO AUDIO RILASSANTE CON DISSOLVENZA (FADE-OUT)
         let audioCtx = null;
-        function playLightningSound() {
+        function playRelaxingSound() {
             try {
                 if (!audioCtx) {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -742,41 +742,42 @@
                     audioCtx.resume();
                 }
 
-                // Crea un buffer di rumore bianco per simulare il fruscio del fulmine
-                const bufferSize = audioCtx.sampleRate * 0.15; // 150ms di durata
-                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                const data = buffer.getChannelData(0);
-                for (let i = 0; i < bufferSize; i++) {
-                    data[i] = Math.random() * 2 - 1;
-                }
+                const now = audioCtx.currentTime;
 
-                const noise = audioCtx.createBufferSource();
-                noise.buffer = buffer;
+                // Oscillatore per un suono morbido e armonico (onda sinusoidale)
+                const osc = audioCtx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(329.63, now); // Nota E4 (rilassante)
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.4); // Salita morbida a E5
 
-                // Filtro passa-banda per dare l'effetto elettrico metallico
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'bandpass';
-                filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                filter.Q.setValueAtTime(3, audioCtx.currentTime);
+                // Secondo oscillatore per dare pienezza (accordo celestiale)
+                const osc2 = audioCtx.createOscillator();
+                osc2.type = 'triangle';
+                osc2.frequency.setValueAtTime(164.81, now); // Nota E3
 
-                // Controllo del volume (inizia alto e scende subito)
+                // Controllo del volume con dissolvenza in apertura e dissolvenza lunga in chiusura (fade-out)
                 const gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+                gainNode.gain.setValueAtTime(0.001, now);
+                gainNode.gain.linearRampToValueAtTime(0.15, now + 0.1); // Entrata dolce
+                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.9); // Dissolvenza prolungata di quasi 1 secondo
 
-                noise.connect(filter);
-                filter.connect(gainNode);
+                osc.connect(gainNode);
+                osc2.connect(gainNode);
                 gainNode.connect(audioCtx.destination);
 
-                noise.start();
+                osc.start(now);
+                osc2.start(now);
+
+                osc.stop(now + 0.9);
+                osc2.stop(now + 0.9);
             } catch (e) {
-                // Gestione silenziosa se il browser blocca l'audio prima di un'interazione
+                // Gestione silenziosa se il browser blocca l'audio iniziale
             }
         }
 
-        // Ascolta qualsiasi click sullo schermo per riprodurre la scarica
+        // Ascolta qualsiasi click sullo schermo per riprodurre il suono rilassante
         document.addEventListener('click', () => {
-            playLightningSound();
+            playRelaxingSound();
         });
 
         const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
