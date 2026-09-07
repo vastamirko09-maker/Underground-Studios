@@ -24,6 +24,45 @@
             overflow-x: hidden;
         }
 
+        /* Notifiche Toast */
+        #toast-container {
+            position: fixed;
+            top: 85px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: rgba(17, 22, 34, 0.95);
+            border: 1px solid #008cff;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 140, 255, 0.3);
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            animation: slideInToast 0.3s ease, fadeOutToast 0.3s ease 2.7s forwards;
+        }
+
+        .toast i { color: #00d2ff; font-size: 16px; }
+
+        @keyframes slideInToast {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOutToast {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+
         /* Stile delle particelle della scia del cursore */
         .cursor-trail {
             position: fixed;
@@ -42,7 +81,7 @@
             100% { transform: scale(0.2); opacity: 0; }
         }
 
-        /* Header Adattivo (PC & Mobile) */
+        /* Header Adattivo */
         header {
             display: flex;
             justify-content: space-between;
@@ -210,8 +249,8 @@
         .dropdown-content a:hover { background-color: #008cff; color: #fff; }
         .dropdown.show .dropdown-content { display: block; }
 
-        /* Modali */
-        .cart-modal, .checkout-modal, .history-modal {
+        /* Modali Generali */
+        .cart-modal, .checkout-modal, .history-modal, .product-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -226,7 +265,7 @@
             padding: 15px;
         }
 
-        .cart-modal.show, .checkout-modal.show, .history-modal.show { display: flex; }
+        .cart-modal.show, .checkout-modal.show, .history-modal.show, .product-modal.show { display: flex; }
 
         .cart-content {
             background-color: #111622;
@@ -492,7 +531,34 @@
         .page-section p {
             font-size: 14px;
             color: #c0d0e8;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
+        }
+
+        /* Filtri Shop (Punto 1) */
+        .shop-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            background: #111622;
+            border: 1px solid rgba(0, 140, 255, 0.3);
+            color: #fff;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #008cff;
+            border-color: #00d2ff;
+            box-shadow: 0 0 15px rgba(0, 140, 255, 0.5);
         }
 
         /* Shop Grid */
@@ -518,6 +584,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
             z-index: 1;
+            cursor: pointer;
         }
 
         .shop-card::before {
@@ -546,18 +613,20 @@
         }
 
         .shop-card h4 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
-        .shop-card span {
+        .shop-card span.price {
             display: block; color: #00d2ff; font-size: 20px; font-weight: 900; margin-bottom: 20px;
             text-shadow: 0 0 15px rgba(0, 210, 255, 0.7);
         }
 
-        .shop-card button {
+        .shop-card button, .shop-card .btn-details {
             background: linear-gradient(135deg, #008cff, #004ba8);
             color: #fff; padding: 12px 18px; border-radius: 10px; font-weight: 700;
             border: none; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(0, 140, 255, 0.4);
             font-size: 13px; transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
-        .shop-card button:hover { background: linear-gradient(135deg, #00a2ff, #0060d1); }
+        .shop-card button:hover, .shop-card .btn-details:hover { background: linear-gradient(135deg, #00a2ff, #0060d1); }
 
         .btn-discord-login {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
@@ -616,6 +685,9 @@
 </head>
 <body>
 
+    <!-- Container Notifiche Toast (Punto 4) -->
+    <div id="toast-container"></div>
+
     <header>
         <div class="header-left">
             <div class="logo-area">
@@ -661,7 +733,25 @@
         </div>
     </header>
 
-    <!-- Modali (Carrello, Storico, Checkout) -->
+    <!-- Modali (Carrello, Storico, Checkout, Dettaglio Prodotto - Punto 3) -->
+    <div class="product-modal" id="productModal">
+        <div class="content-wrapper cart-content">
+            <h3 id="modalProdTitle" style="color: #00d2ff;">Titolo Prodotto</h3>
+            <p id="modalProdCategory" style="font-size: 11px; color: #008cff; text-transform: uppercase; margin-bottom: 10px; font-weight: 700;"></p>
+            <p id="modalProdDesc" style="font-size: 13px; color: #c0d0e8; margin-bottom: 15px; line-height: 1.5;"></p>
+            <div class="cart-total">
+                <span>Prezzo:</span>
+                <span id="modalProdPrice" style="color: #008cff;">€ 0.00</span>
+            </div>
+            <div class="cart-actions" id="modalProdActions">
+                <!-- Dinamico -->
+            </div>
+            <div style="margin-top: 10px;">
+                <button class="btn-close-cart" onclick="closeProductModal()" style="width: 100%;">Chiudi</button>
+            </div>
+        </div>
+    </div>
+
     <div class="cart-modal" id="cartModal">
         <div class="content-wrapper cart-content">
             <h3 id="cart-modal-title">Il tuo carrello</h3>
@@ -731,32 +821,55 @@
 
     <div class="section-divider"></div>
 
-    <!-- Shop -->
+    <!-- Shop con Filtri (Punto 1 & 3) -->
     <section id="shop" class="page-section" data-nav="link-shop">
         <h2 id="shop-title">Shop</h2>
         <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
-        <div class="shop-grid">
-            <div class="shop-card">
-                <h4 id="prod-1-title">Script 1</h4>
-                <span>€ 14.99</span>
-                <div id="shop-btn-1"><button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button></div>
+        
+        <!-- Pulsanti di Filtro Categorie -->
+        <div class="shop-filters">
+            <button class="filter-btn active" onclick="filterProducts('all', event)">Tutti</button>
+            <button class="filter-btn" onclick="filterProducts('setting', event)">Setting</button>
+            <button class="filter-btn" onclick="filterProducts('bot-creazione', event)">Bot Creazione</button>
+            <button class="filter-btn" onclick="filterProducts('bot-server', event)">Bot Server Custom</button>
+            <button class="filter-btn" onclick="filterProducts('grafica', event)">Grafiche e Design</button>
+        </div>
+
+        <div class="shop-grid" id="shopGrid">
+            <div class="shop-card" data-category="setting" onclick="openProductModal('Script 1: Set Base', 14.99, 'setting', 'Configurazione iniziale completa e ottimizzazione permessi per il tuo server Discord con ruoli avanzati.', 1)">
+                <h4>Script 1</h4>
+                <span class="price">€ 14.99</span>
+                <div id="shop-btn-1" onclick="event.stopPropagation()">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
+                </div>
             </div>
-            <div class="shop-card">
-                <h4 id="prod-2-title">Script 2</h4>
-                <span>€ 19.99</span>
-                <div id="shop-btn-2"><button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button></div>
+            <div class="shop-card" data-category="bot-creazione" onclick="openProductModal('Script 2: Bot Builder', 19.99, 'bot-creazione', 'Sistema automatizzato per la creazione e la gestione dei ticket e delle verifiche con pannello interattivo.', 2)">
+                <h4>Script 2</h4>
+                <span class="price">€ 19.99</span>
+                <div id="shop-btn-2" onclick="event.stopPropagation()">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
+                </div>
             </div>
-            <div class="shop-card">
-                <h4 id="prod-3-title">Script 3</h4>
-                <span>€ 24.99</span>
-                <div id="shop-btn-3"><button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi con Discord</button></div>
+            <div class="shop-card" data-category="bot-server" onclick="openProductModal('Script 3: Bot Server Custom', 24.99, 'bot-server', 'Bot dedicato e programmato su misura con funzioni di moderazione avanzata, musica ed economia integrata.', 3)">
+                <h4>Script 3</h4>
+                <span class="price">€ 24.99</span>
+                <div id="shop-btn-3" onclick="event.stopPropagation()">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
+                </div>
+            </div>
+            <div class="shop-card" data-category="grafica" onclick="openProductModal('Pack Banner & Grafiche HD', 9.99, 'grafica', 'Kit completo di banner, loghi e grafiche coordinate per dare un aspetto professionale al tuo brand.', 4)">
+                <h4>Grafica HD</h4>
+                <span class="price">€ 9.99</span>
+                <div id="shop-btn-4" onclick="event.stopPropagation()">
+                    <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
+                </div>
             </div>
         </div>
     </section>
 
     <div class="section-divider"></div>
 
-    <!-- Sezione Recensioni e Testimonianze Verificate -->
+    <!-- Recensioni -->
     <section id="reviews" class="page-section" data-nav="link-reviews">
         <h2>Recensioni Verificate</h2>
         <p>Cosa dicono i nostri clienti sui prodotti acquistati</p>
@@ -795,34 +908,88 @@
 
     <div class="section-divider"></div>
 
-    <!-- Changelog / Aggiornamenti -->
+    <!-- Changelog -->
     <section id="changelog" class="page-section" data-nav="link-changelog">
         <h2>Ultimi Aggiornamenti</h2>
         <p>Segui il registro delle modifiche e le novità rilasciate per i nostri prodotti</p>
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v2.7 - Evidenziazione Pulsanti Menu</span>
+                    <span class="changelog-version">v2.8 - Filtri Shop e Modali Dettaglio</span>
                     <span class="changelog-date">07 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Aggiunta la sincronizzazione automatica della classe active sulla barra di navigazione in base alla sezione visibile.</li>
-                </ul>
-            </div>
-            <div class="changelog-item">
-                <div class="changelog-header">
-                    <span class="changelog-version">v2.6 - Rimozione Widget Laterale</span>
-                    <span class="changelog-date">07 Settembre 2026</span>
-                </div>
-                <ul>
-                    <li>Rimossa la scorciatoia fluttuante in basso a destra per un'interfaccia ancora più pulita.</li>
+                    <li>Aggiunti i filtri per categorie (Setting, Bot Creazione, Bot Server Custom, Grafiche).</li>
+                    <li>Implementate le finestre di dettaglio prodotto e il sistema di notifiche Toast moderne.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO IN BASE ALLA SEZIONE VISIBILE
+        // SCRIPT NOTIFICHE TOAST (Punto 4)
+        function showToast(message, icon = "fa-circle-check") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // FILTRI PRODOTTI SHOP (Punto 1)
+        function filterProducts(category, event) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const cards = document.querySelectorAll('.shop-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // MODALE DETTAGLIO PRODOTTO (Punto 3)
+        let currentModalProduct = null;
+        function openProductModal(title, price, category, desc, id) {
+            currentModalProduct = { title, price, id };
+            document.getElementById('modalProdTitle').innerText = title;
+            document.getElementById('modalProdPrice').innerText = "€ " + price.toFixed(2);
+            document.getElementById('modalProdCategory').innerText = "Categoria: " + category.toUpperCase();
+            document.getElementById('modalProdDesc').innerText = desc;
+
+            let actionsContainer = document.getElementById('modalProdActions');
+            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+            let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
+            let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
+
+            if (discordUserData) {
+                actionsContainer.innerHTML = `<button class="btn-checkout" onclick="addCurrentModalToCart()"><i class="fa-solid fa-cart-shopping"></i> ${buyText}</button>`;
+            } else {
+                actionsContainer.innerHTML = `<button class="btn-discord-login buy-text" onclick="loginWithDiscord()"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
+            }
+
+            document.getElementById('productModal').classList.add('show');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('show');
+        }
+
+        function addCurrentModalToCart() {
+            if (!currentModalProduct) return;
+            cartItems.push({ name: currentModalProduct.title, price: currentModalProduct.price });
+            updateCartUI();
+            closeProductModal();
+            showToast(`Aggiunto al carrello: ${currentModalProduct.title}`);
+        }
+
+        // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO NELLA NAVBAR
         const observerOptions = {
             root: null,
             rootMargin: '-30% 0px -50% 0px',
@@ -846,7 +1013,7 @@
             observer.observe(section);
         });
 
-        // Logica per aggiungere recensioni dinamicamente
+        // Recensioni
         function addNewReview(event) {
             event.preventDefault();
             let name = document.getElementById('revName').value;
@@ -866,7 +1033,7 @@
                 <p class="review-text">${text}</p>
             `;
             grid.appendChild(card);
-            alert("Recensione pubblicata con successo!");
+            showToast("Recensione pubblicata con successo!");
             document.getElementById('revName').value = "";
             document.getElementById('revText').value = "";
         }
@@ -911,7 +1078,6 @@
         }
         document.addEventListener('click', () => { playRelaxingSound(); });
 
-        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm';
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
 
         let cartItems = [];
@@ -931,6 +1097,7 @@
                         discordUserData = data;
                         localStorage.setItem('discord_user_cache', JSON.stringify(data));
                         applyUserDataToUI();
+                        showToast(`Benvenuto, @${discordUserData.username}!`);
                     }
                 } catch (e) { console.error("Errore autenticazione", e); }
             } else {
@@ -976,27 +1143,37 @@
             let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
             let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
 
-            for (let i = 1; i <= 3; i++) {
-                let container = document.getElementById(`shop-btn-${i}`);
-                if(!container) continue;
-                let price = i === 1 ? 14.99 : (i === 2 ? 19.99 : 24.99);
-                let name = `Script ${i}`;
+            const productData = [
+                { id: 1, name: 'Script 1: Set Base', price: 14.99 },
+                { id: 2, name: 'Script 2: Bot Builder', price: 19.99 },
+                { id: 3, name: 'Script 3: Bot Server Custom', price: 24.99 },
+                { id: 4, name: 'Pack Banner & Grafiche HD', price: 9.99 }
+            ];
+
+            productData.forEach(prod => {
+                let container = document.getElementById(`shop-btn-${prod.id}`);
+                if(!container) return;
                 if (discordUserData) {
-                    container.innerHTML = `<button onclick="addToCart('${name}', ${price})" class="buy-text">${buyText}</button>`;
+                    container.innerHTML = `<button onclick="addToCart('${prod.name}', ${prod.price})" class="buy-text">${buyText}</button>`;
                 } else {
                     container.innerHTML = `<button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
                 }
-            }
+            });
         }
 
         function addToCart(name, price) {
-            if (!discordUserData) { alert("Devi prima accedere con Discord per poter acquistare!"); return; }
-            if (!confirm(`Aggiungere "${name}" al carrello? (€ ${price.toFixed(2)})`)) return;
+            if (!discordUserData) { showToast("Devi prima accedere con Discord!", "fa-triangle-exclamation"); return; }
             cartItems.push({ name: name, price: price });
             updateCartUI();
+            showToast(`Aggiunto al carrello: ${name}`);
         }
 
-        function removeFromCart(index) { cartItems.splice(index, 1); updateCartUI(); }
+        function removeFromCart(index) { 
+            let removed = cartItems[index].name;
+            cartItems.splice(index, 1); 
+            updateCartUI();
+            showToast(`Rimosso: ${removed}`);
+        }
 
         function updateCartUI() {
             document.getElementById('cartCount').innerText = cartItems.length;
@@ -1022,7 +1199,7 @@
         function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
 
         function openHistoryModal() {
-            if (!discordUserData) { alert("Devi effettuare l'accesso con Discord per visualizzare lo storico!"); return; }
+            if (!discordUserData) { showToast("Effettua l'accesso con Discord!", "fa-triangle-exclamation"); return; }
             renderUserHistory();
             document.getElementById('historyModal').classList.add('show');
         }
@@ -1045,8 +1222,8 @@
         }
 
         function openCheckoutModal() {
-            if (cartItems.length === 0) { alert("Il carrello è vuoto!"); return; }
-            if (!discordUserData) { alert("Devi effettuare l'accesso con Discord!"); return; }
+            if (cartItems.length === 0) { showToast("Il carrello è vuoto!", "fa-triangle-exclamation"); return; }
+            if (!discordUserData) { showToast("Effettua l'accesso con Discord!", "fa-triangle-exclamation"); return; }
             closeCartModal();
             document.getElementById('checkoutModal').classList.add('show');
         }
@@ -1075,7 +1252,7 @@
                 } catch (e) { console.error(e); }
             }
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
-            alert("Ordine inviato con successo!");
+            showToast("Ordine inviato con successo!");
             cartItems = [];
             updateCartUI();
             document.getElementById('orderForm').reset();
@@ -1094,9 +1271,9 @@
         }
 
         const translations = {
-            it: { navHome: "HOME", navShop: "SHOP", navReviews: "RECENSIONI", navChangelog: "NOVITÀ", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", historyText: "Storico", loginNavText: "Accedi" },
-            en: { navHome: "HOME", navShop: "SHOP", navReviews: "REVIEWS", navChangelog: "UPDATES", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", historyText: "History", loginNavText: "Login" },
-            es: { navHome: "INICIO", navShop: "TIENDA", navReviews: "RESEÑAS", navChangelog: "NOVEDADES", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", historyText: "Historial", loginNavText: "Acceder" }
+            it: { navHome: "HOME", navShop: "SHOP", navReviews: "RECENSIONI", navChangelog: "NOVITÀ", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", historyText: "Storico", loginNavText: "Accedi", buy: "Acquista", loginDiscord: "Accedi con Discord" },
+            en: { navHome: "HOME", navShop: "SHOP", navReviews: "REVIEWS", navChangelog: "UPDATES", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", historyText: "History", loginNavText: "Login", buy: "Buy", loginDiscord: "Login with Discord" },
+            es: { navHome: "INICIO", navShop: "TIENDA", navReviews: "RESEÑAS", navChangelog: "NOVEDADES", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", historyText: "Historial", loginNavText: "Acceder", buy: "Comprar", loginDiscord: "Acceder con Discord" }
         };
 
         function changeLanguage(lang, event) {
