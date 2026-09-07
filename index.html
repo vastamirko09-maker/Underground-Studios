@@ -42,13 +42,13 @@
             box-shadow: inset 0 0 100px #00d2ff;
         }
 
-        /* Header Centrato */
+        /* Header Adattivo (PC & Mobile) */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 50px;
-            background-color: rgba(3, 5, 8, 0.9);
+            padding: 15px 30px;
+            background-color: rgba(3, 5, 8, 0.95);
             position: fixed;
             width: 100%;
             top: 0;
@@ -60,12 +60,12 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .logo-area img {
-            width: 42px;
-            height: 42px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #008cff;
@@ -73,7 +73,7 @@
         }
 
         .logo-text {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 900;
             letter-spacing: 1px;
             color: #fff;
@@ -82,29 +82,23 @@
 
         .logo-text span {
             display: block;
-            font-size: 11px;
+            font-size: 10px;
             color: #008cff;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
         }
 
         /* Navigazione centrale */
-        nav {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
         nav ul {
             display: flex;
             list-style: none;
-            gap: 40px;
+            gap: 25px;
             align-items: center;
         }
 
         nav ul li a {
             text-decoration: none;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             transition: color 0.3s ease;
         }
 
@@ -119,27 +113,26 @@
 
         nav ul li a.inactive {
             color: #ffffff !important;
-            text-shadow: none;
         }
 
         /* Parte destra: Carrello + Lingua */
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .cart-btn {
             background-color: #111622;
             border: 1px solid rgba(0, 140, 255, 0.3);
             color: white;
-            padding: 8px 15px;
+            padding: 7px 12px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -158,14 +151,14 @@
             background: #111622;
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: #fff;
-            padding: 8px 15px;
+            padding: 7px 10px;
             border-radius: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             transition: border-color 0.3s ease;
         }
 
@@ -178,7 +171,7 @@
             position: absolute;
             right: 0;
             background-color: #111622;
-            min-width: 130px;
+            min-width: 110px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
             border: 1px solid rgba(0, 140, 255, 0.3);
             border-radius: 8px;
@@ -189,10 +182,10 @@
 
         .dropdown-content a {
             color: white;
-            padding: 10px 15px;
+            padding: 8px 12px;
             text-decoration: none;
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             transition: background 0.2s;
         }
@@ -219,6 +212,7 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
+            padding: 15px;
         }
 
         .cart-modal.show, .checkout-modal.show {
@@ -228,36 +222,38 @@
         .cart-content {
             background-color: #111622;
             border: 1px solid rgba(0, 140, 255, 0.3);
-            width: 90%;
-            max-width: 450px;
+            width: 100%;
+            max-width: 420px;
             border-radius: 12px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .cart-content h3 {
             color: #008cff;
-            margin-bottom: 20px;
-            font-size: 22px;
+            margin-bottom: 15px;
+            font-size: 20px;
             text-transform: uppercase;
         }
 
         .cart-list {
             list-style: none;
-            max-height: 220px;
+            max-height: 180px;
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-top: 1px solid rgba(255,255,255,0.1);
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 0;
+            padding: 8px 0;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            font-size: 15px;
+            padding: 8px 0;
+            font-size: 14px;
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -270,9 +266,9 @@
         }
 
         .cart-total {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
         }
@@ -286,12 +282,13 @@
             background-color: #008cff;
             color: white;
             border: none;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
             font-weight: 700;
             flex: 1;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 13px;
         }
 
         .btn-checkout:hover { background-color: #0070d1; }
@@ -300,11 +297,12 @@
             background-color: #222b3f;
             color: white;
             border: none;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
             font-weight: 700;
             cursor: pointer;
             transition: background 0.3s;
+            font-size: 13px;
         }
 
         .btn-close-cart:hover { background-color: #2e3b55; }
@@ -313,23 +311,24 @@
         .checkout-form {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .checkout-form label {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: #a0a8b8;
-            margin-bottom: -8px;
+            margin-bottom: -6px;
         }
 
         .checkout-form input {
             background: #080b12;
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 12px;
+            padding: 9px 10px;
             border-radius: 6px;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
+            width: 100%;
         }
 
         .checkout-form input:focus {
@@ -337,7 +336,7 @@
             outline: none;
         }
 
-        /* Sezione Home (Hero) con Tempesta attiva */
+        /* Sezione Home (Hero) */
         .hero {
             height: 100vh;
             display: flex;
@@ -404,26 +403,11 @@
         .bolt-6 { left: 90%; top: -25%; width: 4px; height: 270px; animation: strike 2.9s infinite; animation-delay: 1.4s; transform: rotate(-18deg); }
 
         @keyframes strike {
-            0%, 75%, 100% {
-                opacity: 0;
-                transform: translateY(-80px) scaleY(0.1);
-            }
-            78% {
-                opacity: 1;
-                transform: translateY(280px) scaleY(1.2);
-            }
-            81% {
-                opacity: 0.3;
-                transform: translateY(450px) scaleY(0.7);
-            }
-            84% {
-                opacity: 1;
-                transform: translateY(600px) scaleY(1.6);
-            }
-            88% {
-                opacity: 0;
-                transform: translateY(800px) scaleY(2);
-            }
+            0%, 75%, 100% { opacity: 0; transform: translateY(-80px) scaleY(0.1); }
+            78% { opacity: 1; transform: translateY(280px) scaleY(1.2); }
+            81% { opacity: 0.3; transform: translateY(450px) scaleY(0.7); }
+            84% { opacity: 1; transform: translateY(600px) scaleY(1.6); }
+            88% { opacity: 0; transform: translateY(800px) scaleY(2); }
         }
 
         .hero-logo-container, .hero h1, .hero h3 {
@@ -432,7 +416,7 @@
 
         .hero-logo-container {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -441,8 +425,8 @@
         .hero-logo-container::after {
             content: '';
             position: absolute;
-            width: 140px;
-            height: 140px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             border: 2px dashed rgba(0, 140, 255, 0.5);
             animation: rotate 20s linear infinite;
@@ -454,8 +438,8 @@
         }
 
         .hero-logo {
-            width: 110px;
-            height: 110px;
+            width: 95px;
+            height: 95px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid #008cff;
@@ -464,7 +448,7 @@
         }
 
         .hero h1 {
-            font-size: clamp(40px, 6vw, 68px);
+            font-size: clamp(32px, 5vw, 58px);
             font-weight: 900;
             color: #008cff;
             text-transform: uppercase;
@@ -476,7 +460,7 @@
         }
 
         .hero h3 {
-            font-size: 22px;
+            font-size: clamp(14px, 2.5vw, 20px);
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 10px;
@@ -484,10 +468,10 @@
             text-transform: uppercase;
         }
 
-        /* Sezione Shop Fortemente Animata */
+        /* Sezione Shop */
         .shop-section {
             min-height: 100vh;
-            padding: 120px 20px 80px 20px;
+            padding: 100px 15px 60px 15px;
             background: linear-gradient(180deg, #030508 0%, #061124 100%);
             display: flex;
             flex-direction: column;
@@ -498,116 +482,64 @@
             overflow: hidden;
         }
 
-        .shop-section::before {
-            content: '';
-            position: absolute;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(0, 140, 255, 0.15) 0%, transparent 65%);
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1;
-            animation: shopPulse 4s infinite alternate ease-in-out;
-        }
-
-        @keyframes shopPulse {
-            0% { transform: translate(-50%, -50%) scale(0.7); opacity: 0.3; }
-            100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.9; }
-        }
-
-        .shop-section h2, .shop-section p, .shop-grid {
-            z-index: 2;
-        }
-
         .shop-section h2 {
-            font-size: 42px;
+            font-size: clamp(30px, 4vw, 42px);
             font-weight: 900;
             color: #008cff;
             text-transform: uppercase;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             text-shadow: 0 0 25px rgba(0, 140, 255, 0.6);
         }
 
         .shop-section p {
-            font-size: 16px;
+            font-size: 14px;
             color: #c0d0e8;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .shop-grid {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 1000px;
+            max-width: 950px;
+            width: 100%;
         }
 
         .shop-card {
             background: rgba(13, 20, 36, 0.85);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(0, 140, 255, 0.4);
-            padding: 30px;
+            padding: 25px 20px;
             border-radius: 16px;
-            width: 280px;
+            width: 100%;
+            max-width: 270px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 140, 255, 0.05);
-            animation: cardFloat 5s ease-in-out infinite;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .shop-card:nth-child(1) { animation-delay: 0s; }
-        .shop-card:nth-child(2) { animation-delay: 1.5s; }
-        .shop-card:nth-child(3) { animation-delay: 3s; }
-
-        @keyframes cardFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .shop-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #00d2ff, #ffffff, transparent);
-            transition: 0.5s;
-        }
-
-        .shop-card:hover::after {
-            left: 100%;
-        }
-
-        .shop-card:hover {
-            transform: translateY(-15px) scale(1.04);
-            border-color: #00d2ff;
-            box-shadow: 0 15px 40px rgba(0, 140, 255, 0.4), inset 0 0 20px rgba(0, 210, 255, 0.2);
-            animation-play-state: paused;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
         }
 
         .shop-card h4 {
-            font-size: 20px;
+            font-size: 18px;
             color: #fff;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .shop-card span {
             display: block;
             color: #00d2ff;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
         }
 
         .shop-card button {
             background: linear-gradient(135deg, #008cff, #004ba8);
             color: #fff;
-            padding: 12px 20px;
+            padding: 11px 15px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 700;
@@ -615,38 +547,61 @@
             cursor: pointer;
             width: 100%;
             box-shadow: 0 4px 15px rgba(0, 140, 255, 0.4);
+            font-size: 13px;
             transition: all 0.3s ease;
         }
 
-        .shop-card button:hover {
-            background: linear-gradient(135deg, #00bfff, #0070d1);
-            box-shadow: 0 6px 25px rgba(0, 210, 255, 0.8);
-            transform: translateY(-2px);
-        }
-
-        /* Pulsante Login Discord personalizzato */
         .btn-discord-login {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4) !important;
         }
-        .btn-discord-login:hover {
-            background: linear-gradient(135deg, #7983f5, #5865F2) !important;
-            box-shadow: 0 6px 25px rgba(88, 101, 242, 0.8) !important;
-        }
 
+        /* MEDIA QUERIES PER ADATTABILITÀ MOBILE ESTREMA */
         @media (max-width: 768px) {
-            header { padding: 15px 20px; }
-            nav { position: static; transform: none; }
-            nav ul { gap: 15px; }
+            header {
+                padding: 10px 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .logo-area {
+                display: none; /* Nasconde il logo piccolo nell'header su mobile per fare spazio */
+            }
+
+            nav {
+                width: 100%;
+                order: 2;
+                display: flex;
+                justify-content: center;
+                border-top: 1px solid rgba(255,255,255,0.05);
+                padding-top: 6px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            nav ul li a {
+                font-size: 12px;
+            }
+
+            .nav-right {
+                order: 1;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .shop-section {
+                padding-top: 130px; /* Più spazio in alto su mobile per via dell'header a due righe */
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Overlay per il lampo di fulmine globale -->
     <div id="click-lightning-overlay"></div>
 
-    <!-- Header / Navbar -->
     <header>
         <div class="logo-area">
             <img src="logo.png" alt="Logo">
@@ -656,7 +611,6 @@
             </div>
         </div>
 
-        <!-- Menu centrale -->
         <nav>
             <ul>
                 <li><a href="#home" id="nav-home" class="active">HOME</a></li>
@@ -665,7 +619,6 @@
             </ul>
         </nav>
 
-        <!-- Parte Destra: Carrello + Lingua -->
         <div class="nav-right">
             <button class="cart-btn" onclick="openCartModal()">
                 <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
@@ -673,7 +626,7 @@
 
             <div class="dropdown" id="langDropdown">
                 <button class="lang-btn" onclick="toggleDropdown(event)">
-                    <i class="fa-solid fa-globe"></i> <span id="currentLang">IT</span> <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i>
+                    <i class="fa-solid fa-globe"></i> <span id="currentLang">IT</span> <i class="fa-solid fa-chevron-down" style="font-size: 9px;"></i>
                 </button>
                 <div class="dropdown-content">
                     <a href="#" onclick="changeLanguage('it', event)">Italiano</a>
@@ -719,10 +672,10 @@
                 <label>Data di Nascita</label>
                 <input type="date" id="custDob" required>
 
-                <label>ID Discord (Autenticato automaticamente)</label>
-                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login con Discord prima di procedere">
+                <label>ID Discord Verificato</label>
+                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login con Discord">
 
-                <div class="cart-actions" style="margin-top: 15px;">
+                <div class="cart-actions" style="margin-top: 12px;">
                     <button type="submit" class="btn-checkout" id="submit-order-btn">Invia Ordine</button>
                     <button type="button" class="btn-close-cart" onclick="closeCheckoutModal()">Indietro</button>
                 </div>
@@ -730,7 +683,7 @@
         </div>
     </div>
 
-    <!-- Sezione Home con Tempesta e Fulmini -->
+    <!-- Sezione Home -->
     <section id="home" class="hero">
         <div class="lightning-container">
             <div class="bolt bolt-1"></div>
@@ -747,7 +700,7 @@
         <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
     </section>
 
-    <!-- Sezione Shop Fortemente Animata -->
+    <!-- Sezione Shop -->
     <section id="shop" class="shop-section">
         <h2 id="shop-title">Shop</h2>
         <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
@@ -781,9 +734,8 @@
         const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
 
         let cartItems = [];
-        let discordUserData = null; // Memorizzerà l'ID e il profilo reale
+        let discordUserData = null;
 
-        // Controllo automatico al caricamento della pagina per verificare il ritorno da Discord OAuth2
         window.addEventListener('DOMContentLoaded', async () => {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
@@ -799,7 +751,6 @@
                         discordUserData = data;
                         updateShopButtons();
                         
-                        // Inserisce in automatico il nome e l'ID reale nel modulo d'ordine
                         const discordInput = document.getElementById('custDiscord');
                         discordInput.value = `${data.global_name} (@${data.username}) - ID: ${data.id}`;
                         discordInput.style.borderColor = "#00d2ff";
@@ -807,11 +758,10 @@
                         alert("Errore durante l'autenticazione con Discord.");
                     }
                 } catch (e) {
-                    console.error("Errore di connessione con il worker", e);
+                    console.error("Errore di connessione", e);
                     alert("Si è verificato un errore durante la verifica Discord.");
                 }
 
-                // Pulisce l'URL rimuovendo il parametro ?code=
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
 
@@ -907,9 +857,6 @@
 
             cartItems.push({ name: name, price: price });
             updateCartUI();
-            let countSpan = document.getElementById('cartCount');
-            countSpan.style.transform = "scale(1.3)";
-            setTimeout(() => countSpan.style.transform = "scale(1)", 200);
         }
 
         function removeFromCart(index) {
@@ -942,30 +889,16 @@
             document.getElementById('cartTotalPrice').innerText = "€ " + total.toFixed(2);
         }
 
-        function openCartModal() {
-            document.getElementById('cartModal').classList.add('show');
-        }
-
-        function closeCartModal() {
-            document.getElementById('cartModal').classList.remove('show');
-        }
+        function openCartModal() { document.getElementById('cartModal').classList.add('show'); }
+        function closeCartModal() { document.getElementById('cartModal').classList.remove('show'); }
 
         function openCheckoutModal() {
-            if (cartItems.length === 0) {
-                alert("Il carrello è vuoto!");
-                return;
-            }
-            if (!discordUserData) {
-                alert("Devi effettuare l'accesso con Discord prima di procedere al checkout!");
-                return;
-            }
+            if (cartItems.length === 0) { alert("Il carrello è vuoto!"); return; }
+            if (!discordUserData) { alert("Devi effettuare l'accesso con Discord prima di procedere!"); return; }
             closeCartModal();
             document.getElementById('checkoutModal').classList.add('show');
         }
-
-        function closeCheckoutModal() {
-            document.getElementById('checkoutModal').classList.remove('show');
-        }
+        function closeCheckoutModal() { document.getElementById('checkoutModal').classList.remove('show'); }
 
         function submitOrder(event) {
             event.preventDefault();
@@ -1029,32 +962,10 @@
                 var dropdowns = document.getElementsByClassName("dropdown");
                 for (var i = 0; i < dropdowns.length; i++) {
                     var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+                    if (openDropdown.classList.contains('show')) { openDropdown.classList.remove('show'); }
                 }
             }
         }
-
-        window.addEventListener('scroll', function() {
-            let scrollPos = window.scrollY;
-            let homeLink = document.getElementById('nav-home');
-            let shopLink = document.getElementById('nav-shop');
-            let shopSection = document.getElementById('shop');
-            let shopTop = shopSection.offsetTop - 150;
-
-            if (scrollPos >= shopTop) {
-                shopLink.classList.add('active');
-                shopLink.classList.remove('inactive');
-                homeLink.classList.add('inactive');
-                homeLink.classList.remove('active');
-            } else {
-                homeLink.classList.add('active');
-                homeLink.classList.remove('inactive');
-                shopLink.classList.add('inactive');
-                shopLink.classList.remove('active');
-            }
-        });
 
         const translations = {
             it: { navHome: "HOME", navShop: "SHOP", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", shopTitle: "Shop", shopDesc: "Esplora i nostri script e migliora il tuo server", prod1: "Script 1", prod2: "Script 2", prod3: "Script 3", buy: "Acquista", loginDiscord: "Accedi con Discord", cartTitle: "Il tuo carrello", emptyCart: "Il carrello è vuoto", total: "Totale:", proceed: "Procedi al Checkout", checkoutTitle: "Dati Ordine", submitOrder: "Invia Ordine" },
