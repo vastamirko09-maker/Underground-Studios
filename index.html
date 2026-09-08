@@ -871,20 +871,7 @@
         <p id="reviews-desc">Cosa dicono i nostri clienti sui prodotti acquistati</p>
         
         <div class="reviews-grid" id="reviewsGrid">
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="review-author">Alex_Dev <span class="verified-badge" id="ver-badge-1">Verificato</span></span>
-                    <span class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                </div>
-                <p class="review-text" id="rev-text-1">Settaggio Bot spettacolare! Installazione rapidissima e supporto sul server Discord impeccabile.</p>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="review-author">Marco99 <span class="verified-badge" id="ver-badge-2">Verificato</span></span>
-                    <span class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                </div>
-                <p class="review-text" id="rev-text-2">Ottimo servizio, zero lag e funzioni avanzate che fanno la differenza. Consigliatissimo a tutti!</p>
-            </div>
+            <!-- Le recensioni verranno caricate dinamicamente qui (inclusi i dati salvati) -->
         </div>
 
         <div class="add-review-box">
@@ -1002,28 +989,69 @@
             observer.observe(section);
         });
 
-        // Recensioni
+        // Gestione Recensioni con LocalStorage
+        const defaultReviews = [
+            {
+                name: "Alex_Dev",
+                rating: 5,
+                textKey: "rev1Text",
+                defaultText: "Settaggio Bot spettacolare! Installazione rapidissima e supporto sul server Discord impeccabile."
+            },
+            {
+                name: "Marco99",
+                rating: 5,
+                textKey: "rev2Text",
+                defaultText: "Ottimo servizio, zero lag e funzioni avanzate che fanno la differenza. Consigliatissimo a tutti!"
+            }
+        ];
+
+        function loadReviews() {
+            let grid = document.getElementById('reviewsGrid');
+            grid.innerHTML = "";
+
+            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+            let verifiedText = translations[currentLang] ? translations[currentLang].verified : "Verificato";
+
+            // Recupera recensioni salvate o usa quelle predefinite
+            let savedReviews = JSON.parse(localStorage.getItem('saved_reviews'));
+            
+            if (!savedReviews) {
+                // Inizializza con le default traducibili
+                savedReviews = [
+                    { name: "Alex_Dev", rating: 5, text: translations[currentLang] ? translations[currentLang].rev1Text : defaultReviews[0].defaultText },
+                    { name: "Marco99", rating: 5, text: translations[currentLang] ? translations[currentLang].rev2Text : defaultReviews[1].defaultText }
+                ];
+                localStorage.setItem('saved_reviews', JSON.stringify(savedReviews));
+            }
+
+            savedReviews.forEach(rev => {
+                let starsHTML = '<i class="fa-solid fa-star"></i>'.repeat(rev.rating);
+                let card = document.createElement('div');
+                card.className = 'review-card';
+                card.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-author">${rev.name} <span class="verified-badge">${verifiedText}</span></span>
+                        <span class="review-stars">${starsHTML}</span>
+                    </div>
+                    <p class="review-text">${rev.text}</p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
         function addNewReview(event) {
             event.preventDefault();
             let name = document.getElementById('revName').value;
             let rating = parseInt(document.getElementById('revRating').value);
             let text = document.getElementById('revText').value;
 
-            let starsHTML = '<i class="fa-solid fa-star"></i>'.repeat(rating);
-            
-            let grid = document.getElementById('reviewsGrid');
-            let card = document.createElement('div');
-            card.className = 'review-card';
-            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
-            let verifiedText = translations[currentLang] ? translations[currentLang].verified : "Verificato";
-            card.innerHTML = `
-                <div class="review-header">
-                    <span class="review-author">${name} <span class="verified-badge">${verifiedText}</span></span>
-                    <span class="review-stars">${starsHTML}</span>
-                </div>
-                <p class="review-text">${text}</p>
-            `;
-            grid.appendChild(card);
+            let newRev = { name, rating, text };
+
+            let savedReviews = JSON.parse(localStorage.getItem('saved_reviews')) || [];
+            savedReviews.push(newRev);
+            localStorage.setItem('saved_reviews', JSON.stringify(savedReviews));
+
+            loadReviews();
             showToast("Recensione pubblicata con successo!");
             document.getElementById('revName').value = "";
             document.getElementById('revText').value = "";
@@ -1075,6 +1103,8 @@
         let discordUserData = null;
 
         window.addEventListener('DOMContentLoaded', async () => {
+            loadReviews(); // Carica le recensioni salvate all'avvio
+
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
 
@@ -1372,7 +1402,7 @@
                 filterAll: "Todos", filterSetting: "Configuración", filterBotCreazione: "Creación de Bot", filterBotServer: "Bot de Servidor Custom", filterGrafica: "Gráficos y Diseño",
                 item1Title: "Configuración de Bot", item1Status: "Disponible", item1Desc: "Configuración inicial completa y optimización de permisos para tu servidor de Discord con roles avanzados.",
                 item2Title: "Creación de Bot", item2Status: "Disponible", item2Desc: "Sistema automatizado para la creación y gestión de tickets y verificación con panel interactivo.",
-                item3Title: "Servidor Custom", item3Status: "Disponible", item3Desc: "Bot dedicado y programado a medida con funciones de moderación avanzada, música y economía integrada.",
+                item3Title: "Servidor Custom", item3Status: "Disponible", item3Desc: "Bot dedicado y programado a medida con funciones de moderazione avanzada, música y economía integrada.",
                 item4Title: "Gráficos y Diseño", item4Status: "Disponible", item4Desc: "Kit completo de banners, logotipos y gráficos coordinados para darle un aspecto profesional a tu marca.",
                 reviewsTitle: "Reseñas Verificadas", reviewsDesc: "Lo que dicen nuestros clientes sobre los productos comprados", verified: "Verificado",
                 rev1Text: "¡Configuración de bot espectacular! Instalación rapidísima y soporte en el servidor de Discord impecable.",
@@ -1424,14 +1454,11 @@
             // Reviews Section
             document.getElementById('reviews-title').innerText = translations[lang].reviewsTitle;
             document.getElementById('reviews-desc').innerText = translations[lang].reviewsDesc;
-            document.getElementById('ver-badge-1').innerText = translations[lang].verified;
-            document.getElementById('ver-badge-2').innerText = translations[lang].verified;
-            document.getElementById('rev-text-1').innerText = translations[lang].rev1Text;
-            document.getElementById('rev-text-2').innerText = translations[lang].rev2Text;
             document.getElementById('add-review-title').innerText = translations[lang].addReviewTitle;
             document.getElementById('revName').placeholder = translations[lang].namePlaceholder;
             document.getElementById('revText').placeholder = translations[lang].reviewPlaceholder;
             document.getElementById('submit-review-btn').innerText = translations[lang].submitReviewBtn;
+            loadReviews(); // Ricarica le recensioni per aggiornare i testi predefiniti o i badge nella lingua scelta
 
             // Changelog Section
             document.getElementById('changelog-title').innerText = translations[lang].changelogTitle;
