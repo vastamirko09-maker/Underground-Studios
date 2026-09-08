@@ -64,7 +64,7 @@
             to { opacity: 0; transform: translateX(100%); }
         }
 
-        /* Stile delle particelle della scia del cursore */
+        /* Scia cursore */
         .cursor-trail {
             position: fixed;
             width: 8px;
@@ -82,7 +82,7 @@
             100% { transform: scale(0.2); opacity: 0; }
         }
 
-        /* Header Adattivo */
+        /* Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -228,7 +228,7 @@
             position: absolute;
             left: 0;
             background-color: #111622;
-            min-width: 110px;
+            min-width: 120px;
             box-shadow: 0px 8px 16px rgba(0,0,0,0.6);
             border: 1px solid rgba(0, 140, 255, 0.3);
             border-radius: 8px;
@@ -250,14 +250,12 @@
         .dropdown-content a:hover { background-color: #008cff; color: #fff; }
         .dropdown.show .dropdown-content { display: block; }
 
-        /* Modali Generali */
+        /* Modali */
         .cart-modal, .checkout-modal, .history-modal, .product-modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.85);
             z-index: 2000;
             justify-content: center;
@@ -365,7 +363,7 @@
         }
         .checkout-form input:focus { border-color: #008cff; outline: none; }
 
-        /* Sezione Home (Hero) */
+        /* Hero */
         .hero {
             height: 100vh;
             display: flex;
@@ -379,103 +377,6 @@
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,140,255,0.25) 0%, transparent 75%);
-            opacity: 0; z-index: 1;
-            animation: stormFlash 3s infinite ease-in-out;
-        }
-
-        @keyframes stormFlash {
-            0%, 100% { opacity: 0; }
-            10% { opacity: 0.9; }
-            13% { opacity: 0.3; }
-            15% { opacity: 1; }
-            20% { opacity: 0.1; }
-            25% { opacity: 0.6; }
-            30% { opacity: 0; }
-            65% { opacity: 0; }
-            70% { opacity: 0.8; }
-            73% { opacity: 0.2; }
-            75% { opacity: 1; }
-            80% { opacity: 0; }
-        }
-
-        .lightning-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
-        }
-
-        .bolt {
-            position: absolute;
-            background: linear-gradient(to bottom, transparent, #00d2ff, #ffffff);
-            opacity: 0;
-            filter: drop-shadow(0 0 15px #008cff) drop-shadow(0 0 30px #00d2ff);
-        }
-
-        .bolt-1 { left: 8%; top: -25%; width: 3px; height: 200px; animation: strike 2.5s infinite; animation-delay: 0.2s; transform: rotate(15deg); }
-        .bolt-2 { left: 25%; top: -25%; width: 2px; height: 260px; animation: strike 3.1s infinite; animation-delay: 1.0s; transform: rotate(-10deg); }
-        .bolt-3 { left: 42%; top: -25%; width: 4px; height: 230px; animation: strike 2.1s infinite; animation-delay: 0.4s; transform: rotate(8deg); }
-        .bolt-4 { left: 60%; top: -25%; width: 3px; height: 290px; animation: strike 3.8s infinite; animation-delay: 1.8s; transform: rotate(-12deg); }
-        .bolt-5 { left: 78%; top: -25%; width: 2px; height: 240px; animation: strike 2.4s infinite; animation-delay: 0.7s; transform: rotate(20deg); }
-        .bolt-6 { left: 90%; top: -25%; width: 4px; height: 270px; animation: strike 2.9s infinite; animation-delay: 1.4s; transform: rotate(-18deg); }
-
-        @keyframes strike {
-            0%, 75%, 100% { opacity: 0; transform: translateY(-80px) scaleY(0.1); }
-            78% { opacity: 1; transform: translateY(280px) scaleY(1.2); }
-            81% { opacity: 0.3; transform: translateY(450px) scaleY(0.7); }
-            84% { opacity: 1; transform: translateY(600px) scaleY(1.6); }
-            88% { opacity: 0; transform: translateY(800px) scaleY(2); }
-        }
-
-        .hero-logo-container, .hero h1, .hero h3 { z-index: 2; }
-
-        .hero-logo-container {
-            position: relative;
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 160px;
-            height: 160px;
-        }
-
-        .hero-logo-container::before {
-            content: '';
-            position: absolute;
-            width: 140px; height: 140px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: #00d2ff;
-            border-right-color: #008cff;
-            animation: spinRing 3s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 140, 255, 0.5);
-        }
-
-        .hero-logo-container::after {
-            content: '';
-            position: absolute;
-            width: 120px; height: 120px;
-            border-radius: 50%;
-            border: 2px dashed rgba(0, 210, 255, 0.6);
-            animation: spinRingReverse 6s linear infinite;
-        }
-
-        @keyframes spinRing { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes spinRingReverse { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
-
-        .hero-logo {
-            width: 95px; height: 95px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #008cff;
-            box-shadow: 0 0 35px rgba(0, 140, 255, 0.7);
-            z-index: 2;
-        }
-
         .hero h1 {
             font-size: clamp(32px, 5vw, 58px);
             font-weight: 900;
@@ -484,7 +385,6 @@
             text-shadow: 0 0 35px rgba(0, 140, 255, 0.5);
             margin: 10px 0;
             letter-spacing: -1px;
-            text-align: center;
             line-height: 1.1;
         }
 
@@ -493,7 +393,6 @@
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 10px;
-            text-align: center;
             text-transform: uppercase;
         }
 
@@ -506,7 +405,7 @@
             z-index: 10;
         }
 
-        /* Sezioni Comuni */
+        /* Sezioni */
         .page-section {
             min-height: 100vh;
             padding: 100px 15px 60px 15px;
@@ -562,7 +461,6 @@
             box-shadow: 0 0 15px rgba(0, 140, 255, 0.5);
         }
 
-        /* Shop Grid */
         .shop-grid {
             display: flex;
             gap: 25px;
@@ -583,70 +481,37 @@
             text-align: center;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
-            z-index: 1;
+            transition: transform 0.4s ease;
             cursor: pointer;
-        }
-
-        .shop-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(from 0deg at 50% 50%, #00d2ff 0deg, transparent 60deg, transparent 300deg, #008cff 360deg);
-            animation: rotateBorder 4s linear infinite;
-            z-index: -2;
-        }
-
-        .shop-card::after {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: linear-gradient(145deg, #0d1424 0%, #060a12 100%);
-            border-radius: 16px;
-            z-index: -1;
-        }
-
-        @keyframes rotateBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .shop-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(0, 140, 255, 0.4), inset 0 0 15px rgba(0, 210, 255, 0.2);
         }
 
         .shop-card h4 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
         .shop-card span.status-badge {
             display: block; color: #00d2ff; font-size: 13px; font-weight: 700; margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
         }
 
         .shop-card button, .shop-card .btn-details {
             background: linear-gradient(135deg, #008cff, #004ba8);
             color: #fff; padding: 12px 18px; border-radius: 10px; font-weight: 700;
-            border: none; cursor: pointer; width: 100%; box-shadow: 0 4px 15px rgba(0, 140, 255, 0.4);
-            font-size: 13px; transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            border: none; cursor: pointer; width: 100%; font-size: 13px;
         }
-        .shop-card button:hover, .shop-card .btn-details:hover { background: linear-gradient(135deg, #00a2ff, #0060d1); }
 
         .btn-discord-login {
             background: linear-gradient(135deg, #5865F2, #4752C4) !important;
             box-shadow: 0 4px 15px rgba(88, 101, 242, 0.4) !important;
         }
-        .btn-discord-login:hover { background: linear-gradient(135deg, #6c78ff, #5865F2) !important; }
 
-        /* Recensioni Verificate */
+        /* Recensioni */
         .reviews-grid {
             display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; max-width: 1000px; width: 100%; margin-bottom: 25px;
         }
         .review-card {
             background: #0b101c; border: 1px solid rgba(0,140,255,0.2); border-radius: 14px;
             width: 100%; max-width: 300px; padding: 20px; text-align: left;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4); position: relative;
         }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .review-author { font-size: 13px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 5px; }
-        .verified-badge { background: rgba(88, 101, 242, 0.2); color: #5865F2; font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(88, 101, 242, 0.4); }
+        .verified-badge { background: rgba(88, 101, 242, 0.2); color: #5865F2; font-size: 10px; padding: 2px 6px; border-radius: 4px; }
         .review-stars { color: #ffc107; font-size: 12px; }
         .review-text { font-size: 12px; color: #a0b4d0; line-height: 1.4; }
 
@@ -654,7 +519,6 @@
             background: rgba(10, 15, 28, 0.9); border: 1px solid rgba(0, 140, 255, 0.3);
             border-radius: 14px; padding: 20px; max-width: 400px; width: 100%; text-align: left;
         }
-        .add-review-box h4 { font-size: 14px; color: #00d2ff; margin-bottom: 10px; }
         .add-review-box input, .add-review-box textarea, .add-review-box select {
             background: #05080f; border: 1px solid rgba(255,255,255,0.1); color: #fff;
             padding: 8px 10px; border-radius: 6px; width: 100%; font-size: 12px; margin-bottom: 10px;
@@ -667,66 +531,55 @@
         }
         .changelog-item {
             background: #0a0f1d; border-left: 4px solid #008cff; padding: 15px; border-radius: 0 10px 10px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         .changelog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .changelog-version { color: #00d2ff; font-weight: 700; font-size: 14px; }
         .changelog-date { color: #7788a0; font-size: 11px; }
         .changelog-item ul { list-style: disc; padding-left: 18px; color: #c0d0e8; font-size: 13px; }
-
-        @media (max-width: 768px) {
-            header { padding: 10px 15px; flex-direction: column; gap: 12px; }
-            .header-left { width: 100%; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
-            nav ul { gap: 8px; }
-            nav ul li a { font-size: 11px; padding: 4px 8px; }
-            .nav-right { width: 100%; justify-content: space-between; }
-            .page-section { padding-top: 150px; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Container Notifiche Toast -->
     <div id="toast-container"></div>
 
     <header>
         <div class="header-left">
             <div class="logo-area">
                 <img src="logo.png" alt="Logo">
-                <div class="logo-text">
-                    UNDERGROUND
-                    <span>STUDIOS</span>
-                </div>
+                <div class="logo-text">UNDERGROUND<span>STUDIOS</span></div>
             </div>
 
             <nav>
                 <ul id="nav-list">
-                    <li><a href="#home" id="link-home" class="active">HOME</a></li>
-                    <li><a href="#shop" id="link-shop">SHOP</a></li>
-                    <li><a href="#reviews" id="link-reviews">RECENSIONI</a></li>
-                    <li><a href="#changelog" id="link-changelog">NOVITÀ</a></li>
-                    <li><a href="https://discord.gg/dbc2kmHwep" target="_blank" id="link-discord">DISCORD</a></li>
+                    <li><a href="#home" id="link-home" class="active" data-i18n="navHome">HOME</a></li>
+                    <li><a href="#shop" id="link-shop" data-i18n="navShop">SHOP</a></li>
+                    <li><a href="#reviews" id="link-reviews" data-i18n="navReviews">RECENSIONI</a></li>
+                    <li><a href="#changelog" id="link-changelog" data-i18n="navChangelog">NOVITÀ</a></li>
+                    <li><a href="https://discord.gg/dbc2kmHwep" target="_blank" id="link-discord" data-i18n="navDiscord">DISCORD</a></li>
                 </ul>
             </nav>
 
+            <!-- Menu a tendina lingue aggiornato con più opzioni (IT, EN, ES, FR, DE) -->
             <div class="dropdown" id="langDropdown">
                 <button class="lang-btn" onclick="toggleDropdown(event)">
                     <i class="fa-solid fa-globe"></i> <span id="currentLang">IT</span> <i class="fa-solid fa-chevron-down" style="font-size: 9px;"></i>
                 </button>
                 <div class="dropdown-content">
-                    <a href="#" onclick="changeLanguage('it', event)">Italiano</a>
-                    <a href="#" onclick="changeLanguage('en', event)">English</a>
-                    <a href="#" onclick="changeLanguage('es', event)">Español</a>
+                    <a href="#" onclick="changeLanguage('it', event)">🇮🇹 Italiano</a>
+                    <a href="#" onclick="changeLanguage('en', event)">🇬🇧 English</a>
+                    <a href="#" onclick="changeLanguage('es', event)">🇪🇸 Español</a>
+                    <a href="#" onclick="changeLanguage('fr', event)">🇫🇷 Français</a>
+                    <a href="#" onclick="changeLanguage('de', event)">🇩🇪 Deutsch</a>
                 </div>
             </div>
         </div>
 
         <div class="nav-right">
             <button class="nav-login-btn" id="nav-login-btn" onclick="loginWithDiscord()">
-                <i class="fa-brands fa-discord"></i> <span id="nav-login-label">Accedi</span>
+                <i class="fa-brands fa-discord"></i> <span id="nav-login-label" data-i18n="loginNavText">Accedi</span>
             </button>
-            <button class="history-btn" onclick="openHistoryModal()" title="I tuoi ordini privati">
-                <i class="fa-solid fa-clock-rotate-left"></i> <span id="history-label">Storico</span>
+            <button class="history-btn" onclick="openHistoryModal()" title="Storico">
+                <i class="fa-solid fa-clock-rotate-left"></i> <span id="history-label" data-i18n="historyText">Storico</span>
             </button>
             <button class="cart-btn" onclick="openCartModal()">
                 <i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span>
@@ -741,27 +594,25 @@
             <p id="modalProdCategory" style="font-size: 11px; color: #008cff; text-transform: uppercase; margin-bottom: 10px; font-weight: 700;"></p>
             <p id="modalProdDesc" style="font-size: 13px; color: #c0d0e8; margin-bottom: 15px; line-height: 1.5;"></p>
             <div class="cart-total">
-                <span>Disponibilità:</span>
-                <span id="modalProdStatus" style="color: #008cff;">Disponibile</span>
+                <span data-i18n="availability">Disponibilità:</span>
+                <span id="modalProdStatus" style="color: #008cff;" data-i18n="available">Disponibile</span>
             </div>
-            <div class="cart-actions" id="modalProdActions">
-                <!-- Dinamico -->
-            </div>
+            <div class="cart-actions" id="modalProdActions"></div>
             <div style="margin-top: 10px;">
-                <button class="btn-close-cart" onclick="closeProductModal()" style="width: 100%;">Chiudi</button>
+                <button class="btn-close-cart" onclick="closeProductModal()" style="width: 100%;" data-i18n="close">Chiudi</button>
             </div>
         </div>
     </div>
 
     <div class="cart-modal" id="cartModal">
         <div class="content-wrapper cart-content">
-            <h3 id="cart-modal-title">Il tuo carrello</h3>
+            <h3 id="cart-modal-title" data-i18n="cartTitle">Il tuo carrello</h3>
             <ul class="cart-list" id="cartList">
-                <li style="text-align: center; color: #888;" id="empty-cart-text">Il carrello è vuoto</li>
+                <li style="text-align: center; color: #888;" id="empty-cart-text" data-i18n="emptyCart">Il carrello è vuoto</li>
             </ul>
             <div class="cart-actions" style="margin-top: 15px;">
-                <button class="btn-checkout" onclick="openCheckoutModal()" id="proceed-btn">Procedi al Checkout</button>
-                <button class="btn-close-cart" onclick="closeCartModal()">Chiudi</button>
+                <button class="btn-checkout" onclick="openCheckoutModal()" id="proceed-btn" data-i18n="proceedCheckout">Procedi al Checkout</button>
+                <button class="btn-close-cart" onclick="closeCartModal()" data-i18n="close">Chiudi</button>
             </div>
         </div>
     </div>
@@ -769,35 +620,35 @@
     <div class="history-modal" id="historyModal">
         <div class="content-wrapper cart-content" style="max-width: 520px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 id="history-modal-title" style="margin: 0;"><i class="fa-solid fa-shield-halved"></i> Categoria Privata: Storico</h3>
+                <h3 id="history-modal-title" style="margin: 0;" data-i18n="historyModalTitle">Storico Ordini</h3>
                 <span id="user-discord-badge" style="font-size: 11px; color: #00d2ff; background: rgba(0,210,255,0.1); padding: 4px 8px; border-radius: 6px;">Non loggato</span>
             </div>
             <div id="historyListContainer" style="max-height: 300px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                <p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text">Accedi con Discord per visualizzare il tuo storico acquisti cloud.</p>
+                <p style="text-align: center; color: #888; font-size: 13px;" id="history-empty-text" data-i18n="historyEmpty">Accedi con Discord per visualizzare il tuo storico.</p>
             </div>
             <div class="cart-actions">
-                <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;">Chiudi Categoria</button>
+                <button class="btn-close-cart" onclick="closeHistoryModal()" style="width: 100%;" data-i18n="close">Chiudi</button>
             </div>
         </div>
     </div>
 
     <div class="checkout-modal" id="checkoutModal">
         <div class="content-wrapper cart-content">
-            <h3 id="checkout-title">Dati Ordine</h3>
+            <h3 id="checkout-title" data-i18n="checkoutTitle">Dati Ordine</h3>
             <form class="checkout-form" id="orderForm" onsubmit="submitOrder(event)">
-                <label>Nome e Cognome</label>
+                <label data-i18n="labelName">Nome e Cognome</label>
                 <input type="text" id="custName" required placeholder="Mario Rossi">
-                <label>Email</label>
+                <label data-i18n="labelEmail">Email</label>
                 <input type="email" id="custEmail" required placeholder="mario@example.com">
-                <label>Numero di Telefono</label>
+                <label data-i18n="labelPhone">Numero di Telefono</label>
                 <input type="tel" id="custPhone" required placeholder="+39 333 1234567">
-                <label>Data di Nascita</label>
+                <label data-i18n="labelDob">Data di Nascita</label>
                 <input type="date" id="custDob" required>
-                <label>ID Discord Verificato</label>
-                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login con Discord">
+                <label data-i18n="labelDiscord">ID Discord Verificato</label>
+                <input type="text" id="custDiscord" required readonly style="background-color: #121926; color: #00d2ff; cursor: not-allowed;" placeholder="Effettua il login">
                 <div class="cart-actions" style="margin-top: 12px;">
-                    <button type="submit" class="btn-checkout" id="submit-order-btn">Invia Ordine</button>
-                    <button type="button" class="btn-close-cart" onclick="closeCheckoutModal()">Indietro</button>
+                    <button type="submit" class="btn-checkout" id="submit-order-btn" data-i18n="submitOrder">Invia Ordine</button>
+                    <button type="button" class="btn-close-cart" onclick="closeCheckoutModal()" data-i18n="back">Indietro</button>
                 </div>
             </form>
         </div>
@@ -805,57 +656,53 @@
 
     <!-- Home -->
     <section id="home" class="hero" data-nav="link-home">
-        <div class="lightning-container">
-            <div class="bolt bolt-1"></div><div class="bolt bolt-2"></div><div class="bolt bolt-3"></div>
-            <div class="bolt bolt-4"></div><div class="bolt bolt-5"></div><div class="bolt bolt-6"></div>
-        </div>
         <div class="hero-logo-container">
             <img src="logo.png" alt="Logo Centrale" class="hero-logo">
         </div>
         <h1>Underground Studios</h1>
-        <h3 id="hero-subtitle">Script di qualità per Discord e siti web</h3>
+        <h3 id="hero-subtitle" data-i18n="heroSubtitle">Script di qualità per Discord e siti web</h3>
     </section>
 
     <div class="section-divider"></div>
 
     <!-- Shop -->
     <section id="shop" class="page-section" data-nav="link-shop">
-        <h2 id="shop-title">Shop</h2>
-        <p id="shop-desc">Esplora i nostri script e migliora il tuo server</p>
+        <h2 id="shop-title" data-i18n="navShop">Shop</h2>
+        <p id="shop-desc" data-i18n="shopDesc">Esplora i nostri script e migliora il tuo server</p>
         
         <div class="shop-filters">
-            <button class="filter-btn active" onclick="filterProducts('all', event)">Tutti</button>
-            <button class="filter-btn" onclick="filterProducts('setting', event)">Setting</button>
-            <button class="filter-btn" onclick="filterProducts('bot-creazione', event)">Bot Creazione</button>
-            <button class="filter-btn" onclick="filterProducts('bot-server', event)">Bot Server Custom</button>
-            <button class="filter-btn" onclick="filterProducts('grafica', event)">Grafiche e Design</button>
+            <button class="filter-btn active" onclick="filterProducts('all', event)" data-i18n="filterAll">Tutti</button>
+            <button class="filter-btn" onclick="filterProducts('setting', event)" data-i18n="filterSetting">Setting</button>
+            <button class="filter-btn" onclick="filterProducts('bot-creazione', event)" data-i18n="filterBotCreation">Bot Creazione</button>
+            <button class="filter-btn" onclick="filterProducts('bot-server', event)" data-i18n="filterBotServer">Bot Server Custom</button>
+            <button class="filter-btn" onclick="filterProducts('grafica', event)" data-i18n="filterGraphics">Grafiche e Design</button>
         </div>
 
         <div class="shop-grid" id="shopGrid">
-            <div class="shop-card" data-category="setting" onclick="openProductModal('Settaggio Bot', 'setting', 'Configurazione iniziale completa e ottimizzazione permessi per il tuo server Discord con ruoli avanzati.', 1)">
-                <h4>Settaggio Bot</h4>
-                <span class="status-badge">Disponibile</span>
+            <div class="shop-card" data-category="setting" onclick="openProductModal('Settaggio Bot', 'setting', 'Configurazione iniziale completa e ottimizzazione permessi per il tuo server Discord.', 1)">
+                <h4 data-i18n="prod1Title">Settaggio Bot</h4>
+                <span class="status-badge" data-i18n="available">Disponibile</span>
                 <div id="shop-btn-1" onclick="event.stopPropagation()">
                     <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
                 </div>
             </div>
-            <div class="shop-card" data-category="bot-creazione" onclick="openProductModal('Creazione Bot', 'bot-creazione', 'Sistema automatizzato per la creazione e la gestione dei ticket e delle verifiche con pannello interattivo.', 2)">
-                <h4>Creazione Bot</h4>
-                <span class="status-badge">Disponibile</span>
+            <div class="shop-card" data-category="bot-creazione" onclick="openProductModal('Creazione Bot', 'bot-creazione', 'Sistema automatizzato per la creazione e la gestione dei ticket e delle verifiche.', 2)">
+                <h4 data-i18n="prod2Title">Creazione Bot</h4>
+                <span class="status-badge" data-i18n="available">Disponibile</span>
                 <div id="shop-btn-2" onclick="event.stopPropagation()">
                     <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
                 </div>
             </div>
-            <div class="shop-card" data-category="bot-server" onclick="openProductModal('Server Custom', 'bot-server', 'Bot dedicato e programmato su misura con funzioni di moderazione avanzata, musica ed economia integrata.', 3)">
-                <h4>Server Custom</h4>
-                <span class="status-badge">Disponibile</span>
+            <div class="shop-card" data-category="bot-server" onclick="openProductModal('Server Custom', 'bot-server', 'Bot dedicato e programmato su misura con funzioni di moderazione avanzata.', 3)">
+                <h4 data-i18n="prod3Title">Server Custom</h4>
+                <span class="status-badge" data-i18n="available">Disponibile</span>
                 <div id="shop-btn-3" onclick="event.stopPropagation()">
                     <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
                 </div>
             </div>
-            <div class="shop-card" data-category="grafica" onclick="openProductModal('Grafiche e Design', 'grafica', 'Kit completo di banner, loghi e grafiche coordinate per dare un aspetto professionale al tuo brand.', 4)">
-                <h4>Grafiche e Design</h4>
-                <span class="status-badge">Disponibile</span>
+            <div class="shop-card" data-category="grafica" onclick="openProductModal('Grafiche e Design', 'grafica', 'Kit completo di banner, loghi e grafiche coordinate per dare un aspetto professionale.', 4)">
+                <h4 data-i18n="prod4Title">Grafiche e Design</h4>
+                <span class="status-badge" data-i18n="available">Disponibile</span>
                 <div id="shop-btn-4" onclick="event.stopPropagation()">
                     <button onclick="loginWithDiscord()" class="btn-discord-login buy-text"><i class="fa-brands fa-discord"></i> Accedi</button>
                 </div>
@@ -867,37 +714,37 @@
 
     <!-- Recensioni -->
     <section id="reviews" class="page-section" data-nav="link-reviews">
-        <h2>Recensioni Verificate</h2>
-        <p>Cosa dicono i nostri clienti sui prodotti acquistati</p>
+        <h2 data-i18n="reviewsTitle">Recensioni Verificate</h2>
+        <p data-i18n="reviewsDesc">Cosa dicono i nostri clienti sui prodotti acquistati</p>
         
         <div class="reviews-grid" id="reviewsGrid">
             <div class="review-card">
                 <div class="review-header">
-                    <span class="review-author">Alex_Dev <span class="verified-badge">Verificato</span></span>
+                    <span class="review-author">Alex_Dev <span class="verified-badge" data-i18n="verified">Verificato</span></span>
                     <span class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
                 </div>
-                <p class="review-text">Settaggio Bot spettacolare! Installazione rapidissima e supporto sul server Discord impeccabile.</p>
+                <p class="review-text" data-i18n="rev1Text">Settaggio Bot spettacolare! Installazione rapidissima e supporto sul server Discord impeccabile.</p>
             </div>
             <div class="review-card">
                 <div class="review-header">
-                    <span class="review-author">Marco99 <span class="verified-badge">Verificato</span></span>
+                    <span class="review-author">Marco99 <span class="verified-badge" data-i18n="verified">Verificato</span></span>
                     <span class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
                 </div>
-                <p class="review-text">Ottimo servizio, zero lag e funzioni avanzate che fanno la differenza. Consigliatissimo a tutti!</p>
+                <p class="review-text" data-i18n="rev2Text">Ottimo servizio, zero lag e funzioni avanzate che fanno la differenza. Consigliatissimo!</p>
             </div>
         </div>
 
         <div class="add-review-box">
-            <h4>Lascia una recensione</h4>
+            <h4 data-i18n="addReviewTitle">Lascia una recensione</h4>
             <form onsubmit="addNewReview(event)">
-                <input type="text" id="revName" required placeholder="Il tuo nome o username Discord">
+                <input type="text" id="revName" required placeholder="Nome o username Discord">
                 <select id="revRating">
                     <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
                     <option value="4">⭐⭐⭐⭐ (4/5)</option>
                     <option value="3">⭐⭐⭐ (3/5)</option>
                 </select>
-                <textarea id="revText" required placeholder="Scrivi la tua opinione sul servizio..."></textarea>
-                <button type="submit" class="btn-checkout" style="width: 100%;">Pubblica Recensione</button>
+                <textarea id="revText" required placeholder="Scrivi la tua opinione..."></textarea>
+                <button type="submit" class="btn-checkout" style="width: 100%;" data-i18n="publishReview">Pubblica Recensione</button>
             </form>
         </div>
     </section>
@@ -906,44 +753,158 @@
 
     <!-- Changelog -->
     <section id="changelog" class="page-section" data-nav="link-changelog">
-        <h2>Ultimi Aggiornamenti</h2>
-        <p>Segui il registro delle modifiche e le novità rilasciate per i nostri prodotti</p>
+        <h2 data-i18n="changelogTitle">Ultimi Aggiornamenti</h2>
+        <p data-i18n="changelogDesc">Segui il registro delle modifiche e le novità rilasciate</p>
         <div class="changelog-container">
             <div class="changelog-item">
                 <div class="changelog-header">
-                    <span class="changelog-version">v3.3 - Invio Webhook Tramite Worker Server-Side</span>
-                    <span class="changelog-date">07 Settembre 2026</span>
+                    <span class="changelog-version" data-i18n="versionTitle">v3.4 - Supporto Multilingua Esteso & Fix Globali</span>
+                    <span class="changelog-date">08 Settembre 2026</span>
                 </div>
                 <ul>
-                    <li>Integrato l'invio protetto via server-side per bypassare i blocchi CORS di Discord e garantire la ricezione istantanea dell'ordine.</li>
+                    <li data-i18n="versionText">Aggiunto il supporto completo per più lingue (IT, EN, ES, FR, DE) esteso a tutte le sezioni del sito web.</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // WEBHOOK DI DISCORD CONFIGURATO CORRETTAMENTE
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1546441338969661492/ftQ8jV3T3xnyAp-apzioYE9mdzS9aVx3OxHZN6BSSDnf4ZQQgp302GjJ4GBKWX9VKGlm";
+        const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
 
-        // SCRIPT NOTIFICHE TOAST (durata 5 secondi)
+        // DIZIONARIO MULTILINGUA ESTESO (IT, EN, ES, FR, DE)
+        const translations = {
+            it: {
+                navHome: "HOME", navShop: "SHOP", navReviews: "RECENSIONI", navChangelog: "NOVITÀ", navDiscord: "DISCORD",
+                heroSubtitle: "Script di qualità per Discord e siti web", historyText: "Storico", loginNavText: "Accedi",
+                buy: "Acquista", loginDiscord: "Accedi con Discord", shopDesc: "Esplora i nostri script e migliora il tuo server",
+                filterAll: "Tutti", filterSetting: "Setting", filterBotCreation: "Bot Creazione", filterBotServer: "Bot Server Custom", filterGraphics: "Grafiche e Design",
+                prod1Title: "Settaggio Bot", prod2Title: "Creazione Bot", prod3Title: "Server Custom", prod4Title: "Grafiche e Design",
+                available: "Disponibile", availability: "Disponibilità:", close: "Chiudi", cartTitle: "Il tuo carrello",
+                emptyCart: "Il carrello è vuoto", proceedCheckout: "Procedi al Checkout", historyModalTitle: "Storico Ordini",
+                historyEmpty: "Accedi con Discord per visualizzare il tuo storico.", checkoutTitle: "Dati Ordine",
+                labelName: "Nome e Cognome", labelEmail: "Email", labelPhone: "Numero di Telefono", labelDob: "Data di Nascita",
+                labelDiscord: "ID Discord Verificato", submitOrder: "Invia Ordine", back: "Indietro", reviewsTitle: "Recensioni Verificate",
+                reviewsDesc: "Cosa dicono i nostri clienti sui prodotti acquistati", verified: "Verificato",
+                rev1Text: "Settaggio Bot spettacolare! Installazione rapidissima e supporto sul server Discord impeccabile.",
+                rev2Text: "Ottimo servizio, zero lag e funzioni avanzate che fanno la differenza. Consigliatissimo!",
+                addReviewTitle: "Lascia una recensione", publishReview: "Pubblica Recensione", changelogTitle: "Ultimi Aggiornamenti",
+                changelogDesc: "Segui il registro delle modifiche e le novità rilasciate", versionTitle: "v3.4 - Supporto Multilingua Esteso & Fix Globali",
+                versionText: "Aggiunto il supporto completo per più lingue (IT, EN, ES, FR, DE) esteso a tutte le sezioni del sito web."
+            },
+            en: {
+                navHome: "HOME", navShop: "SHOP", navReviews: "REVIEWS", navChangelog: "UPDATES", navDiscord: "DISCORD",
+                heroSubtitle: "Quality scripts for Discord and websites", historyText: "History", loginNavText: "Login",
+                buy: "Buy", loginDiscord: "Login with Discord", shopDesc: "Explore our scripts and upgrade your server",
+                filterAll: "All", filterSetting: "Setting", filterBotCreation: "Bot Creation", filterBotServer: "Custom Server Bot", filterGraphics: "Graphics & Design",
+                prod1Title: "Bot Setup", prod2Title: "Bot Creation", prod3Title: "Custom Server", prod4Title: "Graphics & Design",
+                available: "Available", availability: "Availability:", close: "Close", cartTitle: "Your Cart",
+                emptyCart: "Your cart is empty", proceedCheckout: "Proceed to Checkout", historyModalTitle: "Order History",
+                historyEmpty: "Log in with Discord to view your history.", checkoutTitle: "Order Details",
+                labelName: "Full Name", labelEmail: "Email", labelPhone: "Phone Number", labelDob: "Date of Birth",
+                labelDiscord: "Verified Discord ID", submitOrder: "Submit Order", back: "Back", reviewsTitle: "Verified Reviews",
+                reviewsDesc: "What our clients say about purchased products", verified: "Verified",
+                rev1Text: "Spectacular Bot Setup! Extremely fast installation and flawless support on the Discord server.",
+                rev2Text: "Great service, zero lag, and advanced features that make a difference. Highly recommended!",
+                addReviewTitle: "Leave a Review", publishReview: "Publish Review", changelogTitle: "Latest Updates",
+                changelogDesc: "Follow the changelog and news released for our products", versionTitle: "v3.4 - Extended Multilingual Support & Global Fixes",
+                versionText: "Added full support for multiple languages (IT, EN, ES, FR, DE) extended to all website sections."
+            },
+            es: {
+                navHome: "INICIO", navShop: "TIENDA", navReviews: "RESEÑAS", navChangelog: "NOVEDADES", navDiscord: "DISCORD",
+                heroSubtitle: "Scripts de calidad para Discord y sitios web", historyText: "Historial", loginNavText: "Acceder",
+                buy: "Comprar", loginDiscord: "Acceder con Discord", shopDesc: "Explora nuestros scripts y mejora tu servidor",
+                filterAll: "Todos", filterSetting: "Setting", filterBotCreation: "Creación de Bot", filterBotServer: "Bot de Servidor Custom", filterGraphics: "Gráficos y Diseño",
+                prod1Title: "Configuración de Bot", prod2Title: "Creación de Bot", prod3Title: "Servidor Custom", prod4Title: "Gráficos y Diseño",
+                available: "Disponible", availability: "Disponibilidad:", close: "Cerrar", cartTitle: "Tu Carrito",
+                emptyCart: "El carrito está vacío", proceedCheckout: "Proceder al Pago", historyModalTitle: "Historial de Pedidos",
+                historyEmpty: "Inicia sesión con Discord para ver tu historial.", checkoutTitle: "Datos del Pedido",
+                labelName: "Nombre y Apellido", labelEmail: "Correo", labelPhone: "Número de Teléfono", labelDob: "Fecha de Nacimiento",
+                labelDiscord: "ID de Discord Verificado", submitOrder: "Enviar Pedido", back: "Volver", reviewsTitle: "Reseñas Verificadas",
+                reviewsDesc: "Lo que dicen nuestros clientes sobre los productos comprados", verified: "Verificado",
+                rev1Text: "¡Configuración de Bot espectacular! Instalación muy rápida y soporte impecable en el servidor de Discord.",
+                rev2Text: "Excelente servicio, cero lag y funciones avanzadas que marcan la diferencia. ¡Muy recomendable!",
+                addReviewTitle: "Dejar una Reseña", publishReview: "Publicar Reseña", changelogTitle: "Últimas Actualizaciones",
+                changelogDesc: "Sigue el registro de cambios y novedades lanzadas", versionTitle: "v3.4 - Soporte Multilingüe Ampliado y Correcciones",
+                versionText: "Se agregó soporte completo para múltiples idiomas (IT, EN, ES, FR, DE) en todas las secciones."
+            },
+            fr: {
+                navHome: "ACCUEIL", navShop: "BOUTIQUE", navReviews: "AVIS", navChangelog: "ACTUALITÉS", navDiscord: "DISCORD",
+                heroSubtitle: "Scripts de qualité pour Discord et sites web", historyText: "Historique", loginNavText: "Connexion",
+                buy: "Acheter", loginDiscord: "Se connecter avec Discord", shopDesc: "Explorez nos scripts et améliorez votre serveur",
+                filterAll: "Tous", filterSetting: "Paramétrage", filterBotCreation: "Création de Bot", filterBotServer: "Bot Serveur Custom", filterGraphics: "Graphismes & Design",
+                prod1Title: "Configuration Bot", prod2Title: "Création de Bot", prod3Title: "Serveur Custom", prod4Title: "Graphismes & Design",
+                available: "Disponible", availability: "Disponibilité :", close: "Fermer", cartTitle: "Votre Panier",
+                emptyCart: "Le panier est vide", proceedCheckout: "Passer la commande", historyModalTitle: "Historique des Commandes",
+                historyEmpty: "Connectez-vous avec Discord pour voir votre historique.", checkoutTitle: "Détails de la Commande",
+                labelName: "Nom et Prénom", labelEmail: "E-mail", labelPhone: "Numéro de Téléphone", labelDob: "Date de Naissance",
+                labelDiscord: "ID Discord Vérifié", submitOrder: "Envoyer la Commande", back: "Retour", reviewsTitle: "Avis Vérifiés",
+                reviewsDesc: "Ce que disent nos clients sur les produits achetés", verified: "Vérifié",
+                rev1Text: "Configuration de Bot spectaculaire ! Installation très rapide et support impeccable sur le serveur Discord.",
+                rev2Text: "Excellent service, zéro décalage et fonctionnalités avancées qui font la différence. Hautement recommandé !",
+                addReviewTitle: "Laisser un avis", publishReview: "Publier l'avis", changelogTitle: "Dernières Mises à Jour",
+                changelogDesc: "Suivez le journal des modifications et les nouveautés", versionTitle: "v3.4 - Support Multilingue Étendu & Correctifs",
+                versionText: "Ajout du support complet pour plusieurs langues (IT, EN, ES, FR, DE) sur toutes les sections."
+            },
+            de: {
+                navHome: "STARTSEITE", navShop: "SHOP", navReviews: "BEWERTUNGEN", navChangelog: "NEUIGKEITEN", navDiscord: "DISCORD",
+                heroSubtitle: "Qualitätsskripte für Discord und Websites", historyText: "Verlauf", loginNavText: "Anmelden",
+                buy: "Kaufen", loginDiscord: "Mit Discord anmelden", shopDesc: "Entdecke unsere Skripte und verbessere deinen Server",
+                filterAll: "Alle", filterSetting: "Setting", filterBotCreation: "Bot Erstellung", filterBotServer: "Custom Server Bot", filterGraphics: "Grafik & Design",
+                prod1Title: "Bot-Setup", prod2Title: "Bot-Erstellung", prod3Title: "Custom Server", prod4Title: "Grafik & Design",
+                available: "Verfügbar", availability: "Verfügbarkeit:", close: "Schließen", cartTitle: "Dein Warenkorb",
+                emptyCart: "Der Warenkorb ist leer", proceedCheckout: "Zur Kasse gehen", historyModalTitle: "Bestellverlauf",
+                historyEmpty: "Melde dich mit Discord an, um deinen Verlauf zu sehen.", checkoutTitle: "Bestelldaten",
+                labelName: "Vor- und Nachname", labelEmail: "E-Mail", labelPhone: "Telefonnummer", labelDob: "Geburtsdatum",
+                labelDiscord: "Verifizierte Discord-ID", submitOrder: "Bestellung absenden", back: "Zurück", reviewsTitle: "Verifizierte Bewertungen",
+                reviewsDesc: "Was unsere Kunden über gekaufte Produkte sagen", verified: "Verifiziert",
+                rev1Text: "Spektakuläres Bot-Setup! Extrem schnelle Installation und tadelloser Support auf dem Discord-Server.",
+                rev2Text: "Toller Service, null Verzögerung und erweiterte Funktionen, die den Unterschied machen. Sehr zu empfehlen!",
+                addReviewTitle: "Bewertung abgeben", publishReview: "Bewertung veröffentlichen", changelogTitle: "Letzte Aktualisierungen",
+                changelogDesc: "Verfolge das Änderungsprotokoll und veröffentlichte Neuigkeiten", versionTitle: "v3.4 - Erweiteter Mehrsprachiger Support & Fixes",
+                versionText: "Vollständige Unterstützung für mehrere Sprachen (IT, EN, ES, FR, DE) für alle Website-Bereiche hinzugefügt."
+            }
+        };
+
+        // Funzione Globale di Cambio Lingua estesa a tutte le pagine con salvataggio localStorage
+        function changeLanguage(lang, event) {
+            if (event) event.preventDefault();
+            localStorage.setItem('selectedLanguage', lang);
+            document.getElementById('currentLang').innerText = lang.toUpperCase();
+
+            // Aggiorna tutti gli elementi con l'attributo data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            updateShopButtons();
+            document.getElementById('langDropdown').classList.remove('show');
+        }
+
+        // Applicazione della lingua salvata all'avvio della pagina
+        document.addEventListener("DOMContentLoaded", () => {
+            const savedLang = localStorage.getItem('selectedLanguage') || 'it';
+            changeLanguage(savedLang, null);
+        });
+
+        // Notifiche Toast
         function showToast(message, icon = "fa-circle-check") {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
             container.appendChild(toast);
-            setTimeout(() => {
-                toast.remove();
-            }, 5000);
+            setTimeout(() => { toast.remove(); }, 5000);
         }
 
-        // FILTRI PRODOTTI SHOP
+        // Filtri Shop
         function filterProducts(category, event) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
-            const cards = document.querySelectorAll('.shop-card');
-            cards.forEach(card => {
+            document.querySelectorAll('.shop-card').forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
                     card.style.display = 'block';
                 } else {
@@ -952,7 +913,7 @@
             });
         }
 
-        // MODALE DETTAGLIO PRODOTTO
+        // Modale Prodotto
         let currentModalProduct = null;
         function openProductModal(title, category, desc, id) {
             currentModalProduct = { title, id };
@@ -961,7 +922,7 @@
             document.getElementById('modalProdDesc').innerText = desc;
 
             let actionsContainer = document.getElementById('modalProdActions');
-            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+            let currentLang = localStorage.getItem('selectedLanguage') || 'it';
             let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
             let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
 
@@ -970,105 +931,11 @@
             } else {
                 actionsContainer.innerHTML = `<button class="btn-discord-login buy-text" onclick="loginWithDiscord()"><i class="fa-brands fa-discord"></i> ${loginText}</button>`;
             }
-
             document.getElementById('productModal').classList.add('show');
         }
+        function closeProductModal() { document.getElementById('productModal').classList.remove('show'); }
 
-        function closeProductModal() {
-            document.getElementById('productModal').classList.remove('show');
-        }
-
-        // SCRIPT PER EVIDENZIARE IL PULSANTE ATTIVO NELLA NAVBAR
-        const observerOptions = {
-            root: null,
-            rootMargin: '-30% 0px -50% 0px',
-            threshold: 0
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const navId = entry.target.getAttribute('data-nav');
-                    if (navId) {
-                        document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
-                        const targetLink = document.getElementById(navId);
-                        if (targetLink) targetLink.classList.add('active');
-                    }
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('section[data-nav]').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Recensioni
-        function addNewReview(event) {
-            event.preventDefault();
-            let name = document.getElementById('revName').value;
-            let rating = parseInt(document.getElementById('revRating').value);
-            let text = document.getElementById('revText').value;
-
-            let starsHTML = '<i class="fa-solid fa-star"></i>'.repeat(rating);
-            
-            let grid = document.getElementById('reviewsGrid');
-            let card = document.createElement('div');
-            card.className = 'review-card';
-            card.innerHTML = `
-                <div class="review-header">
-                    <span class="review-author">${name} <span class="verified-badge">Verificato</span></span>
-                    <span class="review-stars">${starsHTML}</span>
-                </div>
-                <p class="review-text">${text}</p>
-            `;
-            grid.appendChild(card);
-            showToast("Recensione pubblicata con successo!");
-            document.getElementById('revName').value = "";
-            document.getElementById('revText').value = "";
-        }
-
-        // SCIA LUMINOSA CURSORE
-        let lastTime = 0;
-        document.addEventListener('mousemove', (e) => {
-            const currentTime = Date.now();
-            if (currentTime - lastTime > 30) {
-                lastTime = currentTime;
-                const trail = document.createElement('div');
-                trail.className = 'cursor-trail';
-                trail.style.left = `${e.clientX - 4}px`;
-                trail.style.top = `${e.clientY - 4}px`;
-                document.body.appendChild(trail);
-                sessionStorage.setItem('last_mouse_x', e.clientX);
-                sessionStorage.setItem('last_mouse_y', e.clientY);
-                setTimeout(() => { trail.remove(); }, 600);
-            }
-        });
-
-        // AUDIO RILASSANTE
-        let audioCtx = null;
-        function playRelaxingSound() {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(329.63, now); 
-                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.4); 
-                const gainNode = audioCtx.createGain();
-                gainNode.gain.setValueAtTime(0.001, now);
-                gainNode.gain.linearRampToValueAtTime(0.15, now + 0.1); 
-                gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.9); 
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                osc.start(now);
-                osc.stop(now + 0.9);
-            } catch (e) {}
-        }
-        document.addEventListener('click', () => { playRelaxingSound(); });
-
-        const CLOUDWORKER_URL = 'https://discord-auth-underground.vastamirko09.workers.dev';
-
+        // Gestione Utente Discord & OAuth
         let cartItems = [];
         let discordUserData = null;
 
@@ -1128,7 +995,7 @@
         }
 
         function updateShopButtons() {
-            let currentLang = document.getElementById('currentLang').innerText.toLowerCase();
+            let currentLang = localStorage.getItem('selectedLanguage') || 'it';
             let buyText = translations[currentLang] ? translations[currentLang].buy : "Acquista";
             let loginText = translations[currentLang] ? translations[currentLang].loginDiscord : "Accedi con Discord";
 
@@ -1168,8 +1035,11 @@
             document.getElementById('cartCount').innerText = cartItems.length;
             let list = document.getElementById('cartList');
             list.innerHTML = "";
+            let currentLang = localStorage.getItem('selectedLanguage') || 'it';
+            let emptyText = translations[currentLang] ? translations[currentLang].emptyCart : "Il carrello è vuoto";
+            
             if (cartItems.length === 0) {
-                list.innerHTML = `<li style="text-align: center; color: #888;">Il carrello è vuoto</li>`;
+                list.innerHTML = `<li style="text-align: center; color: #888;">${emptyText}</li>`;
                 return;
             }
             cartItems.forEach((item, index) => {
@@ -1221,7 +1091,6 @@
             const phone = document.getElementById('custPhone').value;
             const dob = document.getElementById('custDob').value;
             let currentDate = new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
             let itemsListStr = cartItems.map(i => i.name).join(", ");
 
             const webhookPayload = {
@@ -1240,18 +1109,14 @@
                 }]
             };
 
-            // 1. Invio tramite Cloudflare Worker per bypassare i blocchi CORS del browser
             try {
                 await fetch(`${CLOUDWORKER_URL}/send-webhook`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ webhookUrl: DISCORD_WEBHOOK_URL, payload: webhookPayload })
                 });
-            } catch (err) {
-                console.error("Errore invio webhook via Worker:", err);
-            }
+            } catch (err) { console.error("Errore invio webhook:", err); }
 
-            // 2. Salvataggio locale e cloudworker ordini
             for (let item of cartItems) {
                 let newOrder = { item: item.name, total: "Completato", date: currentDate };
                 try {
@@ -1266,12 +1131,34 @@
             }
             localStorage.setItem('discord_user_cache', JSON.stringify(discordUserData));
             
-            // 3. Notifica a schermo (nessun reindirizzamento)
             showToast("Ordine inviato con successo e notificato su Discord!", "fa-circle-check");
             cartItems = [];
             updateCartUI();
             document.getElementById('orderForm').reset();
             closeCheckoutModal();
+        }
+
+        function addNewReview(event) {
+            event.preventDefault();
+            let name = document.getElementById('revName').value;
+            let rating = parseInt(document.getElementById('revRating').value);
+            let text = document.getElementById('revText').value;
+            let starsHTML = '<i class="fa-solid fa-star"></i>'.repeat(rating);
+            
+            let grid = document.getElementById('reviewsGrid');
+            let card = document.createElement('div');
+            card.className = 'review-card';
+            card.innerHTML = `
+                <div class="review-header">
+                    <span class="review-author">${name} <span class="verified-badge">Verificato</span></span>
+                    <span class="review-stars">${starsHTML}</span>
+                </div>
+                <p class="review-text">${text}</p>
+            `;
+            grid.appendChild(card);
+            showToast("Recensione pubblicata con successo!");
+            document.getElementById('revName').value = "";
+            document.getElementById('revText').value = "";
         }
 
         function toggleDropdown(event) {
@@ -1283,27 +1170,6 @@
             if (!event.target.closest('.dropdown')) {
                 document.getElementById('langDropdown').classList.remove('show');
             }
-        }
-
-        const translations = {
-            it: { navHome: "HOME", navShop: "SHOP", navReviews: "RECENSIONI", navChangelog: "NOVITÀ", navDiscord: "DISCORD", heroSubtitle: "Script di qualità per Discord e siti web", historyText: "Storico", loginNavText: "Accedi", buy: "Acquista", loginDiscord: "Accedi con Discord" },
-            en: { navHome: "HOME", navShop: "SHOP", navReviews: "REVIEWS", navChangelog: "UPDATES", navDiscord: "DISCORD", heroSubtitle: "Quality scripts for Discord and websites", historyText: "History", loginNavText: "Login", buy: "Buy", loginDiscord: "Login with Discord" },
-            es: { navHome: "INICIO", navShop: "TIENDA", navReviews: "RESEÑAS", navChangelog: "NOVEDADES", navDiscord: "DISCORD", heroSubtitle: "Scripts de calidad para Discord y sitios web", historyText: "Historial", loginNavText: "Acceder", buy: "Comprar", loginDiscord: "Acceder con Discord" }
-        };
-
-        function changeLanguage(lang, event) {
-            event.preventDefault();
-            document.getElementById('currentLang').innerText = lang.toUpperCase();
-            document.getElementById('link-home').innerText = translations[lang].navHome;
-            document.getElementById('link-shop').innerText = translations[lang].navShop;
-            document.getElementById('link-reviews').innerText = translations[lang].navReviews;
-            document.getElementById('link-changelog').innerText = translations[lang].navChangelog;
-            document.getElementById('link-discord').innerText = translations[lang].navDiscord;
-            document.getElementById('hero-subtitle').innerText = translations[lang].heroSubtitle;
-            document.getElementById('history-label').innerText = translations[lang].historyText;
-            if (!discordUserData) document.getElementById('nav-login-label').innerText = translations[lang].loginNavText;
-            updateShopButtons();
-            document.getElementById('langDropdown').classList.remove('show');
         }
     </script>
 </body>
